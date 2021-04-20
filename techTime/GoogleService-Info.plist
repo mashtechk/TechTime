@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>657245045687-bmpu7m0oqi0j2cbgl2uq70ceqbd5012i.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.657245045687-bmpu7m0oqi0j2cbgl2uq70ceqbd5012i</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCWndsaTPmJakb-wcna6CbJ0TtREN9OyeU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>657245045687</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.techtimeapp.techtime</string>
+	<key>PROJECT_ID</key>
+	<string>techtimeapp-2293c</string>
+	<key>STORAGE_BUCKET</key>
+	<string>techtimeapp-2293c.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:657245045687:ios:19127b992a97d8c8fa9e32</string>
+	<key>DATABASE_URL</key>
+	<string>https://techtimeapp-2293c.firebaseio.com</string>
+</dict>
+</plist>
