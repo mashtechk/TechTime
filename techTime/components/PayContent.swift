@@ -164,7 +164,7 @@ struct PayContent: View {
                         .accentColor(.white)
                         .background(LinearGradient(gradient: Gradient(colors: [Color("colorButtonLight"), Color("colorPrimaryDark")]), startPoint: .top, endPoint: .bottom))
                         .cornerRadius(25)
-                }.padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
+                }.padding(EdgeInsets(top: 0, leading: 10, bottom: 5, trailing: 10))
                 .alert(isPresented: $is_expired) {
                     Alert(
                         title: Text(""),
@@ -326,7 +326,7 @@ struct PayContent: View {
                         .foregroundColor(.white)
                         .background(LinearGradient(gradient: Gradient(colors: [Color("colorButtonLight"), Color("colorPrimaryDark")]), startPoint: .top, endPoint: .bottom))
                         .cornerRadius(25)
-                }.padding(EdgeInsets(top: 0, leading: 20, bottom: 5, trailing: 20))
+                }.padding(EdgeInsets(top: 0, leading: 10, bottom: 5, trailing: 10))
                 .alert(isPresented: $is_expired) {
                     Alert(
                         title: Text(""),
