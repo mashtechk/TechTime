@@ -70,8 +70,8 @@ struct EditPeriodView: View {
                         Button(action: {
                             saveData()
                         }){
-                            Image("check").renderingMode(.template).resizable().frame(width: 20, height: 15).aspectRatio(contentMode: .fit).foregroundColor(.white)
-                        }.padding(.trailing, 10)
+                            Image("check").renderingMode(.template).resizable().frame(width: 25, height: 25).aspectRatio(contentMode: .fit).foregroundColor(.white)
+                        }
                     }.padding()
                     
                 }.padding(.top, (UIApplication.shared.windows.last?.safeAreaInsets.top)!)

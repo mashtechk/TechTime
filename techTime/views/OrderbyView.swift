@@ -58,7 +58,7 @@ struct OrderbyView: View {
                     Button(action: {
                         saveData()
                     }){
-                        Image("check").renderingMode(.template).resizable().frame(width: 20, height: 15).aspectRatio(contentMode: .fit).foregroundColor(.white)
+                        Image("check").renderingMode(.template).resizable().frame(width: 25, height: 25).aspectRatio(contentMode: .fit).foregroundColor(.white)
                     }
                 }.padding()
                 
