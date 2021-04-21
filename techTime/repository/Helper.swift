@@ -363,7 +363,7 @@ class Helper {
     
     func getDate(st: Date) -> String {
         let formatter1 = DateFormatter()
-        formatter1.dateFormat = "MMM dd,yyyy"
+        formatter1.dateFormat = "MMM dd, yyyy"
         return formatter1.string(from: st)
     }
 }
