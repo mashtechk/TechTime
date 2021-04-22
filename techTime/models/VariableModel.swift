@@ -8,6 +8,7 @@
 import Foundation
 
 struct VariableModel : Codable {
+    var isSigned: Bool
     var selected: Int // in the main page (pay and archive tab managment variable)
 //    var pageIndex: Int // this is the page lists
     var showingPopup: Bool // toast show message varibale

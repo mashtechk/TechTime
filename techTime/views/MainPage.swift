@@ -257,6 +257,15 @@ struct MainPage : View {
                                 :
                                     nil
                                 
+                                Button(action: {
+                                    pageIndex = 14
+                                    
+                                    self.data.isSigned = false
+                                    helper.setVariable(data: self.data)
+                                }){
+                                    Text("Log out")
+                                        .font(.system(size: 10))
+                                }
                             } label: {
                                 Button(action: {}){
                                     Image("more")
@@ -313,6 +322,16 @@ struct MainPage : View {
                                     }
                                 :
                                     nil
+                                
+                                Button(action: {
+                                    pageIndex = 14
+                                    
+                                    self.data.isSigned = false
+                                    helper.setVariable(data: self.data)
+                                }){
+                                    Text("Log out")
+                                        .font(.system(size: 10))
+                                }
                             } label: {
                                 Button(action: {}){
                                     Image("more")

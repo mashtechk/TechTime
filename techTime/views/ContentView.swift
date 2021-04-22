@@ -25,9 +25,9 @@ struct ContentView: View {
     
     @State var signInHandler: SignInWithAppleCoordinator?
     
-    @State var data : VariableModel = .init(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "0", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "",cancel_date : "" , order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "" , order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "")
+    @State var data : VariableModel = .init(isSigned: false, selected: 0, showingPopup: false, showMessage: "", orderByIndex: "0", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "",cancel_date : "" , order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "" , order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "")
     
-    @State private var pageIndex = 0
+    @State private var pageIndex = 14
     
     @State var helper = Helper()
     @State var iaphelper = IAPHelper()
@@ -73,8 +73,12 @@ struct ContentView: View {
                     MainInstead(data: $data, pageIndex: $pageIndex)
                 case 12: // Archive
                     ArchiveContent(data: $data, pageIndex: $pageIndex)
-               case 13: // Pay Content
+                case 13: // Pay Content
                      PayContent(data: $data, pageIndex: $pageIndex)
+                case 14: // Signin
+                    Signin(data: $data, pageIndex: $pageIndex)
+                case 15: // Signup
+                    Signup(data: $data, pageIndex: $pageIndex)
                 default:
                     MainPage(data: $data, pageIndex: $pageIndex)
             }
