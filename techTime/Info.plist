@@ -43,6 +43,10 @@
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+        <string>com.techtimeapp.techtime</string>
+    </array>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UIRequiredDeviceCapabilities</key>

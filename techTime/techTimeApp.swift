@@ -26,7 +26,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     @State private var pageIndex = 0
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         print("Your code here")
-                        
+        
+        UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(60*15))
         FirebaseApp.configure()
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
                 for purchase in purchases {
