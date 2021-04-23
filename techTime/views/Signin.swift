@@ -91,9 +91,9 @@ struct Signin: View {
     }
     
     func checkIsSignin() {
-        if self.data.isSigned {
+//        if self.data.isSigned {
             self.pageIndex = 0
-        }
+//        }
     }
     
     func signinEmailPassword() {
@@ -134,7 +134,7 @@ struct Signin: View {
                 return
             }
             
-            self.data.isSigned = true
+//            self.data.isSigned = true
             helper.setVariable(data: self.data)
             
             pageIndex = 0
@@ -155,7 +155,7 @@ struct Signin: View {
 
 #if DEBUG
 struct SigninView_Previews: PreviewProvider {
-    @State static var data1 : VariableModel = .init(isSigned: false, selected: 0, showingPopup: false, showMessage: "", orderByIndex: "0", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "",cancel_date : "" , order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "" , order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "")
+    @State static var data1 : VariableModel = .init(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "0", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "",cancel_date : "" , order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "" , order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "")
     @State static var pageIndex1: Int = 14
     
     static var previews: some View {
