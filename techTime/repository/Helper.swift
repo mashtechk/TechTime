@@ -36,7 +36,7 @@ class Helper {
                 
                 //check if difference between two dates is 1
                 if data.currentPeriod.cancel_date != "" && daysBetweenDates(startDate:data.currentPeriod.cancel_date, endDate: self.getDate(st: Date())) == true {
-                    data.currentPeriod.cancel_date = self.getDate(st: Date())
+                    data.currentPeriod.cancel_date = data.currentPeriod.end_date//self.getDate(st: Date())
                     data.histories.append(data.currentPeriod)
                     data.isEnd = true
                     data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
