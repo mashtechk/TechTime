@@ -44,7 +44,7 @@ struct EmailPayView: View {
             data.showMessage = "Please input the Name or Number"
             data.showingPopup = true
         } else {
-            let d = data.currentPeriod.order_list.filter() { $0.payroll_match == "2" }
+            let d = data.currentPeriod.order_list.filter() { $0.payroll_match == "3" }
             
             if selectedId=="2" && d.count==0 {
                 data.showMessage = "No incorrect repair orders are currently marked"
