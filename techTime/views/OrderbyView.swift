@@ -88,21 +88,21 @@ struct OrderbyView: View {
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                     Spacer()
-                }.padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
+                }.padding(EdgeInsets(top: -5, leading: 40, bottom: 5, trailing: 0))
                 order_desc
                 HStack{
                     Text("Repair order numbers greatest to least")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                     Spacer()
-                }.padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
+                }.padding(EdgeInsets(top: -5, leading: 40, bottom: 5, trailing: 0))
                 order_date
                 HStack{
                     Text("Repair order dates listed earliest to most current")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                     Spacer()
-                }.padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 0))
+                }.padding(EdgeInsets(top: -5, leading: 40, bottom: 5, trailing: 0))
             }.padding()
             
             Spacer()

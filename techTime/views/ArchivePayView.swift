@@ -17,6 +17,8 @@ struct ArchivePayView: View {
     @State private var total_hours = "0.0"
     @State private var total_orders = "0"
     @State private var total_gross = "$ 0.00"
+    
+    @State private var order_lists : Array<OrderModel> = []
         
     func modify() {
         total_orders = String(data.archievePeriod.order_list.count)
@@ -33,6 +35,18 @@ struct ArchivePayView: View {
             }
             total_hours = helper.formatHour(h: hours)
             total_gross = helper.formatPrice(p: gross)
+        }
+        
+        order_lists = data.archievePeriod.order_list
+        
+        if data.orderByIndex == "1" {
+            order_lists = order_lists.sorted { Int($0.order_id)! < Int($1.order_id)! }
+        }
+        if data.orderByIndex == "2" {
+            order_lists = order_lists.sorted { Int($0.order_id)! > Int($1.order_id)! }
+        }
+        if data.orderByIndex == "3" {
+            order_lists = order_lists.sorted{ $0.created_date > $1.created_date }
         }
     }
     
@@ -166,7 +180,7 @@ struct ArchivePayView: View {
             }
             
             ScrollView(.vertical) {
-                ForEach(data.archievePeriod.order_list) { item in
+                ForEach(order_lists) { item in
                     ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex)
                 }
                 

@@ -78,16 +78,16 @@ struct PayContent: View {
         }
         order_lists = self.data.currentPeriod.order_list
         
-//        if data.orderByIndex == "1" {
-//            order_lists = order_lists.sorted { Int($0.order_id)! < Int($1.order_id)! }
-//        }
-//        if data.orderByIndex == "2" {
-//            order_lists = order_lists.sorted { Int($0.order_id)! > Int($1.order_id)! }
-//        }
-//        if data.orderByIndex == "3" {
-////            order_lists = order_lists.sorted{ $0.created_date > $1.created_date }
-////            order_lists = order_lists.reversed()
-//        }
+        if data.orderByIndex == "1" {
+            order_lists = order_lists.sorted { Int($0.order_id)! < Int($1.order_id)! }
+        }
+        if data.orderByIndex == "2" {
+            order_lists = order_lists.sorted { Int($0.order_id)! > Int($1.order_id)! }
+        }
+        if data.orderByIndex == "3" {
+            order_lists = order_lists.sorted{ $0.created_date > $1.created_date }
+//            order_lists = order_lists.reversed()
+        }
     }
     
     var order_list: some View {
