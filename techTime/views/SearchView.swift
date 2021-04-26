@@ -34,6 +34,7 @@ struct SearchView: View {
     func backPage() {
         self.hideKeyboard()
         self.pageIndex = 0
+        data.previousPageOfOrderView = 0
     }
     
     func searchData() {
@@ -194,6 +195,9 @@ struct SearchView: View {
             }
             
         }.frame(maxHeight: .infinity)
+        .onAppear(perform: {
+            data.previousPageOfOrderView = 1
+        })
     }
     
     var topContent: some View {

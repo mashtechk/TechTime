@@ -25,12 +25,20 @@ struct OrderbyView: View {
         helper.setVariable(data: self.data)
         self.data.showMessage = "Orderby is updated"
         self.data.showingPopup = true
-        self.pageIndex = 0
+        
+        if data.previousContent == 0 {
+            self.pageIndex = 0
+        } else {
+            self.pageIndex = 9
+        }
     }
     
     func backPage() {
-       self.pageIndex = 0
-        
+        if data.previousContent == 0 {
+            self.pageIndex = 0
+        } else {
+            self.pageIndex = 9
+        }
     }
     
     func radioGroupCallback(id: String) {

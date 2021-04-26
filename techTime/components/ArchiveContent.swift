@@ -82,6 +82,7 @@ struct ArchiveContent: View {
                     Button(action:  {
                         self.shouldShowActive = true
                         data.archievePeriod = data.histories[i]
+                        data.previousContent = 1
                         self.pageIndex = 9
                     })
                     {

@@ -18,12 +18,19 @@ struct EmailPayView: View {
     @State var isShowingMailView = false
     
     func saveData() {
-        self.pageIndex = 0
-        
+        if data.previousContent == 0 {
+            self.pageIndex = 0
+        } else {
+            self.pageIndex = 9
+        }
     }
     
     func backPage() {
-        self.pageIndex = 0
+        if data.previousContent == 0 {
+            self.pageIndex = 0
+        } else {
+            self.pageIndex = 9
+        }
     }
     
     func radioGroupCallback(id: String) {

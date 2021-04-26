@@ -230,8 +230,12 @@ struct AddOrderView: View {
             helper.setVariable(data: self.data)
             self.data.showMessage = "New Repair " + data.order.order_id + " Order added"
             self.data.showingPopup = true
-            self.pageIndex = 0
             
+            if data.previousContent == 0 {
+                self.pageIndex = 0
+            } else {
+                self.pageIndex = 10
+            }
         } else {
             self.data.showMessage = "Please input the required fields"
             self.data.showingPopup = true
@@ -241,7 +245,12 @@ struct AddOrderView: View {
     
     func backPage() {
         self.hideKeyboard()
-        self.pageIndex = 0
+        
+        if data.previousContent == 0 {
+            self.pageIndex = 0
+        } else {
+            self.pageIndex = 10
+        }
     }
 
     

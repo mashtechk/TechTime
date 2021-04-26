@@ -11,6 +11,7 @@ struct MainPage : View {
     
     @State var index = 1
     @State var offset : CGFloat = 0
+    
     var width = UIScreen.main.bounds.width
     @Binding var data: VariableModel
     @Binding var pageIndex: Int
@@ -22,7 +23,7 @@ struct MainPage : View {
     let iaphelper = IAPHelper()
     
     @State private var is_unscribe = false
-    
+        
     func getData() {
         do {
             let UUID = UIDevice.current.identifierForVendor?.uuidString
@@ -127,6 +128,12 @@ struct MainPage : View {
         }
         .animation(.default)
         .edgesIgnoringSafeArea(.all)
+        .onAppear(perform: {
+            if data.previousContent == 1 {
+                data.previousContent = 0
+                self.changeView(left: true)
+            }
+        })
     }
     
     func changeView(left : Bool){
@@ -224,6 +231,9 @@ struct MainPage : View {
                     Button(action: {
                         pageIndex = 2 //go to the search page
                         
+                        if data.selected == 1 {
+                            data.previousContent = 1
+                        }
                     }){
                         Image("search").renderingMode(.template).resizable().frame(width: 25, height: 25).aspectRatio(contentMode: .fit).foregroundColor(.white)
                         }.padding(.top, 5)

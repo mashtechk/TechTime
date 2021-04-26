@@ -15,7 +15,11 @@ struct Orderview: View {
     @State private var tg = ""
     
     func backPage() {
-        self.pageIndex = 0
+        if data.previousPageOfOrderView == 0 {
+            self.pageIndex = 0
+        } else {
+            self.pageIndex = 2
+        }
     }
     
     func calHour(hour: String) -> String {
