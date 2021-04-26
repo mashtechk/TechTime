@@ -28,6 +28,8 @@ class Helper {
                 data.showingPopup = false
                 data.selected = 0
                 data.is_alert = false
+                data.previousContent = 0
+                data.previousPageOfOrderView = 0
                 if data.orderByIndex == "" {
                     data.orderByIndex = "2"
                 }
