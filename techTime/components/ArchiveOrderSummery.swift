@@ -9,6 +9,7 @@ struct ArchiveOrderSummery: View {
     var order: OrderModel
     @Binding var data: VariableModel
     @Binding var pageIndex: Int
+    @State var isFromSearch: Bool
     
     let helper = Helper()
 
@@ -78,50 +79,58 @@ struct ArchiveOrderSummery: View {
 
         }) {
             VStack{
-                HStack{
-                    HStack{
-                        Button(action: {
-                            changePayroll()
-                        }){
-                            ZStack{
-                                Circle()
-                                    .strokeBorder(paymacth=="2" ? Color("colorGrossPossitive") : paymacth=="3" ? Color("colorGrossNegative") : Color("colorLetter2"), lineWidth: 2)
-                                Text(hours)
-                                    .font(.system(size: 13))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(paymacth=="2" ? Color("colorGrossPossitive") : paymacth=="3" ? Color("colorGrossNegative") : Color("colorLetter2"))
-                            }
-                        }
-                        .frame(width:50, height:50)
-                        VStack(alignment: .leading){
-                            Text(order_data.order_id)
-                                .font(.system(size: 15))
-                                .fontWeight(.semibold)
-                                .foregroundColor(.black)
-                            Spacer().frame(height:5)
-                            Text(order_data.writer)
-                                .font(.system(size: 12))
-                                .foregroundColor(Color("colorLetter2"))
-                        }
-                    }
-                    Spacer()
-                    VStack(alignment: .trailing){
-                        Text(order_data.created_date)
-                            .font(.system(size: 12))
-                            .foregroundColor(Color("colorLetter2"))
-                        Spacer().frame(height:5)
-                        Text(prices)
-                            .font(.system(size: 13))
-                            .foregroundColor(prices.contains("-") ? Color("colorGrossNegative") : Color("colorGrossPossitive"))
-                            .fontWeight(.semibold)
-                    }
+                if isFromSearch {
+                    mainContent.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                } else {
+                    mainContent
                 }
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
+                
                 Divider().frame(height:1).background(Color("colorDivider"))
             }
             .onAppear(perform: modify)
-            
         }
+    }
+    
+    var mainContent: some View {
+        HStack{
+            HStack{
+                Button(action: {
+                    changePayroll()
+                }){
+                    ZStack{
+                        Circle()
+                            .strokeBorder(paymacth=="2" ? Color("colorGrossPossitive") : paymacth=="3" ? Color("colorGrossNegative") : Color("colorLetter2"), lineWidth: 2)
+                        Text(hours)
+                            .font(.system(size: 13))
+                            .fontWeight(.semibold)
+                            .foregroundColor(paymacth=="2" ? Color("colorGrossPossitive") : paymacth=="3" ? Color("colorGrossNegative") : Color("colorLetter2"))
+                    }
+                }
+                .frame(width:50, height:50)
+                VStack(alignment: .leading){
+                    Text(order_data.order_id)
+                        .font(.system(size: 15))
+                        .fontWeight(.semibold)
+                        .foregroundColor(.black)
+                    Spacer().frame(height:5)
+                    Text(order_data.writer)
+                        .font(.system(size: 12))
+                        .foregroundColor(Color("colorLetter2"))
+                }
+            }
+            Spacer()
+            VStack(alignment: .trailing){
+                Text(order_data.created_date)
+                    .font(.system(size: 12))
+                    .foregroundColor(Color("colorLetter2"))
+                Spacer().frame(height:5)
+                Text(prices)
+                    .font(.system(size: 13))
+                    .foregroundColor(prices.contains("-") ? Color("colorGrossNegative") : Color("colorGrossPossitive"))
+                    .fontWeight(.semibold)
+            }
+        }
+        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
     }
 }
 

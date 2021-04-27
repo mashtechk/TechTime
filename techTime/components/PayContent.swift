@@ -143,7 +143,7 @@ struct PayContent: View {
             ScrollView(.vertical) {
                 if order_lists.count > 0 {
                     ForEach(0..<order_lists.count) { i in
-                        OrderSummery(order: order_lists[i], data: $data, pageIndex: self.$pageIndex)
+                        OrderSummery(order: order_lists[i], data: $data, pageIndex: self.$pageIndex, isFromSearch: false)
                     }
                 }
             }

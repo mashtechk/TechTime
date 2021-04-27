@@ -388,26 +388,26 @@ struct SearchView: View {
                             .font(.system(size: 13))
                             .foregroundColor(Color("colorLetter2"))
                             .fontWeight(.semibold)
-                            .padding(EdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 0))
+                            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
                         Spacer()
                         Text(calAverGross())
                             .font(.system(size: 13))
                             .foregroundColor(search_result.count + search_result_current.count == 0 ? Color("colorLetter2") : calAverGross().contains("-") ? Color("colorGrossNegative") : Color("colorGrossPossitive"))
                             .fontWeight(.semibold)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
                     }
                     HStack{
                         Text("AVG. HOURS")
                             .font(.system(size: 11))
                             .foregroundColor(Color("ColorBlue"))
                             .fontWeight(.semibold)
-                            .padding(EdgeInsets(top: 1, leading: 5, bottom: 0, trailing: 0))
+                            .padding(EdgeInsets(top: 1, leading: 20, bottom: 0, trailing: 0))
                         Spacer()
                         Text("AVG. GROSS")
                             .font(.system(size: 11))
                             .foregroundColor(Color("ColorBlue"))
                             .fontWeight(.semibold)
-                            .padding(EdgeInsets(top: 1, leading: 0, bottom: 0, trailing: 5))
+                            .padding(EdgeInsets(top: 1, leading: 0, bottom: 0, trailing: 20))
                     }
                 }.frame(width: UIScreen.main.bounds.width)
             }
@@ -423,7 +423,7 @@ struct SearchView: View {
             HStack{
                 HStack{
                     Text(calTotalHours()).font(.system(size: 13)).foregroundColor(Color("colorLetter2")).fontWeight(.semibold)
-                        .padding(EdgeInsets(top: -3, leading: 5, bottom: 0, trailing: 0))
+                        .padding(EdgeInsets(top: -3, leading: 20, bottom: 0, trailing: 0))
                     Spacer()
                 }.frame(width: UIScreen.main.bounds.width/3)
                 HStack{
@@ -434,13 +434,13 @@ struct SearchView: View {
                     Text(calTotalGross()).font(.system(size: 13))
                         .foregroundColor(search_result.count + search_result_current.count == 0 ? Color("colorLetter2") : calTotalGross().contains("-") ?  Color("colorGrossNegative") :  Color("colorGrossPossitive"))
                         .fontWeight(.semibold)
-                        .padding(EdgeInsets(top: -3, leading: 0, bottom: 0, trailing: 7))
+                        .padding(EdgeInsets(top: -3, leading: 0, bottom: 0, trailing: 20))
                 }.frame(width: UIScreen.main.bounds.width/3)
             }
             HStack{
                 HStack{
                     Text("TOTAL HOURS").font(.system(size: 11)).foregroundColor(Color("ColorBlue")).fontWeight(.bold)
-                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 0))
+                        .padding(EdgeInsets(top: 5, leading: 20, bottom: 0, trailing: 0))
                     Spacer()
                 }.frame(width: UIScreen.main.bounds.width/3)
                 HStack{
@@ -449,7 +449,7 @@ struct SearchView: View {
                 HStack{
                     Spacer()
                     Text("TOTAL GROSS").font(.system(size: 11)).foregroundColor(Color("ColorBlue")).fontWeight(.bold)
-                        .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 7))
+                        .padding(EdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 20))
                 }.frame(width: UIScreen.main.bounds.width/3)
             }
             Divider().frame(height:1).background(Color("colorDivider"))
@@ -461,10 +461,10 @@ struct SearchView: View {
             if search_result.count > 0 || search_result_current.count > 0 {
                 ScrollView(.vertical) {
                     ForEach(search_result_current) { item in
-                        OrderSummery(order: item, data: $data, pageIndex: self.$pageIndex)
+                        OrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: true)
                     }
                     ForEach(search_result) { item in
-                        ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex)
+                        ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: true)
                     }
                 }
             }

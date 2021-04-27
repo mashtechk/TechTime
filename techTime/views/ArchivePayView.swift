@@ -182,7 +182,7 @@ struct ArchivePayView: View {
             
             ScrollView(.vertical) {
                 ForEach(order_lists) { item in
-                    ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex)
+                    ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: false)
                 }
                 
             }
