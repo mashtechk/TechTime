@@ -282,11 +282,6 @@
 			productName = techTime;
 			productReference = B41A5131254CA4DD0054DF88 /* techtime.app */;
 			productType = "com.apple.product-type.application";
-            SystemCapabilities = {
-                com.apple.BackgroundModes = {
-                    enabled = 1;
-                };
-            };
 		};
 /* End PBXNativeTarget section */
 
@@ -572,7 +567,7 @@
 				CODE_SIGN_ENTITLEMENTS = techtime/techtime.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"techTime/Preview Content\"";
 				DEVELOPMENT_TEAM = HCGQNV9DDJ;
 				ENABLE_PREVIEWS = YES;
@@ -599,7 +594,7 @@
 				CODE_SIGN_ENTITLEMENTS = techtime/techtime.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = "\"techTime/Preview Content\"";
 				DEVELOPMENT_TEAM = HCGQNV9DDJ;
 				ENABLE_PREVIEWS = YES;
