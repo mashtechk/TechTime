@@ -134,12 +134,12 @@ struct MainInstead : View {
                                         data.isFull = iaphelper.cancelSubscription()
                                         helper.setVariable(data: data)
                                     }){
-                                        Text("Downgrade to Free")
+                                        Text("Unsubscribe")
                                             .font(.system(size: 10))
                                     } : Button(action:{
                                         getPurchaseProduct()
                                     }){
-                                        Text("Upgrade to Full")
+                                        Text("Subscribe")
                                             .font(.system(size: 10))
                                     }
                                 :
