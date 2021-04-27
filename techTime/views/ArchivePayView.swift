@@ -47,6 +47,7 @@ struct ArchivePayView: View {
         }
         if data.orderByIndex == "3" {
             order_lists = order_lists.sorted{ $0.created_date > $1.created_date }
+            order_lists = order_lists.reversed()
         }
     }
     

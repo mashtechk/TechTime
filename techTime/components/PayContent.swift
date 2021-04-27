@@ -86,7 +86,7 @@ struct PayContent: View {
         }
         if data.orderByIndex == "3" {
             order_lists = order_lists.sorted{ $0.created_date > $1.created_date }
-//            order_lists = order_lists.reversed()
+            order_lists = order_lists.reversed()
         }
     }
     
@@ -417,7 +417,7 @@ struct PayContent: View {
                     self.data.showingPopup = true
                     return
                 }
-                self.data.currentPeriod = PeriodModel(start_date: formatter1.string(from: self.startDate), end_date: formatter1.string(from: self.endDate), cancel_date: self.getDate(st: Date()), order_list: [])
+                self.data.currentPeriod = PeriodModel(start_date: formatter1.string(from: self.startDate), end_date: formatter1.string(from: self.endDate), cancel_date: self.getDate(st: self.endDate), order_list: [])
                 self.data.isEnd = false
                 self.total_hours = "0.0"
                 self.total_orders = "0"
