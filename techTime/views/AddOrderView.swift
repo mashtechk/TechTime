@@ -226,7 +226,7 @@ struct AddOrderView: View {
             print("order value is \(self.data.currentPeriod.order_list)")
             //if condition of Recreate feature only
            
-            self.data.currentPeriod.order_list.append(self.data.order)
+            self.data.currentPeriod.order_list.insert(self.data.order, at: 0)
             helper.setVariable(data: self.data)
             self.data.showMessage = "New Repair " + data.order.order_id + " Order added"
             self.data.showingPopup = true

@@ -23,7 +23,7 @@ struct OrderbyView: View {
     func saveData() {
         self.data.orderByIndex = orderIndex
         helper.setVariable(data: self.data)
-        self.data.showMessage = "Orderby is updated"
+        self.data.showMessage = "Order By is updated"
         self.data.showingPopup = true
         
         if data.previousContent == 0 {
