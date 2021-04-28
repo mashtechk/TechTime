@@ -137,7 +137,6 @@ struct ArchiveContent: View {
                             }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             
                             Divider().frame(height:1).background(Color("colorDivider"))
-                                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                         }
                     }.background(i%2==0 ? Color.white : Color("colorDate"))
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
