@@ -231,11 +231,8 @@ struct AddOrderView: View {
             self.data.showMessage = "New Repair " + data.order.order_id + " Order added"
             self.data.showingPopup = true
             
-            if data.previousContent == 0 {
-                self.pageIndex = 0
-            } else {
-                self.pageIndex = 10
-            }
+            self.data.previousContent = 0
+            self.pageIndex = 0
         } else {
             self.data.showMessage = "Please input the required fields"
             self.data.showingPopup = true
