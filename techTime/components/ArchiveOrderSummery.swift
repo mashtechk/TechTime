@@ -79,11 +79,7 @@ struct ArchiveOrderSummery: View {
 
         }) {
             VStack{
-                if isFromSearch {
-                    mainContent.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-                } else {
-                    mainContent
-                }
+                mainContent
                 
                 Divider().frame(height:1).background(Color("colorDivider"))
             }

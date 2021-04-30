@@ -61,7 +61,7 @@ struct EmailPayView: View {
         }
     }
     
-var body: some View {
+    var body: some View {
         VStack{
             //topbar widget
             HStack{
@@ -122,7 +122,7 @@ var body: some View {
                 }.padding(EdgeInsets(top: 30, leading: 0, bottom: 5, trailing: 0))
                 .sheet(isPresented: $isShowingMailView) {
                     MailView(result: self.$result, data:self.$data, selectedId: self.$selectedId, title: $text_name)
-                       }
+                }
             }.padding().navigationBarHidden(true)
             Spacer()
         }.navigationBarHidden(true)
