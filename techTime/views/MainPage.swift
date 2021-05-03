@@ -16,7 +16,7 @@ struct MainPage : View {
     @Binding var data: VariableModel
     @Binding var pageIndex: Int
     
-    let productId = "com.techtimeapp.techtime.full"
+    let productId = "com.techtimeapp.techtime.sub"
     let sharedKey = "bdf62b8709c34cd4b27bc1f5cf1a6d5b"
     
     let helper = Helper()
@@ -315,7 +315,7 @@ struct MainPage : View {
                                 !data.isTrial && data.isFull ?
                                     Button(action: {
                                         is_unscribe = true
-                                        data.is_alert = false
+                                        data.is_alert = true
                                     }){
                                         Text("Unsubscribe")
                                             .font(.system(size: 10))

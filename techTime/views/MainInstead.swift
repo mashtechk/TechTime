@@ -91,7 +91,7 @@ struct MainInstead : View {
     struct AppBar : View {
         
         @Binding var index : Int
-        let productId = "com.techtimeapp.techtime.full"
+        let productId = "com.techtimeapp.techtime.sub"
         let sharedKey = "bdf62b8709c34cd4b27bc1f5cf1a6d5b"
         @Binding var offset : CGFloat
         var width = UIScreen.main.bounds.width

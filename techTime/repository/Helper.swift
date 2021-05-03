@@ -9,7 +9,7 @@ import SwiftyStoreKit
 
 class Helper {
 
-    let productId = "com.techtimeapp.techtime.full"
+    let productId = "com.techtimeapp.techtime.sub"
     let sharedKey = "bdf62b8709c34cd4b27bc1f5cf1a6d5b"
     //save the data
     func setVariable(data: VariableModel) {

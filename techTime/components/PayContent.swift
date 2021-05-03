@@ -29,7 +29,7 @@ struct PayContent: View {
     
     @State var signInHandler: SignInWithAppleCoordinator?
     
-    let productId = "com.techtimeapp.techtime.full"
+    let productId = "com.techtimeapp.techtime.sub"
     let sharedKey = "bdf62b8709c34cd4b27bc1f5cf1a6d5b"
     
     @State private var order_lists : Array<OrderModel> = []
@@ -168,7 +168,7 @@ struct PayContent: View {
                 .alert(isPresented: $is_expired) {
                     Alert(
                         title: Text(""),
-                        message: Text("Your free three month trial has ended. To continue using techtime please subscribe for $0.99 per month."),
+                        message: Text("Your free three month trial has ended. To continue using techtime please subscribe for $1.99 per month."),
                         primaryButton: .destructive(Text("Subscribe")) {
                             // delte the current archive data
                             SwiftyStoreKit.retrieveProductsInfo([productId]) { result in
@@ -283,7 +283,7 @@ struct PayContent: View {
                         .overlay(DatePicker("", selection: $startDate, displayedComponents: .date)
                                     .frame(width: 120, height:40)
                                     .labelsHidden()
-                                    .accentColor(Color("colorPrimaryDark"))
+                                    .accentColor(Color("colorPicker"))
                                     .border(Color("colorPrimary"), width: 3)
                                     .cornerRadius(4), alignment: .center)
 //                    DatePicker("", selection: $startDate, displayedComponents: .date)
@@ -301,7 +301,7 @@ struct PayContent: View {
                         .overlay(DatePicker("", selection: dateProxy, in: Date()..., displayedComponents: .date)
                                     .frame(width: 120, height:40)
                                     .labelsHidden()
-                                    .accentColor(Color("colorPrimaryDark"))
+                                    .accentColor(Color("colorPicker"))
                                     .border(Color("colorPrimary"), width: 3)
                                     .cornerRadius(4), alignment: .center)
                     
@@ -330,7 +330,7 @@ struct PayContent: View {
                 .alert(isPresented: $is_expired) {
                     Alert(
                         title: Text(""),
-                        message: Text("Your free three month trial has ended. To continue using techtime please subscribe for $0.99 per month."),
+                        message: Text("Your free three month trial has ended. To continue using techtime please subscribe for $1.99 per month."),
                         primaryButton: .destructive(Text("Subscribe")) {
                             //delte the current archive data
                             SwiftyStoreKit.retrieveProductsInfo([productId]) { result in
