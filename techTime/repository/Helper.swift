@@ -36,17 +36,32 @@ class Helper {
                 let formatter1 = DateFormatter()
                 formatter1.dateFormat = "MMM dd, yyyy"
                 
-                //check if difference between two dates is 1
-                if data.currentPeriod.cancel_date != "" && daysBetweenDates(startDate:data.currentPeriod.cancel_date, endDate: self.getDate(st: Date())) == true {
-                    data.currentPeriod.cancel_date = data.currentPeriod.end_date//self.getDate(st: Date())
-                    data.histories.append(data.currentPeriod)
-                    data.isEnd = true
-                    data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                let dd = formatter1.date(from: data.startDate)!
+                data.isTrial = is3MonthOver(fromDate: dd)
+                
+                if !data.isTrial {
+                    data.isFull = false
+                    
+                    if data.currentPeriod.cancel_date != "" {
+                        data.currentPeriod.cancel_date = self.getDate(st: Date())
+                        data.histories.append(data.currentPeriod)
+                        data.isEnd = true
+                        data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                    }
+                } else {
+                    //check if difference between two dates is 1
+                    if data.currentPeriod.cancel_date != "" && daysBetweenDates(startDate:data.currentPeriod.cancel_date, endDate: self.getDate(st: Date())) == true {
+                        data.currentPeriod.cancel_date = data.currentPeriod.end_date//self.getDate(st: Date())
+                        data.histories.append(data.currentPeriod)
+                        data.isEnd = true
+                        data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                    }
                 }
+                
                 return data
             }
         }
-        data = VariableModel(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "3", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "", previousContent: 0, previousPageOfOrderView: 0)
+        data = VariableModel(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "3", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "", startDate: "", previousContent: 0, previousPageOfOrderView: 0)
         return data
     }
     
@@ -252,7 +267,10 @@ class Helper {
         let delta = Calendar.current.dateComponents([.year, .month, .day], from: fromDate, to: Date())
         var return_value = true
         
-        if (delta.year! > 0 || delta.month! > 2) {
+//        if (delta.year! > 0 || delta.month! > 2) {
+//            return_value = false
+//        }
+        if (delta.year! > 0 || delta.month! > 0 || delta.day! > 2) {
             return_value = false
         }
         

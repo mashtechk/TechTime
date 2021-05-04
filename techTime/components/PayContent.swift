@@ -502,6 +502,7 @@ struct PayContent: View {
                         let start_date = dataDescription!["start_date"] as? String ?? ""
                         let dd = formatter1.date(from: start_date)!
                         
+                        data.startDate = start_date
                         data.isTrial = helper.is3MonthOver(fromDate: dd)
                         print("----- this is the trial ----")
                         print(data.isTrial)
@@ -527,6 +528,7 @@ struct PayContent: View {
                             if let err = err {
                                 print("Error writing document: \(err)")
                                 
+                                self.data.startDate = formatter1.string(from: Date())
                                 self.data.isInternet = false
                             } else {
                                 print("Document successfully written!")

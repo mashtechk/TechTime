@@ -28,6 +28,7 @@ struct VariableModel : Codable {
     var selectedHours : String
     var selectedPrice : String
     var selectedType: String
+    var startDate: String
     var previousContent: Int // 0 = PayContent, 1 = ArchiveContent
     var previousPageOfOrderView: Int // 0 = Others, 1 = SearchView
 }
