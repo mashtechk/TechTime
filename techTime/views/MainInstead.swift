@@ -346,6 +346,7 @@ struct MainInstead : View {
                 let db = Firestore.firestore()
                 let formatter1 = DateFormatter()
                 formatter1.dateFormat = "MMM dd, yyyy"
+                
                 if data.currentUser.email != "" {
                     db.collection("users")
                         .document(data.currentUser.email)
@@ -378,6 +379,7 @@ struct MainInstead : View {
                                     "start_date": formatter1.string(from: Date())
 
                                 ]
+                                
                                 db.collection("users").document(self.data.currentUser.email).setData(data)
                             }
                         }

@@ -412,7 +412,7 @@ struct PayContent: View {
                 let formatter1 = DateFormatter()
                 formatter1.dateFormat = "MMM dd, yyyy"
 
-              if self.data.histories.count > 0 && helper.isBiggerDate(oneDate: self.data.histories.last?.cancel_date ?? "", twoDate: formatter1.string(from: self.startDate))  == true {
+                if self.data.histories.count > 0 && helper.isBiggerDate(oneDate: self.data.histories.last?.cancel_date ?? "", twoDate: formatter1.string(from: self.startDate))  == true {
                     self.data.showMessage = "START DATE interferes with previous PAY PERIOD"
                     self.data.showingPopup = true
                     return
@@ -460,16 +460,16 @@ struct PayContent: View {
     
     func check_login() {
         data.isInternet = true
+        
         if data.currentUser.user_id == "" {
             do {
-                    signInHandler = SignInWithAppleCoordinator(window: self.window)
-                    signInHandler?.signIn { (user) in
-                        data.currentUser.user_id = user.uid
-                        data.currentUser.email = user.email!
-                        checkFirebase()
-                        helper.setVariable(data: data)
-                        self.presentationMode.wrappedValue.dismiss()
-                    }
+                signInHandler = SignInWithAppleCoordinator(window: self.window)
+                signInHandler?.signIn { (user) in
+                    data.currentUser.user_id = user.uid
+                    data.currentUser.email = user.email!
+                    checkFirebase()
+                    self.presentationMode.wrappedValue.dismiss()
+                }
             } catch {
                 is_loading = false
                 data.isInternet = false
@@ -487,6 +487,7 @@ struct PayContent: View {
         let db = Firestore.firestore()
         let formatter1 = DateFormatter()
         formatter1.dateFormat = "MMM dd, yyyy"
+        
         db.collection("users")
             .document(data.currentUser.email)
             .getDocument{(document, error) in
@@ -495,42 +496,50 @@ struct PayContent: View {
                     helper.setVariable(data: data)
                 } else {
                     data.isInternet = true
-                }
-                if let document = document, document.exists {
-                    let dataDescription = document.data()
-                    let start_date = dataDescription!["start_date"] as? String ?? ""
-                    let dd = formatter1.date(from: start_date)!
                     
-                    data.isTrial = helper.is3MonthOver(fromDate: dd)
-                    print("----- this is the trial ----")
-                    print(data.isTrial)
-                    
-                    helper.setVariable(data: data)
-                    
-                    if !data.isTrial {
-                        data.isFull = false
-                        checkPayment()
-                    } else {
-                        is_loading = false
-                    }
-                } else {
-                    is_loading = false
-                    let uid = data.currentUser.user_id
-                    let data: [String : Any] = [
-                        "user_id" : uid,
-                        "device_id": UUID!,
-                        "status": true,
-                        "is_full": false,
-                        "start_date": formatter1.string(from: Date())
-                    ]
-                    db.collection("users").document(self.data.currentUser.email).setData(data) { err in
-                        if let err = err {
-                            print("Error writing document: \(err)")
+                    if let document = document, document.exists {
+                        let dataDescription = document.data()
+                        let start_date = dataDescription!["start_date"] as? String ?? ""
+                        let dd = formatter1.date(from: start_date)!
+                        
+                        data.isTrial = helper.is3MonthOver(fromDate: dd)
+                        print("----- this is the trial ----")
+                        print(data.isTrial)
+                        
+                        if !data.isTrial {
+                            data.isFull = false
+                            checkPayment()
                         } else {
-                            print("Document successfully written!")
+                            is_loading = false
+                            helper.setVariable(data: data)
                         }
+                    } else {
+                        let uid = data.currentUser.user_id
+                        let data: [String : Any] = [
+                            "user_id" : uid,
+                            "device_id": UUID!,
+                            "status": true,
+                            "is_full": false,
+                            "start_date": formatter1.string(from: Date())
+                        ]
+                        
+                        db.collection("users").document(self.data.currentUser.email).setData(data) { err in
+                            if let err = err {
+                                print("Error writing document: \(err)")
+                                
+                                self.data.isInternet = false
+                            } else {
+                                print("Document successfully written!")
+                                
+                                self.data.isTrial = true
+                            }
+                            
+                            is_loading = false
+                            helper.setVariable(data: self.data)
+                        }
+                        
+                        print("Document does not exist")
                     }
-                    print("Document does not exist")
                 }
             }
     }
@@ -543,7 +552,7 @@ struct PayContent: View {
                     ofType: .autoRenewable,
                     productId: productId,
                     inReceipt: receipt)
-                
+
                 switch purchaseResult {
                 case .purchased(let expiryDate, let receiptItems):
                     data.isFull = true
@@ -560,6 +569,7 @@ struct PayContent: View {
                 print("*****&&&&& this is the receipt verification error *****")
                 data.isFull = false
             }
+
             is_loading = false
             helper.setVariable(data: data)
         }
