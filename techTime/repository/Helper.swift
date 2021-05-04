@@ -43,7 +43,7 @@ class Helper {
                     data.isFull = false
                     
                     if data.currentPeriod.cancel_date != "" {
-                        data.currentPeriod.cancel_date = self.getDate(st: Date())
+                        data.currentPeriod.cancel_date = self.getDate(st: Date().dayBefore)
                         data.histories.append(data.currentPeriod)
                         data.isEnd = true
                         data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
