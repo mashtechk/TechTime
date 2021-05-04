@@ -250,23 +250,12 @@ class Helper {
     // get the is full version or free version
     func is3MonthOver(fromDate: Date) -> Bool {
         let delta = Calendar.current.dateComponents([.year, .month, .day], from: fromDate, to: Date())
-        let differ_month = delta.month!
-        let differ_day = delta.day!
         var return_value = true
-        if differ_month>4 && differ_day>0 {
-            return_value = false
-        }
-        return return_value
-    }
-    
-    
-    // check the test trial
-    func is5minsOver(fromDate: Date) -> Bool {
-        let delta = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fromDate, to: Date())
-        var return_value = true
+        
         if (delta.year! > 0 || delta.month! > 2) {
             return_value = false
         }
+        
         return return_value
     }
     

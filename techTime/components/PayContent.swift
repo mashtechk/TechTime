@@ -500,12 +500,13 @@ struct PayContent: View {
                     let dataDescription = document.data()
                     let start_date = dataDescription!["start_date"] as? String ?? ""
                     let dd = formatter1.date(from: start_date)!
-//                        data.isTrial = helper.is3MonthOver(fromDate: dd)
-                    //// testing
-                    data.isTrial = helper.is5minsOver(fromDate: dd)
+                    
+                    data.isTrial = helper.is3MonthOver(fromDate: dd)
                     print("----- this is the trial ----")
                     print(data.isTrial)
+                    
                     helper.setVariable(data: data)
+                    
                     if !data.isTrial {
                         data.isFull = false
                         checkPayment()

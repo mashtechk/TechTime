@@ -46,7 +46,7 @@ struct MainPage : View {
                             let start_date = dataDescription!["start_date"] as? String ?? ""
                             let dd = formatter1.date(from: start_date)!
                             
-                            data.isTrial = helper.is5minsOver(fromDate: dd)
+                            data.isTrial = helper.is3MonthOver(fromDate: dd)
                             helper.setVariable(data: data)
                             if !data.isTrial {
                                 checkPayment()
