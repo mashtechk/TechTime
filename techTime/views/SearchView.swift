@@ -290,10 +290,10 @@ struct SearchView: View {
                         .background(Color.white)
                         .labelsHidden()
                         .accentColor(.black)
-                        .font(.system(size: 11))
+                        .font(.system(size: 10))
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
-                        .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 0))
+                        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
                         .frame(minWidth: 0)
                         .compositingGroup()
                     
@@ -302,7 +302,7 @@ struct SearchView: View {
                     DatePicker("", selection: $endDate, displayedComponents: .date)
                         .frame(height:40)
                         .labelsHidden()
-                        .font(.system(size: 11))
+                        .font(.system(size: 10))
                         .accentColor(.black)
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
@@ -333,7 +333,7 @@ struct SearchView: View {
                 .frame(width: 45, height: 40)
                 .background(LinearGradient(gradient: Gradient(colors: [Color("colorButtonLight"), Color("colorPrimaryDark")]), startPoint: .top, endPoint: .bottom))
                 .cornerRadius(20).padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 5))
-            }.padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
+            }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
             
             if search_index == 3 {
                 HStack(spacing: 0) {
@@ -342,7 +342,7 @@ struct SearchView: View {
                         .background(Color.white)
                         .labelsHidden()
                         .accentColor(.black)
-                        .font(.system(size: 11))
+                        .font(.system(size: 10))
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 3))
@@ -354,7 +354,7 @@ struct SearchView: View {
                     DatePicker("", selection: $endDate, displayedComponents: .date)
                         .frame(height:40)
                         .labelsHidden()
-                        .font(.system(size: 11))
+                        .font(.system(size: 10))
                         .accentColor(.black)
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
@@ -363,7 +363,7 @@ struct SearchView: View {
                         .compositingGroup()
                     
                     Spacer().frame(width: 60)
-                }.padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
+                }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
             }
             
             if is_search && search_result.count == 0 && search_result_current.count == 0 {
