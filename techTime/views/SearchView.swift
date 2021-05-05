@@ -200,7 +200,7 @@ struct SearchView: View {
     }
     
     var topContent: some View {
-        return VStack{
+        VStack{
             HStack{
                 Button(action: {
                     backPage()
@@ -282,8 +282,8 @@ struct SearchView: View {
     }
     
     var searchContent: some View {
-        return VStack{
-            HStack{
+        VStack {
+            HStack(spacing: 0) {
                 if search_index == 2 {
                     DatePicker("", selection: $startDate, displayedComponents: .date)
                         .frame(height:40)
@@ -294,6 +294,9 @@ struct SearchView: View {
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 0))
+                        .frame(minWidth: 0)
+                        .compositingGroup()
+                        .clipped()
                     
                     Spacer()
                     
@@ -305,6 +308,9 @@ struct SearchView: View {
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 3, bottom: 0, trailing: 3))
+                        .frame(minWidth: 0)
+                        .compositingGroup()
+                        .clipped()
                 } else {
                     HStack{
                         HStack{}.frame(width:7)
@@ -328,11 +334,11 @@ struct SearchView: View {
                 }
                 .frame(width: 45, height: 40)
                 .background(LinearGradient(gradient: Gradient(colors: [Color("colorButtonLight"), Color("colorPrimaryDark")]), startPoint: .top, endPoint: .bottom))
-                .cornerRadius(20).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
+                .cornerRadius(20).padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 5))
             }.padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
             
             if search_index == 3 {
-                HStack{
+                HStack(spacing: 0) {
                     DatePicker("", selection: $startDate, displayedComponents: .date)
                         .frame(height:40)
                         .background(Color.white)
@@ -342,6 +348,9 @@ struct SearchView: View {
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 3))
+                        .frame(minWidth: 0)
+                        .compositingGroup()
+                        .clipped()
                     
                     Spacer()
                     
@@ -353,6 +362,9 @@ struct SearchView: View {
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 3, bottom: 0, trailing: 3))
+                        .frame(minWidth: 0)
+                        .compositingGroup()
+                        .clipped()
                     
                     Spacer().frame(width: 60)
                 }.padding(EdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15))
@@ -409,7 +421,7 @@ struct SearchView: View {
     }
     
     var totalViweContent: some View{
-        return VStack{
+        VStack{
             //divider line
             Divider().frame(height: 2).background(Color("colorDivider"))
             
@@ -452,7 +464,7 @@ struct SearchView: View {
     }
     
     var mainContent: some View {
-        return VStack{
+        VStack{
             ScrollView(.vertical) {
                 if search_result.count > 0 || search_result_current.count > 0 {
                     ForEach(search_result_current) { item in
@@ -468,7 +480,7 @@ struct SearchView: View {
     }
         
     var emptyContent: some View{
-        return VStack{
+        VStack{
             Spacer()
             HStack{
                 Spacer()
