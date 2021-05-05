@@ -39,7 +39,7 @@ class Helper {
                 let dd = formatter1.date(from: data.startDate)!
                 data.isTrial = is3MonthOver(fromDate: dd)
                 
-                if !data.isTrial {
+                if !data.isPaid && !data.isTrial {
                     data.isFull = false
                     
                     if data.currentPeriod.cancel_date != "" {
@@ -61,7 +61,7 @@ class Helper {
                 return data
             }
         }
-        data = VariableModel(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "3", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "", startDate: "", previousContent: 0, previousPageOfOrderView: 0)
+        data = VariableModel(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "3", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isPaid: false, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "", startDate: "", previousContent: 0, previousPageOfOrderView: 0)
         return data
     }
     

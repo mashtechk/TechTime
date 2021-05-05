@@ -80,18 +80,22 @@ struct MainPage : View {
                 switch purchaseResult {
                 case .purchased(let expiryDate, let receiptItems):
                     data.isFull = true
+                    data.isPaid = true
                     print("Product is valid until \(expiryDate)")
                 case .expired(let expiryDate, let receiptItems):
                     data.isFull = false
+                    data.isPaid = false
                     print("Product is expired since \(expiryDate)")
                 case .notPurchased:
                     data.isFull = false
+                    data.isPaid = false
                     print("This product has never been purchased")
                 }
             } else {
                 //receipt verification error
                 print("*****&&&&& this is the receipt verification error *****")
                 data.isFull = false
+                data.isPaid = false
             }
             helper.setVariable(data: data)
             
@@ -186,8 +190,10 @@ struct MainPage : View {
                     case .success(let purchase):
                         print("Purchase Success: \(purchase.productId)")
                         data.isFull = true
+                        data.isPaid = true
                     case .error(let error):
                         data.isFull = false
+                        data.isPaid = false
                         switch error.code {
                         case .unknown: print("Unknown error. Please contact support")
                         case .clientInvalid: print("Not allowed to make the payment")
@@ -341,6 +347,7 @@ struct MainPage : View {
                                     message: Text("Are you sure you want to unsubscribe?"),
                                     primaryButton: .destructive(Text("Unsubscribe")) {
                                         data.isFull = iaphelper.cancelSubscription()
+                                        data.isPaid = data.isFull
                                         helper.setVariable(data: data)
                                     },
                                     secondaryButton: .cancel()

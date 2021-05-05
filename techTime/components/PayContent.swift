@@ -178,8 +178,10 @@ struct PayContent: View {
                                         case .success(let purchase):
                                             print("Purchase Success: \(purchase.productId)")
                                             data.isFull = true
+                                            data.isPaid = true
                                         case .error(let error):
                                             data.isFull = false
+                                            data.isPaid = false
                                             switch error.code {
                                             case .unknown: print("Unknown error. Please contact support")
                                             case .clientInvalid: print("Not allowed to make the payment")
@@ -340,8 +342,10 @@ struct PayContent: View {
                                         case .success(let purchase):
                                             print("Purchase Success: \(purchase.productId)")
                                             data.isFull = true
+                                            data.isPaid = true
                                         case .error(let error):
                                             data.isFull = false
+                                            data.isPaid = false
                                             switch error.code {
                                             case .unknown: print("Unknown error. Please contact support")
                                             case .clientInvalid: print("Not allowed to make the payment")
@@ -396,7 +400,7 @@ struct PayContent: View {
                 return
             }
             
-            if(!data.isFull) {
+            if(!data.isPaid && !data.isFull) {
                 is_expired = true
                 return
             }
@@ -460,7 +464,7 @@ struct PayContent: View {
     
     func check_login() {
         data.isInternet = true
-        
+
         if data.currentUser.user_id == "" {
             do {
                 signInHandler = SignInWithAppleCoordinator(window: self.window)
@@ -480,14 +484,14 @@ struct PayContent: View {
             is_loading = false
         }
     }
-    
+
     func checkFirebase() {
         let UUID = UIDevice.current.identifierForVendor?.uuidString
         print(UUID ?? "no device")
         let db = Firestore.firestore()
         let formatter1 = DateFormatter()
         formatter1.dateFormat = "MMM dd, yyyy"
-        
+
         db.collection("users")
             .document(data.currentUser.email)
             .getDocument{(document, error) in
@@ -496,17 +500,17 @@ struct PayContent: View {
                     helper.setVariable(data: data)
                 } else {
                     data.isInternet = true
-                    
+
                     if let document = document, document.exists {
                         let dataDescription = document.data()
                         let start_date = dataDescription!["start_date"] as? String ?? ""
                         let dd = formatter1.date(from: start_date)!
-                        
+
                         data.startDate = start_date
                         data.isTrial = helper.is3MonthOver(fromDate: dd)
                         print("----- this is the trial ----")
                         print(data.isTrial)
-                        
+
                         if !data.isTrial {
                             data.isFull = false
                             checkPayment()
@@ -523,29 +527,29 @@ struct PayContent: View {
                             "is_full": false,
                             "start_date": formatter1.string(from: Date())
                         ]
-                        
+
                         db.collection("users").document(self.data.currentUser.email).setData(data) { err in
                             if let err = err {
                                 print("Error writing document: \(err)")
-                                
-                                self.data.startDate = formatter1.string(from: Date())
+
                                 self.data.isInternet = false
                             } else {
                                 print("Document successfully written!")
-                                
+
                                 self.data.isTrial = true
                             }
-                            
+
+                            self.data.startDate = formatter1.string(from: Date())
                             is_loading = false
                             helper.setVariable(data: self.data)
                         }
-                        
+
                         print("Document does not exist")
                     }
                 }
             }
     }
-    
+
     func checkPayment() {
         let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedKey)
         SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
@@ -558,18 +562,22 @@ struct PayContent: View {
                 switch purchaseResult {
                 case .purchased(let expiryDate, let receiptItems):
                     data.isFull = true
+                    data.isPaid = true
                     print("Product is valid until \(expiryDate)")
                 case .expired(let expiryDate, let receiptItems):
                     data.isFull = false
+                    data.isPaid = false
                     print("Product is expired since \(expiryDate)")
                 case .notPurchased:
                     data.isFull = false
+                    data.isPaid = false
                     print("This product has never been purchased")
                 }
             } else {
                 // receipt verification error
                 print("*****&&&&& this is the receipt verification error *****")
                 data.isFull = false
+                data.isPaid = false
             }
 
             is_loading = false

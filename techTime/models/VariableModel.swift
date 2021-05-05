@@ -22,6 +22,7 @@ struct VariableModel : Codable {
     var histories: Array<PeriodModel>
     var isFull: Bool // if free version or full version function check variable
     var isTrial: Bool // for 3 months is true, after that is false
+    var isPaid: Bool
     var isInternet: Bool // check the internet connection
     var currentUser: PersonModel // user info
     var fromVc: String
