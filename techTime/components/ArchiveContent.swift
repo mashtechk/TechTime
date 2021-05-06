@@ -51,7 +51,7 @@ struct ArchiveContent: View {
                 }
             }
             Spacer()
-        }
+        }.animation(.none)
     }
     
     func calHours(item: PeriodModel) -> String {
@@ -143,6 +143,7 @@ struct ArchiveContent: View {
                 }
             }
         }.navigationBarHidden(true)
+        .animation(.none)
 //        .onAppear(perform: modify)
     }
 }
