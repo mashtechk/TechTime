@@ -26,6 +26,7 @@ struct EditOrderView: View {
     
     @State var menus : Array<String> = ["Add Labor"]
     @State var selectedMenus : Array<String> = []
+    @StateObject private var keyboardHandler = KeyboardHandler()
     
     func modify() {
         for item in data.order.labors {
@@ -263,7 +264,7 @@ struct EditOrderView: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(.gray)
                                 Spacer()
-                            }
+                            }.padding(.leading, 20)
                             OrderTextFieldWidget(text_name: self.$data.order.make, field_name: "Make : ", is_required: false, is_number: false)
                             OrderTextFieldWidget(text_name: self.$data.order.model, field_name: "Model : ", is_required: false, is_number: false)
                             OrderTextFieldWidget(text_name: self.$data.order.year, field_name: "Year : ", is_required: false, is_number: true)
@@ -281,7 +282,7 @@ struct EditOrderView: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(.gray)
                                 Spacer()
-                            }
+                            }.padding(.leading, 20)
                             TextEditor(text: self.$data.order.notes)
                                 .foregroundColor(.black)
                                 .frame(height: 70)
@@ -302,7 +303,7 @@ struct EditOrderView: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(Color("colorLetter1"))
                                 Spacer()
-                            }
+                            }.padding(.leading, 20)
 
                             VStack{
                                 if data.laborRates.body_rate != "" && selectedMenus.contains("Body") {
@@ -341,9 +342,10 @@ struct EditOrderView: View {
                         }
                     }
                     
-                }.padding()
+                }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
                 
             }.onAppear(perform: modify)
-        }
+        }.frame(maxHeight: .infinity)
+        .padding(.bottom, keyboardHandler.keyboardHeight)
     }
 }

@@ -28,10 +28,10 @@ struct OrderTextFieldWidget: View {
             } else {
                 HStack{
                     Text(field_name).font(.system(size: 15)).fontWeight(.semibold).foregroundColor(is_required ?  Color("colorLetter1") : .gray)
-                }.frame(width: (UIScreen.main.bounds.width-40)*3/10, alignment: .trailing)
+                }.frame(width: (UIScreen.main.bounds.width-40)*3.5/10, alignment: .trailing)
                 TextField(text_name, text: $text_name, onEditingChanged: {
                     self.isActive = $0
-                }).frame(width: (UIScreen.main.bounds.width-40)*7/10)
+                }).frame(width: (UIScreen.main.bounds.width-40)*6.5/10)
                 .keyboardType(is_number ? .numberPad : .default)
                     .autocapitalization(field_name == "Writer : " || field_name == "Customer : " || field_name == "Insurance Co : " || field_name == "Make : " || field_name == "Model : " || field_name == "Color : " ? .words : .allCharacters)
                 .overlay(VStack{Divider().frame(height: 1).background(isActive ? Color("colorLetter1") : Color(.gray)).offset(x: 0, y: 10)})
