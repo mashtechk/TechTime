@@ -57,7 +57,7 @@ struct ArchiveOrderView: View {
     }
     
     var body: some View {
-        VStack{
+        VStack(spacing: 0){
             // topbar widget
             HStack{
                 HStack{
@@ -92,6 +92,7 @@ struct ArchiveOrderView: View {
                         .font(.system(size: 22))
                         .padding(.leading, 15)
                     // base order information
+                    
                     VStack{
                         ItemView(field_name: "Writer : ", field_value: self.data.order.writer)
                         ItemView(field_name: "Date : ", field_value: self.data.order.created_date)
@@ -181,7 +182,7 @@ struct ArchiveOrderView: View {
                         }
                     }
                     VStack{
-                        Divider().frame(height:1).background(Color.gray)
+                        Divider().frame(height:1).background(Color.gray).padding(EdgeInsets(top: 10, leading: 15, bottom: 5, trailing: 15))
                         HStack{
                             Text("Total Hours")
                                 .foregroundColor(Color("ColorBlue"))

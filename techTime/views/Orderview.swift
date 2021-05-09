@@ -55,7 +55,7 @@ struct Orderview: View {
     }
     
     var body: some View {
-        VStack{
+        VStack(spacing: 0) {
             //topbar widget
             HStack{
                 HStack{
@@ -184,7 +184,7 @@ struct Orderview: View {
                         }
                     }
                     Divider().frame(height:1).background(Color.gray)
-                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
+                        .padding(EdgeInsets(top: 10, leading: 15, bottom: 5, trailing: 15))
                     HStack{
                         Text("Total Hours")
                             .foregroundColor(Color("ColorBlue"))

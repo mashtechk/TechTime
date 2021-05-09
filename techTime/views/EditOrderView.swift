@@ -213,7 +213,7 @@ struct EditOrderView: View {
 
     
     var body: some View {
-        VStack{
+        VStack(spacing: 0) {
             // topbar widget
             HStack{
                 HStack{
