@@ -16,6 +16,7 @@ struct EmailPayView: View {
     
     @State var result: Result<MFMailComposeResult, Error>? = nil
     @State var isShowingMailView = false
+    @StateObject private var keyboardHandler = KeyboardHandler()
     
     func saveData() {
         if data.previousContent == 0 {
@@ -62,7 +63,7 @@ struct EmailPayView: View {
     }
     
     var body: some View {
-        VStack{
+        VStack(spacing: 0) {
             //topbar widget
             HStack{
                 HStack{
@@ -81,51 +82,57 @@ struct EmailPayView: View {
                 
             }.padding(.top, (UIApplication.shared.windows.last?.safeAreaInsets.top)!)
             .background(Color("colorPrimary"))
+            
             //body widget
-            VStack{
-                TextField("Enter Name or Employee Number", text: $text_name)
-                    .overlay(VStack{Divider().offset(x: 0, y: 15)}.foregroundColor(Color("colorPrimary")))
-                    .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
-                com_list
-                HStack{
-                    Text("Email payroll your complete pay period list")
-                        .font(.system(size: 12))
-                        .foregroundColor(.gray)
-                    Spacer()
-                }.padding(EdgeInsets(top: -5, leading: 40, bottom: 5, trailing: 0))
-                incor_list
-                HStack{
-                    Text("Email payroll the repair orders where the hours do not match your pay period list")
-                        .font(.system(size: 12))
-                        .foregroundColor(.gray)
-                    Spacer()
-                }.padding(EdgeInsets(top: -5, leading: 40, bottom: 25, trailing: 0))
-                Divider().frame(height:1).background(Color.gray)
+            ScrollView(.vertical) {
                 VStack{
+                    TextField("Enter Name or Employee Number", text: $text_name)
+                        .overlay(VStack{Divider().offset(x: 0, y: 15)}.foregroundColor(Color("colorPrimary")))
+                        .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0))
+                    com_list
                     HStack{
-                        Text("To mark a repair order as incorrect, return to the pay period list and tap the hours placed in the circle twice")
-                            .font(.system(size: 10)).italic()
+                        Text("Email payroll your complete pay period list")
+                            .font(.system(size: 12))
                             .foregroundColor(.gray)
+                        Spacer()
+                    }.padding(EdgeInsets(top: -5, leading: 40, bottom: 5, trailing: 0))
+                    incor_list
+                    HStack{
+                        Text("Email payroll the repair orders where the hours do not match your pay period list")
+                            .font(.system(size: 12))
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }.padding(EdgeInsets(top: -5, leading: 40, bottom: 25, trailing: 0))
+                    Divider().frame(height:1).background(Color.gray)
+                    VStack{
+                        HStack{
+                            Text("To mark a repair order as incorrect, return to the pay period list and tap the hours placed in the circle twice")
+                                .font(.system(size: 10)).italic()
+                                .foregroundColor(.gray)
+                        }
                     }
-                }
-                Divider().frame(height:1).background(Color.gray)
-                Button(action: {
-                    sendEmail()
-                }){
-                    Text("COMPOSE EMAIL").fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .font(Font.custom("CooperBlack", size: 20, relativeTo: .body))
-                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
-                        .foregroundColor(.white)
-                        .background(LinearGradient(gradient: Gradient(colors: [Color("colorButtonLight"), Color("colorPrimaryDark")]), startPoint: .top, endPoint: .bottom))
-                        .cornerRadius(25)
-                }.padding(EdgeInsets(top: 30, leading: 0, bottom: 5, trailing: 0))
-                .sheet(isPresented: $isShowingMailView) {
-                    MailView(result: self.$result, data:self.$data, selectedId: self.$selectedId, title: $text_name)
-                }
-            }.padding().navigationBarHidden(true)
+                    Divider().frame(height:1).background(Color.gray)
+                    
+                    Button(action: {
+                        sendEmail()
+                    }){
+                        Text("COMPOSE EMAIL").fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .font(Font.custom("CooperBlack", size: 20, relativeTo: .body))
+                            .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                            .foregroundColor(.white)
+                            .background(LinearGradient(gradient: Gradient(colors: [Color("colorButtonLight"), Color("colorPrimaryDark")]), startPoint: .top, endPoint: .bottom))
+                            .cornerRadius(25)
+                    }.padding(EdgeInsets(top: 30, leading: 0, bottom: 5, trailing: 0))
+                    .sheet(isPresented: $isShowingMailView) {
+                        MailView(result: self.$result, data:self.$data, selectedId: self.$selectedId, title: $text_name)
+                    }
+                }.padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
+            }
+            
             Spacer()
-        }.navigationBarHidden(true)
+        }.frame(maxHeight: .infinity)
+        .padding(.bottom, keyboardHandler.keyboardHeight)
     }
     
     var com_list: some View{
