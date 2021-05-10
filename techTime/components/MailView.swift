@@ -51,7 +51,7 @@ struct MailView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
         let listString = self.selectedId=="1" ? "Complete List" : "Incorrect List"
-        let messageTitle = self.data.currentPeriod.start_date + " - (" + self.title + ")" + listString
+        let messageTitle = self.data.currentPeriod.start_date + " - " + self.data.currentPeriod.cancel_date + " (" + self.title + ") " + listString
         var messsageBody = ""
         for item in data.currentPeriod.order_list {
             if selectedId=="2" {
@@ -73,12 +73,12 @@ struct MailView: UIViewControllerRepresentable {
                     var th = 0.0
                     var tg = 0.0
                     for i in item.labors {
-                        messsageBody+=i.type + " Hours : " + i.hours + "Gross : $" + String(Double(i.hours)!*Double(i.price)!) + " \n"
+                        messsageBody+=i.type + " Hours : " + removeZeroFromEnd(num: i.hours) + " Gross : $" + String(format: "%.2f", Double(i.hours)!*Double(i.price)!) + " \n"
                         th += Double(i.hours)!
                         tg += Double(i.hours)! * Double(i.price)!
                     }
-                    messsageBody += "Total Gross : $" + String(tg) + "\n"
-                    messsageBody += "Total Hours : $" + String(th) + "\n"
+                    messsageBody += "Total Gross : $" + String(format: "%.2f", tg) + "\n"
+                    messsageBody += "Total Hours : $" + removeZeroFromEnd(num: String(th)) + "\n\n\n"
                 }
             } else {
                 messsageBody+="Repair Order : " + item.order_id + "\n"
@@ -98,12 +98,12 @@ struct MailView: UIViewControllerRepresentable {
                 var th = 0.0
                 var tg = 0.0
                 for i in item.labors {
-                    messsageBody+=i.type + " Hours : " + i.hours + " Gross : $" + String(Double(i.hours)!*Double(i.price)!) + " \n"
+                    messsageBody+=i.type + " Hours : " + removeZeroFromEnd(num: i.hours) + " Gross : $" + String(format: "%.2f", Double(i.hours)!*Double(i.price)!) + " \n"
                     th += Double(i.hours)!
                     tg += Double(i.hours)! * Double(i.price)!
                 }
-                messsageBody += "Total Gross : $" + String(tg) + "\n"
-                messsageBody += "Total Hours : " + String(th) + "\n"
+                messsageBody += "Total Gross : $" + String(format: "%.2f", tg) + "\n"
+                messsageBody += "Total Hours : " + removeZeroFromEnd(num: String(th)) + "\n\n\n"
             }
             
         }
@@ -115,6 +115,17 @@ struct MailView: UIViewControllerRepresentable {
         return vc
     }
 
+    func removeZeroFromEnd(num: String) -> String {
+        if num == "" {
+            return ""
+        }
+        
+        let val = Double(num)
+        let tempVar = String(format: "%g", val!)
+        
+        return tempVar
+    }
+    
     func updateUIViewController(_ uiViewController: MFMailComposeViewController,
                                 context: UIViewControllerRepresentableContext<MailView>) {
 

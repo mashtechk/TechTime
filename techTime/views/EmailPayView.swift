@@ -52,7 +52,6 @@ struct EmailPayView: View {
                 data.showingPopup = true
             } else {
                 if  MFMailComposeViewController.canSendMail() {
-                    
                     self.isShowingMailView.toggle()
                 } else {
                     data.showMessage = "This Phone is not support to send email now"
