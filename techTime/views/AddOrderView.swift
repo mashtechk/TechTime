@@ -225,7 +225,12 @@ struct AddOrderView: View {
             
             print("order value is \(self.data.currentPeriod.order_list)")
             //if condition of Recreate feature only
-           
+            
+            if data.fromVc == "Recreate" {
+                var order_temp: OrderModel = OrderModel(id: UUID(), order_id: self.data.order.order_id, writer: self.data.order.writer, customer: self.data.order.customer, insurance_co: self.data.order.insurance_co, make: self.data.order.make, model: self.data.order.model, year: self.data.order.year, mileage: self.data.order.mileage, vin: self.data.order.vin, color: self.data.order.color, license: self.data.order.license, notes: self.data.order.notes, created_date: self.data.order.created_date, payroll_match: self.data.order.payroll_match, labors: self.data.order.labors)
+                self.data.order = order_temp
+            }
+            
             self.data.currentPeriod.order_list.insert(self.data.order, at: 0)
             helper.setVariable(data: self.data)
             self.data.showMessage = "New Repair " + data.order.order_id + " Order added"

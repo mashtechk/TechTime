@@ -79,7 +79,7 @@ struct SearchView: View {
                 for j in i.order_list {
                     switch search_index {
                     case 1:
-                        if j.writer.lowercased() == search_txt.lowercased() {
+                        if j.writer.lowercased().contains(search_txt.lowercased()) {
                             search_result.append(j)
                         }
                     case 2:
@@ -87,7 +87,7 @@ struct SearchView: View {
                             search_result.append(j)
                         }
                     case 3:
-                        if formatter1.date(from: j.created_date)! >= startDate && formatter1.date(from: j.created_date)! <= endDate && j.writer == search_txt {
+                        if formatter1.date(from: j.created_date)! >= startDate && formatter1.date(from: j.created_date)! <= endDate && j.writer.lowercased().contains(search_txt.lowercased()) {
                             search_result.append(j)
                         }
                     default:
