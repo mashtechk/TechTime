@@ -54,11 +54,117 @@ struct EmailPayView: View {
                 if  MFMailComposeViewController.canSendMail() {
                     self.isShowingMailView.toggle()
                 } else {
-                    data.showMessage = "This Phone is not support to send email now"
-                    data.showingPopup = true
+                    let listString = self.selectedId=="1" ? "Complete List" : "Incorrect List"
+                    let messageTitle = self.data.currentPeriod.start_date + " - " + self.data.currentPeriod.cancel_date + " (" + self.text_name + ") " + listString
+                    var messsageBody = ""
+                    for item in data.currentPeriod.order_list {
+                        if selectedId=="2" {
+                            if item.payroll_match=="3" {
+                                messsageBody+="Repair Order : " + item.order_id + "\n"
+                                messsageBody+="Writer : " + item.writer + "\n"
+                                messsageBody+="Date : " + item.created_date + "\n"
+                                messsageBody+="Customer : " + item.customer + "\n"
+                                messsageBody+="Insurance Co : " + item.insurance_co + "\n"
+                                messsageBody+="*VEHICLE*\n"
+                                messsageBody+="Make : " + item.make + "\n"
+                                messsageBody+="Model : " + item.model + "\n"
+                                messsageBody+="Year : " + item.year + "\n"
+                                messsageBody+="Mileage : " + item.mileage + "\n"
+                                messsageBody+="VIN : " + item.vin + "\n"
+                                messsageBody+="Color : " + item.color + "\n"
+                                messsageBody+="License : " + item.license + "\n"
+                                messsageBody+="*LABOR PERFORMED*\n"
+                                var th = 0.0
+                                var tg = 0.0
+                                for i in item.labors {
+                                    messsageBody+=i.type + " Hours : " + removeZeroFromEnd(num: i.hours) + " Gross : $" + String(format: "%.2f", Double(i.hours)!*Double(i.price)!) + " \n"
+                                    th += Double(i.hours)!
+                                    tg += Double(i.hours)! * Double(i.price)!
+                                }
+                                messsageBody += "Total Gross : $" + String(format: "%.2f", tg) + "\n"
+                                messsageBody += "Total Hours : $" + removeZeroFromEnd(num: String(th)) + "\n\n\n"
+                            }
+                        } else {
+                            messsageBody+="Repair Order : " + item.order_id + "\n"
+                            messsageBody+="Writer : " + item.writer + "\n"
+                            messsageBody+="Date : " + item.created_date + "\n"
+                            messsageBody+="Customer : " + item.customer + "\n"
+                            messsageBody+="Insurance Co : " + item.insurance_co + "\n"
+                            messsageBody+="*VEHICLE*\n"
+                            messsageBody+="Make : " + item.make + "\n"
+                            messsageBody+="Model : " + item.model + "\n"
+                            messsageBody+="Year : " + item.year + "\n"
+                            messsageBody+="Mileage : " + item.mileage + "\n"
+                            messsageBody+="VIN : " + item.vin + "\n"
+                            messsageBody+="Color : " + item.color + "\n"
+                            messsageBody+="License : " + item.license + "\n"
+                            messsageBody+="*LABOR PERFORMED*\n"
+                            var th = 0.0
+                            var tg = 0.0
+                            for i in item.labors {
+                                messsageBody+=i.type + " Hours : " + removeZeroFromEnd(num: i.hours) + " Gross : $" + String(format: "%.2f", Double(i.hours)!*Double(i.price)!) + " \n"
+                                th += Double(i.hours)!
+                                tg += Double(i.hours)! * Double(i.price)!
+                            }
+                            messsageBody += "Total Gross : $" + String(format: "%.2f", tg) + "\n"
+                            messsageBody += "Total Hours : " + removeZeroFromEnd(num: String(th)) + "\n\n\n"
+                        }
+                        
+                    }
+                    
+                    if let emailUrl = createEmailUrl(to: "support@gmail.com", subject: messageTitle, body: messsageBody) {
+                        if UIApplication.shared.canOpenURL(emailUrl) {
+                            if #available(iOS 10.0, *) {
+                                UIApplication.shared.open(emailUrl)
+                            } else {
+                                UIApplication.shared.openURL(emailUrl)
+                            }
+                        } else {
+                            data.showMessage = "This Phone is not support to send email now"
+                            data.showingPopup = true
+                        }
+                    } else {
+                        data.showMessage = "This Phone is not support to send email now"
+                        data.showingPopup = true
+                    }
                 }
             }
         }
+    }
+    
+    func createEmailUrl(to: String, subject: String, body: String) -> URL? {
+        let toEncoded = to.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let subjectEncoded = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        let bodyEncoded = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        
+        let gmailUrl = URL(string: "googlegmail://co?to=\(toEncoded)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let outlookUrl = URL(string: "ms-outlook://compose?to=\(toEncoded)&subject=\(subjectEncoded)")
+        let yahooMail = URL(string: "ymail://mail/compose?to=\(toEncoded)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let sparkUrl = URL(string: "readdle-spark://compose?recipient=\(toEncoded)&subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        let defaultUrl = URL(string: "mailto:\(toEncoded)?subject=\(subjectEncoded)&body=\(bodyEncoded)")
+        
+        if let gmailUrl = gmailUrl, UIApplication.shared.canOpenURL(gmailUrl) {
+            return gmailUrl
+        } else if let outlookUrl = outlookUrl, UIApplication.shared.canOpenURL(outlookUrl) {
+            return outlookUrl
+        } else if let yahooMail = yahooMail, UIApplication.shared.canOpenURL(yahooMail) {
+            return yahooMail
+        } else if let sparkUrl = sparkUrl, UIApplication.shared.canOpenURL(sparkUrl) {
+            return sparkUrl
+        }
+        
+        return defaultUrl
+    }
+    
+    func removeZeroFromEnd(num: String) -> String {
+        if num == "" {
+            return ""
+        }
+        
+        let val = Double(num)
+        let tempVar = String(format: "%g", val!)
+        
+        return tempVar
     }
     
     var body: some View {
