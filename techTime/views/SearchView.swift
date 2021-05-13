@@ -57,7 +57,9 @@ struct SearchView: View {
             for j in data.currentPeriod.order_list {
                 switch search_index {
                 case 1:
-                    if j.writer.lowercased().contains(search_txt.lowercased()) {
+                    let txt_search = search_txt.lowercased().replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+                    
+                    if j.writer.lowercased().contains(txt_search) {
                         search_result_current.append(j)
                     }
                 case 2:
@@ -65,7 +67,9 @@ struct SearchView: View {
                         search_result_current.append(j)
                     }
                 case 3:
-                    if formatter1.date(from: j.created_date)! >= startDate && formatter1.date(from: j.created_date)! <= endDate && j.writer.lowercased().contains(search_txt.lowercased()) {
+                    let txt_search = search_txt.lowercased().replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
+                    
+                    if formatter1.date(from: j.created_date)! >= startDate && formatter1.date(from: j.created_date)! <= endDate && j.writer.lowercased().contains(txt_search) {
                         search_result_current.append(j)
                     }
                 default:
