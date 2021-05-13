@@ -294,6 +294,7 @@ struct SearchView: View {
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0))
+                        .transformEffect(.init(scaleX: 0.9, y: 0.9))
                         .frame(minWidth: 0)
                         .compositingGroup()
                     
@@ -307,6 +308,7 @@ struct SearchView: View {
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 3, bottom: 0, trailing: 3))
+                        .transformEffect(.init(scaleX: 0.9, y: 0.9))
                         .frame(minWidth: 0)
                         .compositingGroup()
                 } else {
@@ -346,6 +348,7 @@ struct SearchView: View {
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 3))
+                        .transformEffect(.init(scaleX: 0.9, y: 0.9))
                         .frame(minWidth: 0)
                         .compositingGroup()
                     
@@ -359,6 +362,7 @@ struct SearchView: View {
                         .border(Color("colorPrimary"), width: 3)
                         .cornerRadius(4)
                         .padding(EdgeInsets(top: 0, leading: 3, bottom: 0, trailing: 3))
+                        .transformEffect(.init(scaleX: 0.9, y: 0.9))
                         .frame(minWidth: 0)
                         .compositingGroup()
                     

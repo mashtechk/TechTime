@@ -284,7 +284,7 @@ struct PayContent: View {
                         .overlay(DatePicker("", selection: $startDate, displayedComponents: .date)
                                     .frame(width: 120, height:40)
                                     .labelsHidden()
-                                    .accentColor(Color("colorPicker"))
+                                    .accentColor(.black)
                                     .border(Color("colorPrimary"), width: 3)
                                     .cornerRadius(4), alignment: .center)
 //                    DatePicker("", selection: $startDate, displayedComponents: .date)
@@ -302,7 +302,7 @@ struct PayContent: View {
                         .overlay(DatePicker("", selection: dateProxy, in: Date()..., displayedComponents: .date)
                                     .frame(width: 120, height:40)
                                     .labelsHidden()
-                                    .accentColor(Color("colorPicker"))
+                                    .accentColor(.black)
                                     .border(Color("colorPrimary"), width: 3)
                                     .cornerRadius(4), alignment: .center)
                     
