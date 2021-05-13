@@ -91,7 +91,7 @@ struct Orderview: View {
                         .foregroundColor(Color("ColorBlue"))
                         .fontWeight(.semibold)
                         .font(.system(size: 22))
-                        .padding(.leading, 15)
+                        .padding(EdgeInsets(top: 30, leading: 15, bottom: 0, trailing: 0))
                     // base order information
                     VStack{
                         ItemView(field_name: "Writer : ", field_value: self.data.order.writer)
