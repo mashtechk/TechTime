@@ -14,6 +14,7 @@ struct EmailPayView: View {
     @State var text_name = ""
     let callback: (String) -> ()
     
+    @State private var order_lists : Array<OrderModel> = []
     @State var result: Result<MFMailComposeResult, Error>? = nil
     @State var isShowingMailView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
@@ -57,7 +58,21 @@ struct EmailPayView: View {
                     let listString = self.selectedId=="1" ? "Complete List" : "Incorrect List"
                     let messageTitle = self.data.currentPeriod.start_date + " - " + self.data.currentPeriod.cancel_date + " (" + self.text_name + ") " + listString
                     var messsageBody = ""
-                    for item in data.currentPeriod.order_list {
+                    
+                    order_lists = self.data.currentPeriod.order_list
+                    
+                    if data.orderByIndex == "1" {
+                        order_lists = order_lists.sorted { Int($0.order_id)! < Int($1.order_id)! }
+                    }
+                    if data.orderByIndex == "2" {
+                        order_lists = order_lists.sorted { Int($0.order_id)! > Int($1.order_id)! }
+                    }
+                    if data.orderByIndex == "3" {
+                        order_lists = order_lists.sorted{ $0.created_date > $1.created_date }
+                        order_lists = order_lists.reversed()
+                    }
+                    
+                    for item in order_lists {
                         if selectedId=="2" {
                             if item.payroll_match=="3" {
                                 messsageBody+="Repair Order : " + item.order_id + "\n"
@@ -82,7 +97,7 @@ struct EmailPayView: View {
                                     tg += Double(i.hours)! * Double(i.price)!
                                 }
                                 messsageBody += "Total Gross : $" + String(format: "%.2f", tg) + "\n"
-                                messsageBody += "Total Hours : $" + removeZeroFromEnd(num: String(th)) + "\n\n\n"
+                                messsageBody += "Total Hours : " + removeZeroFromEnd(num: String(th)) + "\n\n\n"
                             }
                         } else {
                             messsageBody+="Repair Order : " + item.order_id + "\n"
@@ -162,7 +177,11 @@ struct EmailPayView: View {
         }
         
         let val = Double(num)
-        let tempVar = String(format: "%g", val!)
+        var tempVar = String(format: "%g", val!)
+        
+        if !tempVar.contains(".") {
+            tempVar = tempVar + ".0"
+        }
         
         return tempVar
     }
