@@ -72,6 +72,7 @@ struct OrderSummery: View {
                 
                 Divider().frame(height:1).background(Color.gray)
             }
+            .animation(.none)
             .onAppear(perform: modify)
             
         }

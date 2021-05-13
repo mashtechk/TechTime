@@ -145,6 +145,7 @@ struct PayContent: View {
                     }
                 }
             }
+            
             Spacer()
             //action button
             //there is NEW ORDER BUTTON
@@ -208,7 +209,6 @@ struct PayContent: View {
                 Spacer().frame(height:5)
             }
         }.background(.white)
-        .animation(.none)
     }
     
     var new_period_content: some View{
@@ -371,7 +371,7 @@ struct PayContent: View {
                 }
                 Spacer().frame(height:5)
             }
-        }.animation(.none)
+        }
     }
     
     func getDate(st: Date) -> String {

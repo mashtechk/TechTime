@@ -83,6 +83,7 @@ struct ArchiveOrderSummery: View {
                 
                 Divider().frame(height:1).background(Color("colorDivider"))
             }
+            .animation(.none)
             .onAppear(perform: modify)
         }
     }

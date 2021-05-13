@@ -188,7 +188,6 @@ struct ArchivePayView: View {
             }
             Spacer()
         }.onAppear(perform: modify).navigationBarHidden(true)
-        .animation(.none)
         .alert(isPresented: $is_alert) {
             Alert(
                 title: Text(""),
