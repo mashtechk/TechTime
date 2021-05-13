@@ -18,8 +18,6 @@ struct PayContent: View {
     @State private var startDate = Date()
     @State private var endDate = Date()
     
-    @State private var is_selected_endDate = false
-    
     @State private var total_hours = "0.0"
     @State private var total_orders = "0"
     @State private var total_gross = "$ 0.00"
@@ -41,7 +39,7 @@ struct PayContent: View {
             self.endDate = $0
             print("----- this is the end date data -----")
             print($0)
-            self.is_selected_endDate = true
+            self.data.is_selected_endDate = true
         })
     }
     
@@ -299,7 +297,7 @@ struct PayContent: View {
 //                        .transformEffect(.init(scaleX: 0.8, y: 1))
                     
                     Spacer()
-                    Text(is_selected_endDate ? self.getDate(st: endDate) : "")
+                    Text(self.data.is_selected_endDate ? self.getDate(st: endDate) : "")
                         .frame(width:120, height: 40)
                         .overlay(DatePicker("", selection: dateProxy, in: Date()..., displayedComponents: .date)
                                     .frame(width: 120, height:40)
@@ -407,7 +405,7 @@ struct PayContent: View {
             }
             
             //save period data
-            if self.is_selected_endDate {
+            if self.data.is_selected_endDate {
                 if self.startDate > Date() {
                     self.data.showMessage = "START DATE cannot be later than today's date"
                     self.data.showingPopup = true

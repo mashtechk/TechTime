@@ -360,7 +360,8 @@ struct MainPage : View {
                             data.currentPeriod.cancel_date = helper.getDate(st: Date())
                             data.histories.append(data.currentPeriod)
                             data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date : "" ,  order_list: [])
-                            pageIndex = 11
+                            data.is_selected_endDate = false
+                            pageIndex = 0
                             helper.setVariable(data: data)
                         },
                         secondaryButton: .cancel()

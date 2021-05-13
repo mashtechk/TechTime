@@ -305,7 +305,7 @@ struct MainInstead : View {
                         }
                     }
                 }
-            }).onAppear(perform: getData)
+            })
             .padding(.top, (UIApplication.shared.windows.last?.safeAreaInsets.top)!)
                 .background(Color("colorPrimary"))
         }
