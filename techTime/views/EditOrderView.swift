@@ -254,7 +254,7 @@ struct EditOrderView: View {
                             OrderTextFieldWidget(text_name: self.$data.order.order_id, field_name: "Repair Order # ", is_required: true, is_number: true)
                             OrderTextFieldWidget(text_name: self.$data.order.writer, field_name: "Writer : ", is_required: true, is_number: false)
                             OrderTextFieldWidget(text_name: self.$data.order.customer, field_name: "Customer : ", is_required: false, is_number: false)
-                            OrderTextFieldWidget(text_name: self.$data.order.insurance_co, field_name: "Insurance Co : ", is_required: false, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.insurance_co, field_name: "Insurance Co : ", is_required: false, is_number: false).frame(height:50)
                         }
                         //second fields
                         VStack{
