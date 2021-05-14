@@ -77,9 +77,10 @@ struct ArchivePayView: View {
                     
                     Menu {
                         Button(action: {
+                            self.data.previousPageOfOrderView = 2
                             pageIndex = 5
                         }){
-                            Text("Email PayRoll")
+                            Text("EmailPayroll")
                                 .font(.system(size: 10))
                         }
 

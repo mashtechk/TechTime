@@ -30,6 +30,7 @@ class Helper {
                 data.is_alert = false
                 data.previousContent = 0
                 data.previousPageOfOrderView = 0
+                data.is_selected_endDate = false
                 if data.orderByIndex == "" {
                     data.orderByIndex = "2"
                 }

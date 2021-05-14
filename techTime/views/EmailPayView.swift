@@ -14,7 +14,6 @@ struct EmailPayView: View {
     @State var text_name = ""
     let callback: (String) -> ()
     
-    @State private var order_lists : Array<OrderModel> = []
     @State var result: Result<MFMailComposeResult, Error>? = nil
     @State var isShowingMailView = false
     @StateObject private var keyboardHandler = KeyboardHandler()
@@ -46,7 +45,15 @@ struct EmailPayView: View {
             data.showMessage = "Please input the Name or Number"
             data.showingPopup = true
         } else {
-            let d = data.currentPeriod.order_list.filter() { $0.payroll_match == "3" }
+            var order_lists : Array<OrderModel> = []
+            
+            if data.previousPageOfOrderView == 0 {
+                order_lists = data.currentPeriod.order_list
+            } else {
+                order_lists = data.archievePeriod.order_list
+            }
+            
+            let d = order_lists.filter() { $0.payroll_match == "3" }
             
             if selectedId=="2" && d.count==0 {
                 data.showMessage = "No incorrect repair orders are currently marked"
@@ -56,11 +63,14 @@ struct EmailPayView: View {
                     self.isShowingMailView.toggle()
                 } else {
                     let listString = self.selectedId=="1" ? "Complete List" : "Incorrect List"
-                    let messageTitle = self.data.currentPeriod.start_date + " - " + self.data.currentPeriod.cancel_date + " (" + self.text_name + ") " + listString
+                    var messageTitle = self.data.currentPeriod.start_date + " - " + self.data.currentPeriod.cancel_date + " (" + self.text_name + ") " + listString
+                    
+                    if data.previousPageOfOrderView == 2 {
+                        messageTitle = self.data.archievePeriod.start_date + " - " + self.data.archievePeriod.cancel_date + " (" + self.text_name + ") " + listString
+                    }
+                    
                     var messsageBody = ""
-                    
-                    order_lists = self.data.currentPeriod.order_list
-                    
+
                     if data.orderByIndex == "1" {
                         order_lists = order_lists.sorted { Int($0.order_id)! < Int($1.order_id)! }
                     }
@@ -71,7 +81,7 @@ struct EmailPayView: View {
                         order_lists = order_lists.sorted{ $0.created_date > $1.created_date }
                         order_lists = order_lists.reversed()
                     }
-                    
+
                     for item in order_lists {
                         if selectedId=="2" {
                             if item.payroll_match=="3" {
@@ -124,9 +134,9 @@ struct EmailPayView: View {
                             messsageBody += "Total Gross : $" + String(format: "%.2f", tg) + "\n"
                             messsageBody += "Total Hours : " + removeZeroFromEnd(num: String(th)) + "\n\n\n"
                         }
-                        
+
                     }
-                    
+
                     if let emailUrl = createEmailUrl(to: "support@gmail.com", subject: messageTitle, body: messsageBody) {
                         if UIApplication.shared.canOpenURL(emailUrl) {
                             if #available(iOS 10.0, *) {

@@ -18,8 +18,6 @@ struct MailView: UIViewControllerRepresentable {
     @Binding var data: VariableModel
     @Binding var selectedId: String // complete list or incorrect list option 1: correct, 2: incorrect list
     @Binding var title: String
-
-    @State private var order_lists : Array<OrderModel> = []
     
     class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
 
@@ -52,11 +50,22 @@ struct MailView: UIViewControllerRepresentable {
     }
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
-        let listString = self.selectedId=="1" ? "Complete List" : "Incorrect List"
-        let messageTitle = self.data.currentPeriod.start_date + " - " + self.data.currentPeriod.cancel_date + " (" + self.title + ") " + listString
-        var messsageBody = ""
+        var order_lists : Array<OrderModel> = []
         
-        order_lists = self.data.currentPeriod.order_list
+        if data.previousPageOfOrderView == 0 {
+            order_lists = data.currentPeriod.order_list
+        } else {
+            order_lists = data.archievePeriod.order_list
+        }
+        
+        let listString = self.selectedId=="1" ? "Complete List" : "Incorrect List"
+        var messageTitle = self.data.currentPeriod.start_date + " - " + self.data.currentPeriod.cancel_date + " (" + self.title + ") " + listString
+        
+        if data.previousPageOfOrderView == 2 {
+            messageTitle = self.data.archievePeriod.start_date + " - " + self.data.archievePeriod.cancel_date + " (" + self.title + ") " + listString
+        }
+        
+        var messsageBody = ""
         
         if data.orderByIndex == "1" {
             order_lists = order_lists.sorted { Int($0.order_id)! < Int($1.order_id)! }

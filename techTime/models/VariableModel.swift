@@ -31,6 +31,6 @@ struct VariableModel : Codable {
     var selectedType: String
     var startDate: String
     var previousContent: Int // 0 = PayContent, 1 = ArchiveContent
-    var previousPageOfOrderView: Int // 0 = Others, 1 = SearchView
+    var previousPageOfOrderView: Int // 0 = Others, 1 = SearchView, 2 = ArchivePayView
     var is_selected_endDate: Bool
 }
