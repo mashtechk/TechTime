@@ -112,7 +112,7 @@ struct EditPeriodView: View {
                             .overlay(DatePicker("", selection: $startDate, displayedComponents: .date)
                                         .frame(width: 120, height:40)
                                         .labelsHidden()
-                                        .accentColor(.black)
+                                        .accentColor(Color("colorPicker"))
                                         .border(Color("colorPrimary"), width: 3)
                                         .cornerRadius(4), alignment: .center).padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                         
@@ -133,7 +133,7 @@ struct EditPeriodView: View {
                             .overlay(DatePicker("", selection: $endDate, in: Date()..., displayedComponents: .date)
                                         .frame(width: 120, height:40)
                                         .labelsHidden()
-                                        .accentColor(.black)
+                                        .accentColor(Color("colorPicker"))
                                         .border(Color("colorPrimary"), width: 3)
                                         .cornerRadius(4), alignment: .center).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))
 //                        DatePicker("", selection: $endDate, in: Date()..., displayedComponents: .date)

@@ -279,12 +279,12 @@ struct PayContent: View {
                         .foregroundColor(Color("ColorBlue"))
                 }.padding(EdgeInsets(top: 10, leading: 37, bottom: 0, trailing: 42))
                 HStack{
-                    Text(self.getDate(st: startDate))
+                    Text(helper.getDate(st: startDate))
                         .frame(width:120, height: 40)
                         .overlay(DatePicker("", selection: $startDate, displayedComponents: .date)
                                     .frame(width: 120, height:40)
                                     .labelsHidden()
-                                    .accentColor(.black)
+                                    .accentColor(Color("colorPicker"))
                                     .border(Color("colorPrimary"), width: 3)
                                     .cornerRadius(4), alignment: .center)
 //                    DatePicker("", selection: $startDate, displayedComponents: .date)
@@ -297,12 +297,12 @@ struct PayContent: View {
 //                        .transformEffect(.init(scaleX: 0.8, y: 1))
                     
                     Spacer()
-                    Text(self.data.is_selected_endDate ? self.getDate(st: endDate) : "")
+                    Text(self.data.is_selected_endDate ? helper.getDate(st: endDate) : "")
                         .frame(width:120, height: 40)
                         .overlay(DatePicker("", selection: dateProxy, in: Date()..., displayedComponents: .date)
                                     .frame(width: 120, height:40)
                                     .labelsHidden()
-                                    .accentColor(.black)
+                                    .accentColor(Color("colorPicker"))
                                     .border(Color("colorPrimary"), width: 3)
                                     .cornerRadius(4), alignment: .center)
                     
@@ -374,12 +374,6 @@ struct PayContent: View {
         }
     }
     
-    func getDate(st: Date) -> String {
-        let formatter1 = DateFormatter()
-        formatter1.dateFormat = "MMM dd, yyyy"
-        return formatter1.string(from: st)
-    }
-    
     func showDatePicker() {
         weak var datePicker: UIDatePicker!
         datePicker.preferredDatePickerStyle = .inline
@@ -420,7 +414,7 @@ struct PayContent: View {
                     self.data.showingPopup = true
                     return
                 }
-                self.data.currentPeriod = PeriodModel(start_date: formatter1.string(from: self.startDate), end_date: formatter1.string(from: self.endDate), cancel_date: self.getDate(st: self.endDate), order_list: [])
+                self.data.currentPeriod = PeriodModel(start_date: formatter1.string(from: self.startDate), end_date: formatter1.string(from: self.endDate), cancel_date: helper.getDate(st: self.endDate), order_list: [])
                 self.data.isEnd = false
                 self.total_hours = "0.0"
                 self.total_orders = "0"
