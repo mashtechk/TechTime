@@ -80,7 +80,7 @@ struct ArchivePayView: View {
                             self.data.previousPageOfOrderView = 2
                             pageIndex = 5
                         }){
-                            Text("EmailPayroll")
+                            Text("Email Payroll")
                                 .font(.system(size: 10))
                         }
 

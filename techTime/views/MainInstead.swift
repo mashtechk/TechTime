@@ -126,7 +126,7 @@ struct MainInstead : View {
 
                                 Text("Edit Pay Period Dates").font(.system(size: 10))
                                 Text("Order By").font(.system(size: 10))
-                                Text("EmailPayroll")
+                                Text("Email Payroll")
                                 Text("End Pay Period").font(.system(size: 10))
 
                                 !data.isTrial ?
@@ -175,13 +175,13 @@ struct MainInstead : View {
                                     Text("Order By").font(.system(size: 10))
                                 }
                                 if self.data.currentPeriod.order_list.count == 0 {
-                                    Text("EmailPayroll")
+                                    Text("Email Payroll")
                                 } else {
                                     Button(action: {
                                         self.data.previousPageOfOrderView = 0
                                         self.pageIndex = 5
                                     }){
-                                        Text("EmailPayroll")
+                                        Text("Email Payroll")
                                     }.font(.system(size: 10)).foregroundColor(.gray)
                                 }
 

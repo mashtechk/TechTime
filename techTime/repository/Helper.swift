@@ -362,7 +362,8 @@ class Helper {
         }
         var result = "0"
         if st.count > 0 {
-            result = String(Double(Int(Double(st)!*100))/100)
+            let val = Float(st)
+            result = String(Float(Int(val!*100))/100)
             let dd = result.split{$0 == "."}.map(String.init)
             if dd.count > 1 && dd[1].count==1 {
                 result = result + "0"
