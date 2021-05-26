@@ -79,7 +79,7 @@ struct MenuTextWidget: View {
             Spacer()
 
             CocoaTextField(text_name, text: $text_name)
-                .isFirstResponder(selected_field == field_name ? true : false)
+//                .isFirstResponder(selected_field == field_name ? true : false)
                 .keyboardType(is_number ? .numbersAndPunctuation : .default)
                 .overlay(VStack{Divider().offset(x: 0, y: 10)})
                 .onTapGesture {

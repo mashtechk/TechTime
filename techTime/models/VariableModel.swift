@@ -17,7 +17,7 @@ struct VariableModel : Codable {
     var currentPeriod: PeriodModel
     var isEnd: Bool // ended the current period
     var archievePeriod: PeriodModel // history period info variable for archive management
-    var laborRates: LaborRatesModel
+    var laborRates: Array<LaborModel>
     var order: OrderModel
     var histories: Array<PeriodModel>
     var isFull: Bool // if free version or full version function check variable

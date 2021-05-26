@@ -11,16 +11,6 @@ struct EditOrderView: View {
     
     let helper = Helper()
     
-   @State var body_rate = ""
-   @State var mechanical_rate = ""
-   @State var internal_rate = ""
-   @State var warranty_rate = ""
-   @State var refinish_rate = ""
-   @State var glass_rate = ""
-   @State var frame_rate = ""
-   @State var aluminum_rate = ""
-   @State var other_rate = ""
-    
     @State var test_value = ""
     @State var selected_field = ""
     
@@ -31,56 +21,21 @@ struct EditOrderView: View {
     func modify() {
         for item in data.order.labors {
             selectedMenus.append(item.type)
-            switch item.type {
-            case "Body":
-                body_rate =  self.calHour(hour: item.hours)
-            case "Mechanical":
-                mechanical_rate = self.calHour(hour: item.hours)
-            case "Internal":
-                internal_rate = self.calHour(hour: item.hours)
-            case "Warranty":
-                warranty_rate = self.calHour(hour: item.hours)
-            case "Refinish":
-                refinish_rate = self.calHour(hour: item.hours)
-            case "Glass":
-                glass_rate = self.calHour(hour: item.hours)
-            case "Frame":
-                frame_rate = self.calHour(hour: item.hours)
-            case "Aluminum":
-                aluminum_rate = self.calHour(hour: item.hours)
-            case "Other":
-                other_rate = self.calHour(hour: item.hours)
-            default:
-                print(item.type)
+            
+            for (index, item_labor) in data.laborRates.enumerated() {
+                if item.type == item_labor.type {
+                    data.laborRates[index].hours = self.calHour(hour: item.hours)
+                }
             }
         }
-        if data.laborRates.body_rate != "" && !selectedMenus.contains("Body"){
-            menus.append("Body")
+        
+        for (index, item) in data.laborRates.enumerated() {
+            if item.rate != "" && !selectedMenus.contains(item.type) {
+                menus.append(item.type)
+                data.laborRates[index].hours = ""
+            }
         }
-        if data.laborRates.mechanical_rate != "" && !selectedMenus.contains("Mechanical") {
-            menus.append("Mechanical")
-        }
-        if data.laborRates.internal_rate != "" && !selectedMenus.contains("Internal") {
-            menus.append("Internal")
-        }
-        if data.laborRates.warranty_rate != "" && !selectedMenus.contains("Warranty") {
-            menus.append("Warranty")
-        }
-        if data.laborRates.refinish_rate != "" && !selectedMenus.contains("Refinish") {
-            menus.append("Refinish")
-        }
-        if data.laborRates.glass_rate != "" && !selectedMenus.contains("Glass") {
-            menus.append("Glass")
-        }
-        if data.laborRates.frame_rate != "" && !selectedMenus.contains("Frame") {
-            menus.append("Frame")
-        }
-        if data.laborRates.aluminum_rate != "" && !selectedMenus.contains("Aluminum") {
-            menus.append("Aluminum")
-        }
-        if data.laborRates.other_rate != "" && !selectedMenus.contains("Other") {
-            menus.append("Other")
-        }
+        
         menus = menus.reversed()
         selectedMenus = selectedMenus.reversed()
     }
@@ -101,93 +56,31 @@ struct EditOrderView: View {
         if data.order.writer == "" {
             isSelected = false
         }
-        if body_rate == "" && mechanical_rate == "" && internal_rate == "" && warranty_rate == "" && refinish_rate == "" && glass_rate == "" && frame_rate == "" && aluminum_rate == "" && other_rate == "" {
-            isSelected = false
+        
+        for item in data.laborRates {
+            if item.hours != "" {
+                isSelected = true
+                break
+            }
         }
+        
         if isSelected {
             //save rates data in device
             self.data.order.labors = []
-            if body_rate != "" {
-                if !helper.isNumber(st: body_rate) {
-                    self.data.showMessage = "Labor Type 'Body' Sould be Number"
-                    self.data.showingPopup = true
-                    return
+            
+            for item in data.laborRates {
+                if item.hours != "" {
+                    if !helper.isNumber(st: item.hours) {
+                        self.data.showMessage = "Labor Type '" + item.type + "' Sould be Number"
+                        self.data.showingPopup = true
+                        return
+                    }
+                    
+                    let order_type = LaborTypeModel(type: item.type, hours: helper.stringToDoubleToString(st: item.hours), price: item.rate)
+                    self.data.order.labors.append(order_type)
                 }
-                let order_type = LaborTypeModel(type: "Body", hours: helper.stringToDoubleToString(st: body_rate), price: data.laborRates.body_rate)
-                self.data.order.labors.append(order_type)
             }
-            if mechanical_rate != "" {
-                if !helper.isNumber(st: mechanical_rate) {
-                    self.data.showMessage = "Labor Type 'Mechanical' Sould be Number"
-                    self.data.showingPopup = true
-                    return
-                }
-                let order_type = LaborTypeModel(type: "Mechanical", hours: helper.stringToDoubleToString(st: mechanical_rate), price: data.laborRates.mechanical_rate)
-                self.data.order.labors.append(order_type)
-            }
-            if internal_rate != "" {
-                if !helper.isNumber(st: internal_rate) {
-                    self.data.showMessage = "Labor Type 'Internal' Sould be Number"
-                    self.data.showingPopup = true
-                    return
-                }
-                let order_type = LaborTypeModel(type: "Internal", hours: helper.stringToDoubleToString(st: internal_rate), price: data.laborRates.internal_rate)
-                self.data.order.labors.append(order_type)
-            }
-            if warranty_rate != "" {
-                if !helper.isNumber(st: warranty_rate) {
-                    self.data.showMessage = "Labor Type 'Warranty' Sould be Number"
-                    self.data.showingPopup = true
-                    return
-                }
-                let order_type = LaborTypeModel(type: "Warranty", hours: helper.stringToDoubleToString(st: warranty_rate), price: data.laborRates.warranty_rate)
-                self.data.order.labors.append(order_type)
-            }
-            if refinish_rate != "" {
-                if !helper.isNumber(st: refinish_rate) {
-                    self.data.showMessage = "Labor Type 'Refinish' Sould be Number"
-                    self.data.showingPopup = true
-                    return
-                }
-                let order_type = LaborTypeModel(type: "Refinish", hours: helper.stringToDoubleToString(st: refinish_rate), price: data.laborRates.refinish_rate)
-                self.data.order.labors.append(order_type)
-            }
-            if glass_rate != "" {
-                if !helper.isNumber(st: glass_rate) {
-                    self.data.showMessage = "Labor Type 'Glass' Sould be Number"
-                    self.data.showingPopup = true
-                    return
-                }
-                let order_type = LaborTypeModel(type: "Glass", hours: helper.stringToDoubleToString(st: glass_rate), price: data.laborRates.glass_rate)
-                self.data.order.labors.append(order_type)
-            }
-            if frame_rate != "" {
-                if !helper.isNumber(st: frame_rate) {
-                    self.data.showMessage = "Labor Type 'Frame' Sould be Number"
-                    self.data.showingPopup = true
-                    return
-                }
-                let order_type = LaborTypeModel(type: "Frame", hours: helper.stringToDoubleToString(st: frame_rate), price: data.laborRates.frame_rate)
-                self.data.order.labors.append(order_type)
-            }
-            if aluminum_rate != "" {
-                if !helper.isNumber(st: aluminum_rate) {
-                    self.data.showMessage = "Labor Type 'Aluminum' Sould be Number"
-                    self.data.showingPopup = true
-                    return
-                }
-                let order_type = LaborTypeModel(type: "Aluminum", hours: helper.stringToDoubleToString(st: aluminum_rate), price: data.laborRates.aluminum_rate)
-                self.data.order.labors.append(order_type)
-            }
-            if other_rate != "" {
-                if !helper.isNumber(st: other_rate) {
-                    self.data.showMessage = "Labor Type 'Other' Sould be Number"
-                    self.data.showingPopup = true
-                    return
-                }
-                let order_type = LaborTypeModel(type: "Other", hours: helper.stringToDoubleToString(st: other_rate), price: data.laborRates.other_rate)
-                self.data.order.labors.append(order_type)
-            }
+            
             let formatter1 = DateFormatter()
             formatter1.dateFormat = "MMM dd, yyyy"
             let date = Date()
@@ -306,34 +199,10 @@ struct EditOrderView: View {
                             }.padding(.leading, 20)
 
                             VStack{
-                                if data.laborRates.body_rate != "" && selectedMenus.contains("Body") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus, text_name: self.$body_rate, field_name: "Body", is_required: false, is_number: true, selected_field: self.$selected_field)
-                                }
-                                
-                                if data.laborRates.mechanical_rate  != "" && selectedMenus.contains("Mechanical") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$mechanical_rate, field_name: "Mechanical", is_required: false, is_number: true, selected_field: self.$selected_field)
-                                }
-                                
-                                if data.laborRates.internal_rate != "" && selectedMenus.contains("Internal") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$internal_rate, field_name: "Internal", is_required: false, is_number: true, selected_field: self.$selected_field)
-                                }
-                                if data.laborRates.warranty_rate != "" && selectedMenus.contains("Warranty") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$warranty_rate, field_name: "Warranty", is_required: false, is_number: true, selected_field: self.$selected_field)
-                                }
-                                if data.laborRates.refinish_rate  != "" && selectedMenus.contains("Refinish") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$refinish_rate, field_name: "Refinish", is_required: false, is_number: true, selected_field: self.$selected_field)
-                                }
-                                if data.laborRates.glass_rate != "" && selectedMenus.contains("Glass") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$glass_rate, field_name: "Glass", is_required: false, is_number: true, selected_field: self.$selected_field)
-                                }
-                                if data.laborRates.frame_rate != "" && selectedMenus.contains("Frame") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$frame_rate,  field_name: "Frame", is_required: false, is_number: true, selected_field: self.$selected_field)
-                                }
-                                if data.laborRates.aluminum_rate != "" && selectedMenus.contains("Aluminum") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$aluminum_rate, field_name: "Aluminum", is_required: false, is_number: true, selected_field: self.$selected_field)
-                                }
-                                if data.laborRates.other_rate != "" && selectedMenus.contains("Other") {
-                                    MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$other_rate, field_name: "Other", is_required: false, is_number: true, selected_field: self.$selected_field)
+                                ForEach(0..<data.laborRates.count) { i in
+                                    if data.laborRates[i].rate != "" && selectedMenus.contains(data.laborRates[i].type) {
+                                        MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus, text_name: self.$data.laborRates[i].hours, field_name: data.laborRates[i].type, is_required: false, is_number: true, selected_field: self.$selected_field)
+                                    }
                                 }
                             }
                             

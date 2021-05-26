@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0415BCC4265E72A200FEDD11 /* LaborModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0415BCC3265E72A200FEDD11 /* LaborModel.swift */; };
 		04414BEF2631A87A0039217F /* Signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04414BEE2631A87A0039217F /* Signup.swift */; };
 		0465A102263106B70095065B /* Signin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0465A101263106B70095065B /* Signin.swift */; };
 		737DF71C2567AF0B00FAB694 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 737DF71B2567AF0B00FAB694 /* GoogleService-Info.plist */; };
 		73841D912570FD9A00422971 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 73841D902570FD9A00422971 /* SwiftUIX */; };
 		73DA5EEE256EE15800A7B8AC /* MainInstead.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DA5EED256EE15800A7B8AC /* MainInstead.swift */; };
 		B4092F2F255056310034B2EF /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4092F2E255056310034B2EF /* OrderModel.swift */; };
-		B4092F36255070950034B2EF /* LaborRatesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4092F35255070950034B2EF /* LaborRatesModel.swift */; };
 		B4092F392550B4160034B2EF /* AddOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4092F382550B4160034B2EF /* AddOrderView.swift */; };
 		B411101425500B130084B473 /* PeriodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B411101325500B130084B473 /* PeriodModel.swift */; };
 		B4111021255026A40084B473 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4111020255026A40084B473 /* Helper.swift */; };
@@ -57,6 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0415BCC3265E72A200FEDD11 /* LaborModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LaborModel.swift; path = techTime/models/LaborModel.swift; sourceTree = SOURCE_ROOT; };
 		04414BEE2631A87A0039217F /* Signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Signup.swift; path = techTime/views/Signup.swift; sourceTree = SOURCE_ROOT; };
 		0465A101263106B70095065B /* Signin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Signin.swift; path = techTime/views/Signin.swift; sourceTree = SOURCE_ROOT; };
 		1ECC63AB0688D3B14A21AB2F /* Pods-techTime.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-techTime.debug.xcconfig"; path = "Target Support Files/Pods-techTime/Pods-techTime.debug.xcconfig"; sourceTree = "<group>"; };
@@ -66,7 +67,6 @@
 		74C4B2A8789CDF1C57BFE7C1 /* Pods_techtime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_techtime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EBA2323510E405552F857FB /* Pods-techtime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-techtime.release.xcconfig"; path = "Target Support Files/Pods-techtime/Pods-techtime.release.xcconfig"; sourceTree = "<group>"; };
 		B4092F2E255056310034B2EF /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
-		B4092F35255070950034B2EF /* LaborRatesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaborRatesModel.swift; sourceTree = "<group>"; };
 		B4092F382550B4160034B2EF /* AddOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderView.swift; sourceTree = "<group>"; };
 		B411101325500B130084B473 /* PeriodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodModel.swift; sourceTree = "<group>"; };
 		B4111020255026A40084B473 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
@@ -151,10 +151,10 @@
 			children = (
 				B411101325500B130084B473 /* PeriodModel.swift */,
 				B4092F2E255056310034B2EF /* OrderModel.swift */,
-				B4092F35255070950034B2EF /* LaborRatesModel.swift */,
 				B428D5FB255215B200666D26 /* HistoryPeriodModel.swift */,
 				B4388F1D25529981002C492C /* VariableModel.swift */,
 				B49F58BD2558770C003B1661 /* PersonModel.swift */,
+				0415BCC3265E72A200FEDD11 /* LaborModel.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -405,6 +405,7 @@
 				B41A514C254CA6AA0054DF88 /* RaborRates.swift in Sources */,
 				B416B3EB255364E000A6F813 /* MenuTextWidget.swift in Sources */,
 				0465A102263106B70095065B /* Signin.swift in Sources */,
+				0415BCC4265E72A200FEDD11 /* LaborModel.swift in Sources */,
 				04414BEF2631A87A0039217F /* Signup.swift in Sources */,
 				B4388F1E25529981002C492C /* VariableModel.swift in Sources */,
 				B41D287E254CB2B200DEE1FF /* EmailPayView.swift in Sources */,
@@ -423,7 +424,6 @@
 				B41A5159254CA7DC0054DF88 /* RadioButtonField.swift in Sources */,
 				B41A5155254CA7050054DF88 /* SearchView.swift in Sources */,
 				B4111021255026A40084B473 /* Helper.swift in Sources */,
-				B4092F36255070950034B2EF /* LaborRatesModel.swift in Sources */,
 				B4388F212552B690002C492C /* OrderSummery.swift in Sources */,
 				B416B3EE25536A6500A6F813 /* EditOrderView.swift in Sources */,
 				B416B3F125537CD700A6F813 /* ArchiveContent.swift in Sources */,
@@ -567,7 +567,7 @@
 				CODE_SIGN_ENTITLEMENTS = techtime/techtime.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"techTime/Preview Content\"";
 				DEVELOPMENT_TEAM = HCGQNV9DDJ;
 				ENABLE_PREVIEWS = YES;
@@ -594,7 +594,7 @@
 				CODE_SIGN_ENTITLEMENTS = techtime/techtime.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_ASSET_PATHS = "\"techTime/Preview Content\"";
 				DEVELOPMENT_TEAM = HCGQNV9DDJ;
 				ENABLE_PREVIEWS = YES;

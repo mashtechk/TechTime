@@ -62,7 +62,19 @@ class Helper {
                 return data
             }
         }
-        data = VariableModel(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "3", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), laborRates: LaborRatesModel(body_rate: "", mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: ""), order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isPaid: false, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "", startDate: "", previousContent: 0, previousPageOfOrderView: 0, is_selected_endDate: false)
+        
+        var labors : Array<LaborModel>
+        labors = []
+        labors.append(LaborModel(type: "Body", rate: "", hours: ""))
+        labors.append(LaborModel(type: "Mechanical", rate: "", hours: ""))
+        labors.append(LaborModel(type: "Internal", rate: "", hours: ""))
+        labors.append(LaborModel(type: "Warranty", rate: "", hours: ""))
+        labors.append(LaborModel(type: "Refinish", rate: "", hours: ""))
+        labors.append(LaborModel(type: "Glass", rate: "", hours: ""))
+        labors.append(LaborModel(type: "Frame", rate: "", hours: ""))
+        labors.append(LaborModel(type: "Aluminum", rate: "", hours: ""))
+        
+        data = VariableModel(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "3", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: []), laborRates: labors, order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isPaid: false, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "", startDate: "", previousContent: 0, previousPageOfOrderView: 0, is_selected_endDate: false)
         return data
     }
     
@@ -108,19 +120,6 @@ class Helper {
         }
         currentPeriod = PeriodModel(start_date: "", end_date: "",cancel_date : "" ,order_list: [])
         return currentPeriod
-    }
-    
-    // get the labor rates
-    func getLaborRates() -> LaborRatesModel {
-        let laborRate : LaborRatesModel
-        if let data = UserDefaults.standard.data(forKey: "labor_rates") {
-            if let decoded = try? JSONDecoder().decode(LaborRatesModel.self, from: data) {
-                laborRate = decoded
-                return laborRate
-            }
-        }
-        laborRate = LaborRatesModel(body_rate: "" , mechanical_rate: "", internal_rate: "", warranty_rate: "", refinish_rate: "", glass_rate: "", frame_rate: "", aluminum_rate: "", other_rate: "")
-        return laborRate
     }
     
     // save teh pay period history

@@ -10,7 +10,8 @@ struct LaborRates: View {
     @Binding var pageIndex: Int
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     let helper = Helper()
-
+    @State var newLabor: LaborModel = LaborModel(type: "", rate: "", hours: "")
+    
     var body: some View {
         VStack{
             //topbar widget
@@ -56,66 +57,79 @@ struct LaborRates: View {
 
                     //body
                     VStack{
-                        TextFieldWidget(text_name: self.$data.laborRates.body_rate, field_name: "Body")
-                        TextFieldWidget(text_name: self.$data.laborRates.mechanical_rate, field_name: "Mechanical")
-                        TextFieldWidget(text_name: self.$data.laborRates.internal_rate, field_name: "Internal")
-                        TextFieldWidget(text_name: self.$data.laborRates.warranty_rate, field_name: "Warranty")
-                        TextFieldWidget(text_name: self.$data.laborRates.refinish_rate, field_name: "Refinish")
-                        TextFieldWidget(text_name: self.$data.laborRates.glass_rate, field_name: "Glass")
-                        TextFieldWidget(text_name: self.$data.laborRates.frame_rate, field_name: "Frame")
-                        TextFieldWidget(text_name: self.$data.laborRates.aluminum_rate, field_name: "Aluminum")
-                        TextFieldWidget(text_name: self.$data.laborRates.other_rate, field_name: "Other")
+                        ForEach(0..<data.laborRates.count, id: \.self) { i in
+                            TextFieldWidget(text_name: $data.laborRates[i].rate, field_name: data.laborRates[i].type)
+                        }
+                        
+                        if newLabor.hours != "" {
+                            NewTextFieldWidget(text_name: $newLabor.rate, field_name: $newLabor.type)
+                        }
                     }
                     
+                    HStack {
+                        Button(action: {
+                            addLabor()
+                        }){
+                            Image("add_labor")
+                                .resizable()
+                                .frame(width: 40, height: 40, alignment: .center)
+                        }
+                        
+                        Spacer()
+                    }
                 }.padding()
             }.navigationBarHidden(true)
             Spacer()
         }
     }
     
+    func addLabor() {
+        if newLabor.hours == "" {
+            newLabor = LaborModel(type: "", rate: "", hours: "0")
+        } else {
+            if newLabor.type != "" {
+                data.laborRates.append(newLabor)
+                newLabor = LaborModel(type: "", rate: "", hours: "0")
+            }
+        }
+    }
+    
     func saveData() {
         self.hideKeyboard()
+        
         var isSelected = false
-        if data.laborRates.body_rate != "" || data.laborRates.mechanical_rate != "" || data.laborRates.internal_rate != "" || data.laborRates.warranty_rate != "" || data.laborRates.refinish_rate != "" {
+                        
+        for item in self.data.laborRates {
+            if item.rate != "" {
+                isSelected = true
+                break
+            }
+        }
+        
+        if !isSelected && newLabor.type != "" && newLabor.rate != "" {
             isSelected = true
         }
-        if data.laborRates.glass_rate != "" || data.laborRates.frame_rate != "" || data.laborRates.aluminum_rate != "" || data.laborRates.other_rate != "" || isSelected {
-            isSelected = true
-            data.laborRates.body_rate = helper.stringToDoubleToString(st: data.laborRates.body_rate)
-            data.laborRates.mechanical_rate = helper.stringToDoubleToString(st: data.laborRates.mechanical_rate)
-            data.laborRates.internal_rate = helper.stringToDoubleToString(st: data.laborRates.internal_rate)
-            data.laborRates.warranty_rate = helper.stringToDoubleToString(st: data.laborRates.warranty_rate)
-            data.laborRates.refinish_rate = helper.stringToDoubleToString(st: data.laborRates.refinish_rate)
-            data.laborRates.glass_rate = helper.stringToDoubleToString(st: data.laborRates.glass_rate)
-            data.laborRates.frame_rate = helper.stringToDoubleToString(st: data.laborRates.frame_rate)
-            data.laborRates.aluminum_rate = helper.stringToDoubleToString(st: data.laborRates.aluminum_rate)
-            data.laborRates.other_rate = helper.stringToDoubleToString(st: data.laborRates.other_rate)
-        }
+        
         if isSelected {
-            // save data code
-            // save rates data in device
+            if newLabor.type != "" {
+                self.data.laborRates.append(newLabor)
+            }
+            
+            for (index, item) in self.data.laborRates.enumerated() {
+                self.data.laborRates[index].rate = helper.stringToDoubleToString(st: item.rate)
+            }
+            
             helper.setVariable(data: self.data)
-//            if let encoded = try? JSONEncoder().encode(self.data.laborRates) {
-//                    UserDefaults.standard.set(encoded, forKey: "labor_rates")
-//            }
             self.data.showMessage = "Labor rates saved"
             self.data.showingPopup = true
             self.pageIndex = 0
-           
-            
         } else {
             self.data.showMessage = "Please set your labor rates"
             self.data.showingPopup = true
-            return
         }
     }
     
     func backPage() {
-        if !self.data.laborRates.isSetLaborRate() {
-            if let encoded = try? JSONEncoder().encode(self.data.laborRates) {
-                    UserDefaults.standard.set(encoded, forKey: "labor_rates")
-            }
-        }
         self.hideKeyboard()
         self.pageIndex = 0
         
@@ -131,6 +145,33 @@ struct TextFieldWidget: View {
     var body: some View {
         HStack{
             Text(field_name).font(.system(size: 15)).fontWeight(.semibold).foregroundColor(.gray)
+            Spacer()
+            Text("Rate  $").font(.system(size: 15)).fontWeight(text_name == "" ? .none : .semibold).foregroundColor(text_name == "" ? .gray : Color("ColorBlue"))
+            TextField(text_name, text: $text_name, onEditingChanged: {
+                self.isActive = $0
+                })
+                .frame(width:70)
+                .keyboardType(.decimalPad)
+                .overlay(VStack{Divider().frame(height: 1).background(isActive ? Color("ColorBlue") : Color(.gray)).offset(x: 0, y: 10)})
+            
+        }.padding(.bottom, 8)
+    }
+}
+
+struct NewTextFieldWidget: View {
+    
+    @Binding var text_name: String
+    @State var isActive = false
+    @Binding var field_name: String
+
+    var body: some View {
+        HStack{
+            TextField(field_name, text: $field_name, onEditingChanged: {
+                self.isActive = $0
+                })
+                .frame(width:80)
+                .font(.system(size: 15))
+                .overlay(VStack{Divider().frame(height: 1).background(Color(.black)).offset(x: 0, y: 10)})
             Spacer()
             Text("Rate  $").font(.system(size: 15)).fontWeight(text_name == "" ? .none : .semibold).foregroundColor(text_name == "" ? .gray : Color("ColorBlue"))
             TextField(text_name, text: $text_name, onEditingChanged: {

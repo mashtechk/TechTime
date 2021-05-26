@@ -437,10 +437,18 @@ struct PayContent: View {
     //add repair order
     func addOrder() {
         print("----- check the laborrates setting ------")
-        print(self.data.laborRates.isSetLaborRate())
         if data.isInternet {
             if data.isFull {
-                if !self.data.laborRates.isSetLaborRate() {
+                var isSelected = false
+                
+                for item in data.laborRates {
+                    if item.rate != "" {
+                        isSelected = true
+                        break
+                    }
+                }
+                
+                if !isSelected {
                     self.data.showMessage = "Please set your labor rates"
                     self.data.showingPopup = true
                 } else {
