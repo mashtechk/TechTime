@@ -11,6 +11,7 @@ struct LaborRates: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     let helper = Helper()
     @State var newLabor: LaborModel = LaborModel(type: "", rate: "", hours: "")
+    @State var laborRates: Array<LaborModel> = []
     
     var body: some View {
         VStack{
@@ -49,22 +50,28 @@ struct LaborRates: View {
                             .foregroundColor(Color("ColorBlue"))
                         Spacer()
                     }
-                    Spacer().frame(height:10)
-                    Text("Simply enter the amount you earn per flagged hour. When you are all done, tap the check mark to save.")
+                    Spacer().frame(height:20)
+                    
+                    HStack {
+                        Text("Simply enter the amount you earn per flagged hour. When you are all done, tap the check mark to save.")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
+                            
+                        Spacer()
+                    }
+                    
                     Spacer().frame(height:20)
 
                     //body
                     VStack{
-                        ForEach(0..<data.laborRates.count, id: \.self) { i in
-                            TextFieldWidget(text_name: $data.laborRates[i].rate, field_name: data.laborRates[i].type)
+                        ForEach(0..<self.laborRates.count, id: \.self) { i in
+                            TextFieldWidget(text_name: self.$laborRates[i].rate, field_name: self.laborRates[i].type)
                         }
                         
                         if newLabor.hours != "" {
                             NewTextFieldWidget(text_name: $newLabor.rate, field_name: $newLabor.type)
                         }
-                    }
+                    }.padding(.leading, 10)
                     
                     HStack {
                         Button(action: {
@@ -72,15 +79,19 @@ struct LaborRates: View {
                         }){
                             Image("add_labor")
                                 .resizable()
-                                .frame(width: 40, height: 40, alignment: .center)
+                                .frame(width: 50, height: 50, alignment: .center)
                         }
                         
                         Spacer()
-                    }
-                }.padding()
+                    }.padding(EdgeInsets(top: -5, leading: 10, bottom: 0, trailing: 0))
+                }.padding(EdgeInsets(top: 10, leading: 15, bottom: 0, trailing: 15))
             }.navigationBarHidden(true)
             Spacer()
-        }
+        }.onAppear(perform: modify)
+    }
+    
+    func  modify() {
+        laborRates = data.laborRates
     }
     
     func addLabor() {
@@ -88,7 +99,8 @@ struct LaborRates: View {
             newLabor = LaborModel(type: "", rate: "", hours: "0")
         } else {
             if newLabor.type != "" {
-                data.laborRates.append(newLabor)
+                newLabor.hours = ""
+                self.laborRates.append(newLabor)
                 newLabor = LaborModel(type: "", rate: "", hours: "0")
             }
         }
@@ -99,7 +111,7 @@ struct LaborRates: View {
         
         var isSelected = false
                         
-        for item in self.data.laborRates {
+        for item in data.laborRates {
             if item.rate != "" {
                 isSelected = true
                 break
@@ -112,13 +124,15 @@ struct LaborRates: View {
         
         if isSelected {
             if newLabor.type != "" {
-                self.data.laborRates.append(newLabor)
+                newLabor.hours = ""
+                self.laborRates.append(newLabor)
             }
             
-            for (index, item) in self.data.laborRates.enumerated() {
-                self.data.laborRates[index].rate = helper.stringToDoubleToString(st: item.rate)
+            for (index, item) in self.laborRates.enumerated() {
+                self.laborRates[index].rate = helper.stringToDoubleToString(st: item.rate)
             }
             
+            self.data.laborRates = self.laborRates
             helper.setVariable(data: self.data)
             self.data.showMessage = "Labor rates saved"
             self.data.showingPopup = true
@@ -146,11 +160,11 @@ struct TextFieldWidget: View {
         HStack{
             Text(field_name).font(.system(size: 15)).fontWeight(.semibold).foregroundColor(.gray)
             Spacer()
-            Text("Rate  $").font(.system(size: 15)).fontWeight(text_name == "" ? .none : .semibold).foregroundColor(text_name == "" ? .gray : Color("ColorBlue"))
+            Text("Rate  $ ").font(.system(size: 15)).fontWeight(text_name == "" ? .none : .semibold).foregroundColor(text_name == "" ? .gray : Color("ColorBlue"))
             TextField(text_name, text: $text_name, onEditingChanged: {
                 self.isActive = $0
                 })
-                .frame(width:70)
+                .frame(width:UIScreen.main.bounds.width * 0.25)
                 .keyboardType(.decimalPad)
                 .overlay(VStack{Divider().frame(height: 1).background(isActive ? Color("ColorBlue") : Color(.gray)).offset(x: 0, y: 10)})
             
@@ -169,15 +183,15 @@ struct NewTextFieldWidget: View {
             TextField(field_name, text: $field_name, onEditingChanged: {
                 self.isActive = $0
                 })
-                .frame(width:80)
+                .frame(width:UIScreen.main.bounds.width * 0.35)
                 .font(.system(size: 15))
                 .overlay(VStack{Divider().frame(height: 1).background(Color(.black)).offset(x: 0, y: 10)})
             Spacer()
-            Text("Rate  $").font(.system(size: 15)).fontWeight(text_name == "" ? .none : .semibold).foregroundColor(text_name == "" ? .gray : Color("ColorBlue"))
+            Text("Rate  $ ").font(.system(size: 15)).fontWeight(text_name == "" ? .none : .semibold).foregroundColor(text_name == "" ? .gray : Color("ColorBlue"))
             TextField(text_name, text: $text_name, onEditingChanged: {
                 self.isActive = $0
                 })
-                .frame(width:70)
+                .frame(width:UIScreen.main.bounds.width * 0.25)
                 .keyboardType(.decimalPad)
                 .overlay(VStack{Divider().frame(height: 1).background(isActive ? Color("ColorBlue") : Color(.gray)).offset(x: 0, y: 10)})
             

@@ -267,10 +267,7 @@ class Helper {
         let delta = Calendar.current.dateComponents([.year, .month, .day], from: fromDate, to: Date())
         var return_value = true
         
-//        if (delta.year! > 0 || delta.month! > 2) {
-//            return_value = false
-//        }
-        if (delta.year! > 0 || delta.month! > 0 || delta.day! > 2) {
+        if (delta.year! > 0 || delta.month! > 2) {
             return_value = false
         }
         

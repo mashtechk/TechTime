@@ -291,7 +291,7 @@ struct SearchView: View {
                 if search_index == 2 {
                     Text(helper.getDate(st: startDate))
                         .frame(width:120, height: 40)
-                        .overlay(DatePicker("", selection: $startDate, displayedComponents: .date)
+                        .overlay(DatePicker("", selection: $startDate, in: ...endDate, displayedComponents: .date)
                                     .frame(width: 120, height:40)
                                     .labelsHidden()
                                     .font(.system(size: 10))
@@ -348,7 +348,7 @@ struct SearchView: View {
                 HStack(spacing: 0) {
                     Text(helper.getDate(st: startDate))
                         .frame(width:120, height: 40)
-                        .overlay(DatePicker("", selection: $startDate, displayedComponents: .date)
+                        .overlay(DatePicker("", selection: $startDate, in: ...endDate, displayedComponents: .date)
                                     .frame(width: 120, height:40)
                                     .labelsHidden()
                                     .font(.system(size: 10))

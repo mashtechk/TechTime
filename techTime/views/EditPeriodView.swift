@@ -109,7 +109,7 @@ struct EditPeriodView: View {
                     HStack{
                         Text(helper.getDate(st: startDate))
                             .frame(width:120, height: 40)
-                            .overlay(DatePicker("", selection: $startDate, displayedComponents: .date)
+                            .overlay(DatePicker("", selection: $startDate, in: ...endDate, displayedComponents: .date)
                                         .frame(width: 120, height:40)
                                         .labelsHidden()
                                         .accentColor(Color("colorPicker"))

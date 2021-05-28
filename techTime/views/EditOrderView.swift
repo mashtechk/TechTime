@@ -81,10 +81,6 @@ struct EditOrderView: View {
                 }
             }
             
-            let formatter1 = DateFormatter()
-            formatter1.dateFormat = "MMM dd, yyyy"
-            let date = Date()
-            self.data.order.created_date = formatter1.string(from: date)
             if let row = self.data.currentPeriod.order_list.firstIndex(where: {$0.id == self.data.order.id}) {
                 self.data.currentPeriod.order_list[row] = self.data.order
             }
