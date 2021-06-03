@@ -18,15 +18,17 @@ struct ArchiveContent: View {
     }
     
     var body: some View{
-        if data.histories.count == 0 {
-            emptyBody
-        } else {
-            dataListBody
+        VStack{
+            if data.histories.count == 0 {
+                emptyBody
+            } else {
+                dataListBody
+            }
         }
     }
     
     var emptyBody: some View{
-        VStack{
+        return VStack{
             Spacer()
             VStack{
                 HStack{
@@ -76,73 +78,75 @@ struct ArchiveContent: View {
     }
     
     var dataListBody: some View {
-        ScrollView{
-            VStack(spacing:0){
-                ForEach(0..<data.histories.count) {i in
-                    Button(action:  {
-                        self.shouldShowActive = true
-                        data.archievePeriod = data.histories[i]
-                        data.previousContent = 1
-                        self.pageIndex = 9
-                    })
-                    {
-                        VStack{
+        return VStack{
+            ScrollView{
+                VStack(spacing:0){
+                    ForEach(0..<data.histories.count, id: \.self) {i in
+                        Button(action:  {
+                            self.shouldShowActive = true
+                            data.archievePeriod = data.histories[i]
+                            data.previousContent = 1
+                            self.pageIndex = 9
+                        })
+                        {
                             VStack{
-                                Spacer().frame(height:3)
+                                VStack{
+                                    Spacer().frame(height:3)
+                                    
+                                    HStack{
+                                        Text(data.histories[i].start_date)
+                                        .font(.system(size: 14))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color("ColorBlue"))
+                                        .frame(width:UIScreen.main.bounds.width*0.35)
+
+                                        Text("-")
+                                        .font(.system(size: 15))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color("ColorBlue"))
+                                        .frame(width: UIScreen.main.bounds.width*0.05)
+
+                                        Text(data.histories[i].cancel_date ?? "\(helper.getDate(st: Date()))" )
+                                        .font(.system(size: 14))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color("ColorBlue"))
+                                        .frame(width: UIScreen.main.bounds.width*0.35)
+                                    }
+                                    
+                                    Divider().frame(height:2).background(Color("colorDivider"))
+                                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                                    
+                                    HStack{
+                                        Text(calHours(item: data.histories[i]))
+                                        .font(.system(size: 13))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("colorLetter2"))
+                                        .frame(width: UIScreen.main.bounds.width*0.35, alignment: .leading)
+                                        .padding(.leading, 7)
+
+                                        Text(String(data.histories[i].order_list.count))
+                                        .font(.system(size: 13))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(Color("colorLetter2"))
+                                        .frame(width: UIScreen.main.bounds.width*0.05)
+
+                                        Text(calGross(item: data.histories[i]))
+                                        .font(.system(size: 13))
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(calGross(item: data.histories[i]).contains("-") ? Color("colorGrossNegative") : Color("colorGrossPossitive"))
+                                        .frame(width: UIScreen.main.bounds.width*0.35, alignment: .trailing)
+                                        .padding(.trailing, 7)
+                                    }
+                                }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                                 
-                                HStack{
-                                    Text(data.histories[i].start_date)
-                                    .font(.system(size: 14))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("ColorBlue"))
-                                    .frame(width:UIScreen.main.bounds.width*0.35)
-
-                                    Text("-")
-                                    .font(.system(size: 15))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("ColorBlue"))
-                                    .frame(width: UIScreen.main.bounds.width*0.05)
-
-                                    Text(data.histories[i].cancel_date ?? "\(helper.getDate(st: Date()))" )
-                                    .font(.system(size: 14))
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color("ColorBlue"))
-                                    .frame(width: UIScreen.main.bounds.width*0.35)
-                                }
-                                
-                                Divider().frame(height:2).background(Color("colorDivider"))
-                                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                                
-                                HStack{
-                                    Text(calHours(item: data.histories[i]))
-                                    .font(.system(size: 13))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color("colorLetter2"))
-                                    .frame(width: UIScreen.main.bounds.width*0.35, alignment: .leading)
-                                    .padding(.leading, 7)
-
-                                    Text(String(data.histories[i].order_list.count))
-                                    .font(.system(size: 13))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(Color("colorLetter2"))
-                                    .frame(width: UIScreen.main.bounds.width*0.05)
-
-                                    Text(calGross(item: data.histories[i]))
-                                    .font(.system(size: 13))
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(calGross(item: data.histories[i]).contains("-") ? Color("colorGrossNegative") : Color("colorGrossPossitive"))
-                                    .frame(width: UIScreen.main.bounds.width*0.35, alignment: .trailing)
-                                    .padding(.trailing, 7)
-                                }
-                            }.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                            
-                            Divider().frame(height:1).background(Color("colorDivider"))
-                        }
-                    }.background(i%2==0 ? Color.white : Color("colorDate"))
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                                Divider().frame(height:1).background(Color("colorDivider"))
+                            }
+                        }.background(i%2==0 ? Color.white : Color("colorDate"))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    }
                 }
-            }
-        }.navigationBarHidden(true)
-//        .onAppear(perform: modify)
+            }.navigationBarHidden(true)
+    //        .onAppear(perform: modify)
+        }
     }
 }

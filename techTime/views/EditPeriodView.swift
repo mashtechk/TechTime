@@ -34,6 +34,7 @@ struct EditPeriodView: View {
         
         //save period data in device
         helper.setVariable(data: self.data)
+        helper.savePeriodsToFirebase(data: self.data)
         self.data.showMessage = "Pay Period is updated"
         self.data.showingPopup = true
         self.pageIndex = 0

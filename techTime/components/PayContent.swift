@@ -133,20 +133,26 @@ struct PayContent: View {
                         data.histories = []
                         data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date : "", order_list: [])
                         helper.setVariable(data: data)
+                        helper.savePeriodsToFirebase(data: self.data)
                     },
                     secondaryButton: .cancel()
                 )
             }
             
+            Spacer().frame(height:0)
+            
             ScrollView(.vertical) {
+                Spacer().frame(height: 10)
                 if order_lists.count > 0 {
                     ForEach(0..<order_lists.count) { i in
                         OrderSummery(order: order_lists[i], data: $data, pageIndex: self.$pageIndex, isFromSearch: false)
                     }
                 }
+                Spacer().frame(height: 10)
             }
             
-            Spacer()
+            Spacer().frame(height:0)
+            
             //action button
             //there is NEW ORDER BUTTON
             VStack{
@@ -507,12 +513,78 @@ struct PayContent: View {
                         let start_date = dataDescription!["start_date"] as? String ?? ""
                         let dd = formatter1.date(from: start_date)!
 
+                        let arrayLabors = dataDescription!["laborRates"] as? [Any] ?? []
+                        let arrayPeriods = dataDescription!["period"] as? [Any] ?? []
+
+                        if arrayLabors.count > 0 {
+                            data.laborRates = []
+
+                            for item_labor in arrayLabors {
+                                let labor = item_labor as? [String:Any] ?? [:]
+                                let type = labor["type"] as? String ?? ""
+                                let rate = labor["rate"] as? String ?? ""
+                                data.laborRates.append(LaborModel(type: type, rate: rate, hours: ""))
+                            }
+                        }
+
+                        if arrayPeriods.count > 0 {
+                            data.histories = []
+
+                            for item_period in arrayPeriods {
+                                let period = item_period as? [String:Any] ?? [:]
+                                let startDate = period["start_date"] as? String ?? ""
+                                let endDate = period["end_date"] as? String ?? ""
+                                let cancelDate = period["cancel_date"] as? String ?? ""
+                                let arrayOrder = period["order_list"] as? [Any] ?? []
+                                var list_order: Array<OrderModel> = []
+
+                                for item_order in arrayOrder {
+                                    let order = item_order as? [String:Any] ?? [:]
+                                    let order_id = order["order_id"] as? String ?? ""
+                                    let writer = order["writer"] as? String ?? ""
+                                    let customer = order["customer"] as? String ?? ""
+                                    let insurance_co = order["insurance_co"] as? String ?? ""
+                                    let make = order["make"] as? String ?? ""
+                                    let model = order["model"] as? String ?? ""
+                                    let year = order["year"] as? String ?? ""
+                                    let mileage = order["mileage"] as? String ?? ""
+                                    let vin = order["vin"] as? String ?? ""
+                                    let color = order["color"] as? String ?? ""
+                                    let license = order["license"] as? String ?? ""
+                                    let notes = order["notes"] as? String ?? ""
+                                    let created_date = order["created_date"] as? String ?? ""
+                                    let payroll_match = order["payroll_match"] as? String ?? ""
+                                    let array_labors = order["labors"] as? [Any] ?? []
+                                    var list_labors: Array<LaborTypeModel> = []
+
+                                    for item_labor in array_labors {
+                                        let labor = item_labor as? [String:Any] ?? [:]
+                                        let type = labor["type"] as? String ?? ""
+                                        let price = labor["price"] as? String ?? ""
+                                        let hours = labor["hours"] as? String ?? ""
+
+                                        list_labors.append(LaborTypeModel(type: type, hours: hours, price: price))
+                                    }
+
+                                    list_order.append(OrderModel(id: UUID(), order_id: order_id, writer: writer, customer: customer, insurance_co: insurance_co, make: make, model: model, year: year, mileage: mileage, vin: vin, color: color, license: license, notes: notes, created_date: created_date, payroll_match: payroll_match, labors: list_labors))
+                                }
+
+                                if helper.daysBetweenDates(startDate: startDate, endDate: helper.getDate(st: Date())) == true {
+                                    data.histories.append(PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order))
+                                } else {
+                                    data.currentPeriod = PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order)
+                                    self.order_lists = data.currentPeriod.order_list
+                                }
+                            }
+                        }
+
                         data.startDate = start_date
                         data.isTrial = helper.is3MonthOver(fromDate: dd)
                         print("----- this is the trial ----")
                         print(data.isTrial)
 
                         if !data.isTrial {
+                            helper.setVariable(data: data)
                             data.isFull = false
                             checkPayment()
                         } else {

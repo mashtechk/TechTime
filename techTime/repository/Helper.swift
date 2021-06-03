@@ -78,6 +78,57 @@ class Helper {
         return data
     }
     
+    func saveLaborRatesToFirebase(data: VariableModel) {
+        if data.currentUser.email != "" {
+            let document = Firestore.firestore().collection("users").document(data.currentUser.email)
+            var array: [Any] = []
+            
+            for labor in data.laborRates {
+                array.append(["type":labor.type, "rate":labor.rate])
+            }
+            
+            document.updateData(["laborRates": array])
+        }
+    }
+    
+    func savePeriodsToFirebase(data: VariableModel) {
+        if data.currentUser.email != "" {
+            let document = Firestore.firestore().collection("users").document(data.currentUser.email)
+            
+            var periodArray: [Any] = []
+            
+            for period in data.histories {
+                var orderArray: [Any] = []
+                for order in period.order_list {
+                    var laborArray: [Any] = []
+                    for labor in order.labors {
+                        laborArray.append(["type":labor.type, "hours":labor.hours, "price":labor.price])
+                    }
+                    
+                    orderArray.append(["order_id":order.order_id, "writer":order.writer, "customer":order.customer, "insurance_co":order.insurance_co, "make":order.make, "model":order.model, "year":order.year, "mileage":order.mileage, "vin":order.vin, "color":order.color, "license":order.license, "notes":order.notes, "created_date":order.created_date, "payroll_match":order.payroll_match, "labors":laborArray])
+                }
+                
+                periodArray.append(["start_date":period.start_date, "end_date":period.end_date, "cancel_date":period.cancel_date, "order_list":orderArray])
+            }
+            
+            if data.currentPeriod != nil {
+                var orderArray: [Any] = []
+                for order in data.currentPeriod.order_list {
+                    var laborArray: [Any] = []
+                    for labor in order.labors {
+                        laborArray.append(["type":labor.type, "hours":labor.hours, "price":labor.price])
+                    }
+                    
+                    orderArray.append(["order_id":order.order_id, "writer":order.writer, "customer":order.customer, "insurance_co":order.insurance_co, "make":order.make, "model":order.model, "year":order.year, "mileage":order.mileage, "vin":order.vin, "color":order.color, "license":order.license, "notes":order.notes, "created_date":order.created_date, "payroll_match":order.payroll_match, "labors":laborArray])
+                }
+                
+                periodArray.append(["start_date":data.currentPeriod.start_date, "end_date":data.currentPeriod.end_date, "cancel_date":data.currentPeriod.cancel_date, "order_list":orderArray])
+            }
+            
+            document.updateData(["period": periodArray])
+        }
+    }
+    
     //MARK:- Get difference between two dates
     func daysBetweenDates(startDate: String, endDate: String) -> Bool
     {

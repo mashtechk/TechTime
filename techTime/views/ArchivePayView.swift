@@ -55,6 +55,7 @@ struct ArchivePayView: View {
         data.histories = data.histories.filter() {$0.id != data.archievePeriod.id}
         data.archievePeriod = PeriodModel(id: UUID(), start_date: "", end_date: "", cancel_date: "", order_list: [])
         helper.setVariable(data: data)
+        helper.savePeriodsToFirebase(data: self.data)
         self.pageIndex = 0
         data.selected = 0
         

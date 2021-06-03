@@ -96,6 +96,7 @@ struct AddOrderView: View {
             
             self.data.currentPeriod.order_list.insert(self.data.order, at: 0)
             helper.setVariable(data: self.data)
+            helper.savePeriodsToFirebase(data: self.data)
             self.data.showMessage = "New Repair " + data.order.order_id + " Order added"
             self.data.showingPopup = true
             

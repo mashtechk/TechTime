@@ -14,7 +14,7 @@ struct LaborRates: View {
     @State var laborRates: Array<LaborModel> = []
     
     var body: some View {
-        VStack{
+        VStack(spacing: 0) {
             //topbar widget
             HStack{
                 HStack{
@@ -111,7 +111,7 @@ struct LaborRates: View {
         
         var isSelected = false
                         
-        for item in data.laborRates {
+        for item in self.laborRates {
             if item.rate != "" {
                 isSelected = true
                 break
@@ -134,6 +134,8 @@ struct LaborRates: View {
             
             self.data.laborRates = self.laborRates
             helper.setVariable(data: self.data)
+            helper.saveLaborRatesToFirebase(data: self.data)
+            
             self.data.showMessage = "Labor rates saved"
             self.data.showingPopup = true
             self.pageIndex = 0

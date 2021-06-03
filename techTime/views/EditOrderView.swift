@@ -85,6 +85,7 @@ struct EditOrderView: View {
                 self.data.currentPeriod.order_list[row] = self.data.order
             }
             helper.setVariable(data: self.data)
+            helper.savePeriodsToFirebase(data: self.data)
             self.data.showMessage = "Repair " + data.order.order_id + " Order updated"
             self.data.showingPopup = true
             self.pageIndex = 7

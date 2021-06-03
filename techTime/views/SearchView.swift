@@ -182,7 +182,9 @@ struct SearchView: View {
             
             //Search input widget
             searchContent
-                        
+            
+            Spacer().frame(height:0)
+            
             if(is_search) {
                 mainContent
             } else {
@@ -191,7 +193,8 @@ struct SearchView: View {
                     emptyContent
                 }
             }
-            Spacer()
+            
+            Spacer().frame(height:0)
 
             if !keyboard_open {
                 totalViweContent
@@ -476,6 +479,8 @@ struct SearchView: View {
     var mainContent: some View {
         VStack{
             ScrollView(.vertical) {
+                Spacer().frame(height:10)
+                
                 if search_result.count > 0 || search_result_current.count > 0 {
                     ForEach(search_result_current) { item in
                         OrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: true)
@@ -485,6 +490,8 @@ struct SearchView: View {
                         ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: true)
                     }
                 }
+                
+                Spacer().frame(height:10)
             }
         }
     }
