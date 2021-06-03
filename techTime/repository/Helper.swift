@@ -409,8 +409,8 @@ class Helper {
         }
         var result = "0"
         if st.count > 0 {
-            let val = Float(st)
-            result = String(Float(Int(val!*100))/100)
+            let val = CGFloat(Double(st)!)
+            result = String(format: "%f", val)
             let dd = result.split{$0 == "."}.map(String.init)
             if dd.count > 1 && dd[1].count==1 {
                 result = result + "0"

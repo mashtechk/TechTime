@@ -566,10 +566,10 @@ struct PayContent: View {
                                         list_labors.append(LaborTypeModel(type: type, hours: hours, price: price))
                                     }
 
-                                    list_order.append(OrderModel(id: UUID(), order_id: order_id, writer: writer, customer: customer, insurance_co: insurance_co, make: make, model: model, year: year, mileage: mileage, vin: vin, color: color, license: license, notes: notes, created_date: created_date, payroll_match: payroll_match, labors: list_labors))
+                                    list_order.append(OrderModel(order_id: order_id, writer: writer, customer: customer, insurance_co: insurance_co, make: make, model: model, year: year, mileage: mileage, vin: vin, color: color, license: license, notes: notes, created_date: created_date, payroll_match: payroll_match, labors: list_labors))
                                 }
 
-                                if helper.daysBetweenDates(startDate: startDate, endDate: helper.getDate(st: Date())) == true {
+                                if helper.daysBetweenDates(startDate: cancelDate, endDate: helper.getDate(st: Date())) == true {
                                     data.histories.append(PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order))
                                 } else {
                                     data.currentPeriod = PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order)
