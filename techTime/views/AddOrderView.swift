@@ -32,7 +32,7 @@ struct AddOrderView: View {
     func saveData() {
         
         self.hideKeyboard()
-        var isSelected = true
+        var isSelected = false
         if data.fromVc == "Recreate" {
             if self.data.order.labors.count > 0 {
                 self.data.order.labors.removeAll()

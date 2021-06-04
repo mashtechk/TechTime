@@ -49,7 +49,7 @@ struct EditOrderView: View {
     
     func saveData() {
         self.hideKeyboard()
-        var isSelected = true
+        var isSelected = false
         if data.order.order_id == "" || data.order.writer == "" {
             self.data.showMessage = "Please input the required fields"
             self.data.showingPopup = true
