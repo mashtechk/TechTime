@@ -247,11 +247,15 @@ struct MainPage : View {
                     if data.selected == 0 {
                         if (data.isEnd || data.currentPeriod.start_date == "") {
                             Menu {
-                                Button(action: {
-                                    pageIndex = 1
-                                }){
-                                    Text("Labor Rates")
-                                        .font(.system(size: 10))
+                                if self.data.currentUser.email != "" {
+                                    Button(action: {
+                                        pageIndex = 1
+                                    }){
+                                        Text("Labor Rates")
+                                            .font(.system(size: 10))
+                                    }
+                                } else {
+                                    Text("Labor Rates").font(.system(size: 10))
                                 }
                                 
                                 Text("Edit Pay Period Dates").font(.system(size: 10))
@@ -283,11 +287,15 @@ struct MainPage : View {
                                 }
                         } else {
                             Menu {
-                                Button(action: {
-                                    pageIndex = 1
-                                }){
-                                    Text("Labor Rates")
-                                        .font(.system(size: 10))
+                                if self.data.currentUser.email != "" {
+                                    Button(action: {
+                                        pageIndex = 1
+                                    }){
+                                        Text("Labor Rates")
+                                            .font(.system(size: 10))
+                                    }
+                                } else {
+                                    Text("Labor Rates").font(.system(size: 10))
                                 }
                                 
                                 Button(action: {

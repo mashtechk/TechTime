@@ -78,6 +78,13 @@ class Helper {
         return data
     }
     
+    func saveOrderByToFirebase(data: VariableModel) {
+        if data.currentUser.email != "" {
+            let document = Firestore.firestore().collection("users").document(data.currentUser.email)
+            document.updateData(["order_by":data.orderByIndex])
+        }
+    }
+    
     func saveLaborRatesToFirebase(data: VariableModel) {
         if data.currentUser.email != "" {
             let document = Firestore.firestore().collection("users").document(data.currentUser.email)
@@ -410,7 +417,7 @@ class Helper {
         var result = "0"
         if st.count > 0 {
             let val = CGFloat(Double(st)!)
-            result = String(format: "%f", val)
+            result = String(format: "%.2f", val)
             let dd = result.split{$0 == "."}.map(String.init)
             if dd.count > 1 && dd[1].count==1 {
                 result = result + "0"

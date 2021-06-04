@@ -98,6 +98,7 @@ struct EmailPayView: View {
                                 messsageBody+="VIN : " + item.vin + "\n"
                                 messsageBody+="Color : " + item.color + "\n"
                                 messsageBody+="License : " + item.license + "\n"
+                                messsageBody+="Tech Notes : " + item.notes + "\n"
                                 messsageBody+="*LABOR PERFORMED*\n"
                                 var th = 0.0
                                 var tg = 0.0
@@ -123,6 +124,7 @@ struct EmailPayView: View {
                             messsageBody+="VIN : " + item.vin + "\n"
                             messsageBody+="Color : " + item.color + "\n"
                             messsageBody+="License : " + item.license + "\n"
+                            messsageBody+="Tech Notes : " + item.notes + "\n"
                             messsageBody+="*LABOR PERFORMED*\n"
                             var th = 0.0
                             var tg = 0.0

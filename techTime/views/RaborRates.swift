@@ -83,10 +83,9 @@ struct LaborRates: View {
                         }
                         
                         Spacer()
-                    }.padding(EdgeInsets(top: -5, leading: 10, bottom: 0, trailing: 0))
+                    }.padding(EdgeInsets(top: -5, leading: 10, bottom: 20, trailing: 0))
                 }.padding(EdgeInsets(top: 10, leading: 15, bottom: 0, trailing: 15))
             }.navigationBarHidden(true)
-            Spacer()
         }.onAppear(perform: modify)
     }
     

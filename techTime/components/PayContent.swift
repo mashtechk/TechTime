@@ -512,7 +512,7 @@ struct PayContent: View {
                         let dataDescription = document.data()
                         let start_date = dataDescription!["start_date"] as? String ?? ""
                         let dd = formatter1.date(from: start_date)!
-
+                        data.orderByIndex = dataDescription!["order_by"] as? String ?? "3"
                         let arrayLabors = dataDescription!["laborRates"] as? [Any] ?? []
                         let arrayPeriods = dataDescription!["period"] as? [Any] ?? []
 
@@ -573,7 +573,7 @@ struct PayContent: View {
                                     data.histories.append(PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order))
                                 } else {
                                     data.currentPeriod = PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order)
-                                    self.order_lists = data.currentPeriod.order_list
+                                    self.modify_data()
                                 }
                             }
                         }

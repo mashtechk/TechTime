@@ -23,6 +23,8 @@ struct OrderbyView: View {
     func saveData() {
         self.data.orderByIndex = orderIndex
         helper.setVariable(data: self.data)
+        helper.saveOrderByToFirebase(data: self.data)
+        
         self.data.showMessage = "Order By is updated"
         self.data.showingPopup = true
         
