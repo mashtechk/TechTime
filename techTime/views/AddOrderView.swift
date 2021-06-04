@@ -39,16 +39,16 @@ struct AddOrderView: View {
             }
         }
         
-        if data.order.order_id == "" {
-            isSelected = false
+        if data.order.order_id == "" || data.order.writer == "" {
+            self.data.showMessage = "Please input the required fields"
+            self.data.showingPopup = true
+            return
         }
+        
         if data.order.order_id.contains(".") {
             self.data.showMessage = "Please input the number in Repair Order"
             self.data.showingPopup = true
             return
-        }
-        if data.order.writer == "" {
-            isSelected = false
         }
         
         for item in data.laborRates {
