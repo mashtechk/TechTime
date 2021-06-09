@@ -41,11 +41,11 @@ struct EditOrderView: View {
     }
     
     func calHour(hour: String) -> String {
-            let myDouble = Double(hour)
-            if myDouble == nil {return ""}
-            let doubleStr = String(format: "%.1f", myDouble as! CVarArg)// 3.14
-            return doubleStr
-        }
+        let myDouble = Double(hour)
+        if myDouble == nil {return ""}
+        let doubleStr = String(format: "%.1f", myDouble as! CVarArg)// 3.14
+        return doubleStr
+    }
     
     func saveData() {
         self.hideKeyboard()

@@ -51,6 +51,10 @@ struct Orderview: View {
             $0.id != self.data.order.id
         }
         data.order = OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: [])
+        
+        helper.setVariable(data: self.data)
+        helper.savePeriodsToFirebase(data: self.data)
+        
         self.pageIndex = 0
     }
     
