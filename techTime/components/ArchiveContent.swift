@@ -128,7 +128,7 @@ struct ArchiveContent: View {
                                         .font(.system(size: 13))
                                         .fontWeight(.semibold)
                                         .foregroundColor(Color("colorLetter2"))
-                                        .frame(width: UIScreen.main.bounds.width*0.05)
+                                        .frame(width: UIScreen.main.bounds.width*0.15)
 
                                         Text(calGross(item: data.histories[i]))
                                         .font(.system(size: 13))

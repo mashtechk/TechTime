@@ -62,7 +62,7 @@ struct ArchivePayView: View {
     }
     
     var body: some View {
-        VStack{
+        VStack(spacing: 0) {
             //topbar widget
             VStack{
                 HStack{
@@ -182,13 +182,17 @@ struct ArchivePayView: View {
                 Divider().frame(height:1).background(Color.gray)
             }
             
+            Spacer().frame(height:0)
+            
             ScrollView(.vertical) {
+                Spacer().frame(height: 10)
                 ForEach(order_lists) { item in
                     ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: false)
                 }
-                
+                Spacer().frame(height: 10)
             }
-            Spacer()
+            
+            Spacer().frame(height:0)
         }.onAppear(perform: modify).navigationBarHidden(true)
         .alert(isPresented: $is_alert) {
             Alert(

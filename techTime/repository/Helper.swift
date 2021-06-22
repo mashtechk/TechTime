@@ -333,7 +333,7 @@ class Helper {
     }
     
     func formatHour(h: Double) -> String {
-        return String(Double(Int(Double(h)*10))/10)
+        return String(Double(Int(Double(h)*100))/100)
     }
     
     func formatPrice(p: Double) -> String {
