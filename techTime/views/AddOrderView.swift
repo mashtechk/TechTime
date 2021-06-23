@@ -193,10 +193,10 @@ struct AddOrderView: View {
                                 .font(.system(size: 13))
                                 .lineSpacing(5)
                                 .overlay(
-                                        RoundedRectangle(cornerRadius: 15)
-                                        .stroke(lineWidth: 1)
-                                            .accentColor(.gray)
-                                    )
+                                    RoundedRectangle(cornerRadius: 15)
+                                    .stroke(lineWidth: 1)
+                                    .accentColor(.gray)
+                                )
                         }
 
                         //forth input fields

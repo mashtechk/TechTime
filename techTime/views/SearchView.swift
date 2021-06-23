@@ -24,7 +24,6 @@ struct SearchView: View {
     @State var keyboard_open = false
     
     @State private var search_result : Array<OrderModel> = []
-    @State private var search_result_current : Array<OrderModel> = []
     
     @State private var bottomPadding: CGFloat = 0
     
@@ -48,7 +47,6 @@ struct SearchView: View {
         } else {
             formatter1.dateFormat = "MMM dd, yyyy"
             search_result = []
-            search_result_current = []
             is_search = true
             let d1 = formatter1.string(from: startDate)
             startDate = formatter1.date(from: d1)!
@@ -60,21 +58,21 @@ struct SearchView: View {
                     let txt_search = search_txt.lowercased().replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
                     
                     if j.writer.lowercased().contains(txt_search) {
-                        search_result_current.append(j)
+                        search_result.append(j)
                     }
                 case 2:
                     if formatter1.date(from: j.created_date)! >= startDate && formatter1.date(from: j.created_date)! <= endDate {
-                        search_result_current.append(j)
+                        search_result.append(j)
                     }
                 case 3:
                     let txt_search = search_txt.lowercased().replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
                     
                     if formatter1.date(from: j.created_date)! >= startDate && formatter1.date(from: j.created_date)! <= endDate && j.writer.lowercased().contains(txt_search) {
-                        search_result_current.append(j)
+                        search_result.append(j)
                     }
                 default:
                     if j.order_id == search_txt {
-                        search_result_current.append(j)
+                        search_result.append(j)
                     }
                 }
             }
@@ -101,17 +99,19 @@ struct SearchView: View {
                     }
                 }
             }
+            
+            search_result = search_result.sorted { Int($0.order_id)! < Int($1.order_id)! }
+            
+            if search_index == 2 {
+                search_result = search_result.reversed()
+                search_result = search_result.sorted{ $0.created_date > $1.created_date }
+                search_result = search_result.reversed()
+            }
         }
     }
     
     func calTotalHours() -> String {
         var th = 0.0
-        
-        for i in search_result_current {
-            for j in i.labors {
-                th += Double(j.hours)!
-            }
-        }
         
         for i in search_result {
             for j in i.labors {
@@ -119,7 +119,7 @@ struct SearchView: View {
             }
         }
         
-        return helper.formatHour(h: th)
+        return helper.formatHours(h: th)
     }
     
     func calTotalGross() -> String {
@@ -129,11 +129,7 @@ struct SearchView: View {
                 tg += Double(j.hours)! * Double(j.price)!
             }
         }
-        for i in search_result_current {
-            for j in i.labors {
-                tg += Double(j.hours)! * Double(j.price)!
-            }
-        }
+        
         return helper.formatPrice(p: tg)
     }
     
@@ -145,15 +141,10 @@ struct SearchView: View {
             }
         }
         
-        for i in search_result_current {
-            for j in i.labors {
-                th += Double(j.hours)!
-            }
+        if search_result.count != 0 {
+            th = th/Double(search_result.count)
         }
-        if search_result.count + search_result_current.count != 0 {
-            th = th/Double(search_result.count + search_result_current.count)
-        }
-        return helper.formatHour(h: th)
+        return helper.formatHours(h: th)
         
     }
     
@@ -164,13 +155,9 @@ struct SearchView: View {
                 tg += Double(j.hours)! * Double(j.price)!
             }
         }
-        for i in search_result_current {
-            for j in i.labors {
-                tg += Double(j.hours)! * Double(j.price)!
-            }
-        }
-        if search_result.count + search_result_current.count != 0 {
-            tg = tg/Double(search_result.count + search_result_current.count)
+        
+        if search_result.count != 0 {
+            tg = tg/Double(search_result.count)
         }
         return helper.formatPrice(p: tg)
     }
@@ -224,7 +211,6 @@ struct SearchView: View {
                 Menu {
                     search_index != 0 ? Button(action: {
                         search_result = []
-                        search_result_current = []
                         keyboard_open = false
                         search_index = 0
                         search_place_txt = search_txt_0
@@ -237,7 +223,6 @@ struct SearchView: View {
                     search_index == 0 ? Text(search_txt_0) : nil
                     search_index != 1 ? Button(action: {
                         search_result = []
-                        search_result_current = []
                         keyboard_open = false
                         search_index = 1
                         search_place_txt = search_txt_1
@@ -250,7 +235,6 @@ struct SearchView: View {
                     search_index == 1 ? Text(search_txt_1) : nil
                     search_index != 2 ? Button(action: {
                         search_result = []
-                        search_result_current = []
                         keyboard_open = false
                         search_index = 2
                         search_place_txt = search_txt_2
@@ -263,7 +247,6 @@ struct SearchView: View {
                     search_index == 2 ? Text(search_txt_2) : nil
                     search_index != 3 ? Button(action: {
                         search_result = []
-                        search_result_current = []
                         keyboard_open = false
                         search_index = 3
                         search_place_txt = search_txt_3
@@ -383,7 +366,7 @@ struct SearchView: View {
                 }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
             }
             
-            if is_search && search_result.count == 0 && search_result_current.count == 0 {
+            if is_search && search_result.count == 0 {
                 HStack{
                     Text("No Match Found")
                         .foregroundColor(.red)
@@ -409,7 +392,7 @@ struct SearchView: View {
                         Spacer()
                         Text(calAverGross())
                             .font(.system(size: 13))
-                            .foregroundColor(search_result.count + search_result_current.count == 0 ? Color("colorLetter2") : calAverGross().contains("-") ? Color("colorGrossNegative") : Color("colorGrossPossitive"))
+                            .foregroundColor(search_result.count == 0 ? Color("colorLetter2") : calAverGross().contains("-") ? Color("colorGrossNegative") : Color("colorGrossPossitive"))
                             .fontWeight(.semibold)
                     }.padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
                     
@@ -445,12 +428,12 @@ struct SearchView: View {
                     Spacer()
                 }.frame(width: UIScreen.main.bounds.width/3)
                 HStack{
-                    Text(String(search_result.count + search_result_current.count)).font(.system(size: 13)).foregroundColor(Color("colorLetter2")).fontWeight(.semibold).padding(EdgeInsets(top: -3, leading: 5, bottom: 0, trailing: 0))
+                    Text(String(search_result.count)).font(.system(size: 13)).foregroundColor(Color("colorLetter2")).fontWeight(.semibold).padding(EdgeInsets(top: -3, leading: 5, bottom: 0, trailing: 0))
                 }.frame(width: UIScreen.main.bounds.width/3)
                 HStack{
                     Spacer()
                     Text(calTotalGross()).font(.system(size: 13))
-                        .foregroundColor(search_result.count + search_result_current.count == 0 ? Color("colorLetter2") : calTotalGross().contains("-") ?  Color("colorGrossNegative") :  Color("colorGrossPossitive"))
+                        .foregroundColor(search_result.count == 0 ? Color("colorLetter2") : calTotalGross().contains("-") ?  Color("colorGrossNegative") :  Color("colorGrossPossitive"))
                         .fontWeight(.semibold)
                         .padding(EdgeInsets(top: -3, leading: 0, bottom: 0, trailing: 10))
                 }.frame(width: UIScreen.main.bounds.width/3)
@@ -481,13 +464,13 @@ struct SearchView: View {
             ScrollView(.vertical) {
                 Spacer().frame(height:10)
                 
-                if search_result.count > 0 || search_result_current.count > 0 {
-                    ForEach(search_result_current) { item in
-                        OrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: true)
-                    }
-                    
+                if search_result.count > 0 {
                     ForEach(search_result) { item in
-                        ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: true)
+                        if item.created_date >= self.data.currentPeriod.start_date {
+                            OrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: true)
+                        } else {
+                            ArchiveOrderSummery(order: item, data: $data, pageIndex: self.$pageIndex, isFromSearch: true)
+                        }
                     }
                 }
                 

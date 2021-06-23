@@ -336,6 +336,10 @@ class Helper {
         return String(Double(Int(Double(h)*100))/100)
     }
     
+    func formatHours(h: Double) -> String {
+        return String(Double(Int(Double(h)*10))/10)
+    }
+    
     func formatPrice(p: Double) -> String {
         var result = ""
         let d = String(Double(Int(Double(p)*100))/100)
