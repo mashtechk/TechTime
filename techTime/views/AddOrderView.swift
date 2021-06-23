@@ -189,7 +189,7 @@ struct AddOrderView: View {
                             }.padding(.leading, 20)
                             TextEditor(text: self.$data.order.notes)
                                 .foregroundColor(.black)
-                                .frame(height: 70)
+                                .frame(height: 65)
                                 .font(.system(size: 13))
                                 .lineSpacing(5)
                                 .overlay(
@@ -198,7 +198,7 @@ struct AddOrderView: View {
                                     .accentColor(.gray)
                                 )
                         }
-
+                        
                         //forth input fields
                         VStack{
                             HStack{
@@ -230,6 +230,6 @@ struct AddOrderView: View {
                 
             }.onAppear(perform: modify)
         }.frame(maxHeight: .infinity)
-        .padding(.bottom, keyboardHandler.keyboardHeight)
+        .padding(.bottom, keyboardHandler.keyboardHeight + 10)
     }
 }
