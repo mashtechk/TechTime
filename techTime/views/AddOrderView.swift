@@ -14,6 +14,7 @@ struct AddOrderView: View {
     
     @State var test_value = ""
     @State var selected_field = ""
+    @State var is_text_active = false
     
     @State var menus : Array<String> = ["Add Labor"]
     @State var selectedMenus : Array<String> = []
@@ -155,10 +156,10 @@ struct AddOrderView: View {
                     VStack{
                         // first input fields
                         VStack{
-                            OrderTextFieldWidget(text_name: self.$data.order.order_id, field_name: "Repair Order # ", is_required: true, is_number: true)
-                            OrderTextFieldWidget(text_name: self.$data.order.writer, field_name: "Writer : ", is_required: true, is_number: false)
-                            OrderTextFieldWidget(text_name: self.$data.order.customer, field_name: "Customer : ", is_required: false, is_number: false)
-                            OrderTextFieldWidget(text_name: self.$data.order.insurance_co, field_name: "Insurance Co : ", is_required: false, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.order_id, is_textfield_active: self.$is_text_active, field_name: "Repair Order # ", is_required: true, is_number: true)
+                            OrderTextFieldWidget(text_name: self.$data.order.writer, is_textfield_active: self.$is_text_active, field_name: "Writer : ", is_required: true, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.customer, is_textfield_active: self.$is_text_active, field_name: "Customer : ", is_required: false, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.insurance_co, is_textfield_active: self.$is_text_active, field_name: "Insurance Co : ", is_required: false, is_number: false)
                         }
                         // second fields
                         VStack{
@@ -169,13 +170,13 @@ struct AddOrderView: View {
                                     .foregroundColor(.gray)
                                 Spacer()
                             }.padding(.leading, 20)
-                            OrderTextFieldWidget(text_name: self.$data.order.make, field_name: "Make : ", is_required: false, is_number: false)
-                            OrderTextFieldWidget(text_name: self.$data.order.model, field_name: "Model : ", is_required: false, is_number: false)
-                            OrderTextFieldWidget(text_name: self.$data.order.year, field_name: "Year : ", is_required: false, is_number: true)
-                            OrderTextFieldWidget(text_name: self.$data.order.mileage, field_name: "Mileage : ", is_required: false, is_number: true)
-                            OrderTextFieldWidget(text_name: self.$data.order.vin, field_name: "VIN : ", is_required: false, is_number: false)
-                            OrderTextFieldWidget(text_name: self.$data.order.color, field_name: "Color : ", is_required: false, is_number: false)
-                            OrderTextFieldWidget(text_name: self.$data.order.license, field_name: "License : ", is_required: false, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.make, is_textfield_active: self.$is_text_active, field_name: "Make : ", is_required: false, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.model, is_textfield_active: self.$is_text_active, field_name: "Model : ", is_required: false, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.year, is_textfield_active: self.$is_text_active, field_name: "Year : ", is_required: false, is_number: true)
+                            OrderTextFieldWidget(text_name: self.$data.order.mileage, is_textfield_active: self.$is_text_active, field_name: "Mileage : ", is_required: false, is_number: true)
+                            OrderTextFieldWidget(text_name: self.$data.order.vin, is_textfield_active: self.$is_text_active, field_name: "VIN : ", is_required: false, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.color, is_textfield_active: self.$is_text_active, field_name: "Color : ", is_required: false, is_number: false)
+                            OrderTextFieldWidget(text_name: self.$data.order.license, is_textfield_active: self.$is_text_active, field_name: "License : ", is_required: false, is_number: false)
                         }
                         
                         // third input fields
@@ -214,14 +215,14 @@ struct AddOrderView: View {
                                     ForEach(0..<data.laborRates.count) { i in
                                         if data.laborRates[i].rate != "" && item == data.laborRates[i].type {
                                             MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus, text_name: self.$data.laborRates[i].hours,
-                                                       field_name: data.laborRates[i].type, is_required: false, is_number: true, selected_field: self.$selected_field)
+                                                           field_name: data.laborRates[i].type, is_required: false, is_number: true, is_textfield_active: self.$is_text_active, selected_field: self.$selected_field)
                                         }
                                     }
                                 }
                             }
                             Spacer().frame(height:10)
                             
-                            MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$test_value, field_name: "Add Labor", is_required: false, is_number: true, selected_field: self.$selected_field)
+                            MenuTextWidget(menus: self.$menus, selectedMenus: self.$selectedMenus,text_name: self.$test_value, field_name: "Add Labor", is_required: false, is_number: true, is_textfield_active: self.$is_text_active, selected_field: self.$selected_field)
                             
                         }
                     }

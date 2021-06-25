@@ -16,10 +16,12 @@ struct MenuTextWidget: View {
     var field_name: String
     var is_required: Bool
     var is_number: Bool
+    @Binding var is_textfield_active: Bool
     @Binding var selected_field: String
     
     func addMenu(item: String) {
         if item != "Add Labor" {
+            is_textfield_active = false
             selected_field = item
             if field_name == "Add Labor" {
                 selectedMenus.append(item)
@@ -79,7 +81,7 @@ struct MenuTextWidget: View {
             Spacer()
 
             CocoaTextField(text_name, text: $text_name)
-                .isFirstResponder(selected_field == field_name ? true : false)
+                .isFirstResponder(selected_field == field_name && !is_textfield_active ? true : false)
                 .keyboardType(is_number ? .numbersAndPunctuation : .default)
                 .overlay(VStack{Divider().offset(x: 0, y: 10)})
                 .onTapGesture {

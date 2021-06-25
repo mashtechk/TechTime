@@ -8,6 +8,7 @@ import SwiftUI
 struct OrderTextFieldWidget: View {
     
     @Binding var text_name: String
+    @Binding var is_textfield_active: Bool
     var field_name: String
     var is_required: Bool
     var is_number: Bool
@@ -20,6 +21,7 @@ struct OrderTextFieldWidget: View {
                     Text(field_name).font(.system(size: 15)).fontWeight(.semibold).foregroundColor(is_required ?  Color("colorLetter1") : .gray)
                 }.frame(width: (UIScreen.main.bounds.width-40)*3/10+60, alignment: .trailing)
                 TextField(text_name, text: $text_name, onEditingChanged: {
+                    is_textfield_active = $0
                     self.isActive = $0
                 }).frame(width: (UIScreen.main.bounds.width-40)*7/10-60)
                 .keyboardType(is_number ? .numberPad : .default)
@@ -30,6 +32,7 @@ struct OrderTextFieldWidget: View {
                     Text(field_name).font(.system(size: 15)).fontWeight(.semibold).foregroundColor(is_required ?  Color("colorLetter1") : .gray)
                 }.frame(width: (UIScreen.main.bounds.width-40)*3/10, alignment: .trailing)
                 TextField(text_name, text: $text_name, onEditingChanged: {
+                    is_textfield_active = $0
                     self.isActive = $0
                 }).frame(width: (UIScreen.main.bounds.width-40)*7/10)
                 .keyboardType(is_number ? .numberPad : .default)
