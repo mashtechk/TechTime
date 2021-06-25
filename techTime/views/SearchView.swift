@@ -102,7 +102,7 @@ struct SearchView: View {
             
             search_result = search_result.sorted { Int($0.order_id)! < Int($1.order_id)! }
             
-            if search_index == 2 {
+            if search_index == 2 || search_index == 3 {
                 search_result = search_result.reversed()
                 search_result = search_result.sorted{ $0.created_date > $1.created_date }
                 search_result = search_result.reversed()
