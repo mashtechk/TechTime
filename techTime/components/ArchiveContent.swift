@@ -63,7 +63,8 @@ struct ArchiveContent: View {
                 h+=Double(labor.hours)!
             }
         }
-        return helper.formatHour(h: h)
+        
+        return helper.formatHours(h: h)
     }
     
     func calGross(item: PeriodModel) -> String {

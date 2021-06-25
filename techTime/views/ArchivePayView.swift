@@ -33,7 +33,7 @@ struct ArchivePayView: View {
                     }
                 }
             }
-            total_hours = helper.formatHour(h: hours)
+            total_hours = helper.formatHours(h: hours)
             total_gross = helper.formatPrice(p: gross)
         }
         
