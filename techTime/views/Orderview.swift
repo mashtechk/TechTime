@@ -42,7 +42,7 @@ struct Orderview: View {
             g+=Double(item.hours)! * Double(item.price)!
         }
         
-        th = helper.formatHour(h: h)
+        th = helper.formatHours(h: h)
         tg = helper.formatPrice(p: g)
     }
     

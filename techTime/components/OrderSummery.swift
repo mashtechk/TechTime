@@ -27,7 +27,7 @@ struct OrderSummery: View {
                 p += Double(item.price)! * Double(item.hours)!
             }
         }
-        hours = helper.formatHour(h: h)
+        hours = helper.formatHours(h: h)
         print("hours is \(hours)")
         print("order is \(self.order.labors)")
         prices = helper.formatPrice(p: p)
