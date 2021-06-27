@@ -27,7 +27,7 @@ struct ArchiveOrderSummery: View {
                 p += Double(item.price)! * Double(item.hours)!
             }
         }
-        hours = helper.formatHour(h: h)
+        hours = helper.formatHours(h: h)
         prices = helper.formatPrice(p: p)
         
         order_data = order
