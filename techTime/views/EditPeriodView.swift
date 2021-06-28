@@ -31,6 +31,7 @@ struct EditPeriodView: View {
         
         self.data.currentPeriod.start_date = formatter1.string(from: self.startDate)
         self.data.currentPeriod.end_date = formatter1.string(from: self.endDate)
+        self.data.currentPeriod.cancel_date = formatter1.string(from: self.endDate)
         
         //save period data in device
         helper.setVariable(data: self.data)
