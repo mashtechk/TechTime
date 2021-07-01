@@ -24,6 +24,7 @@ struct PayContent: View {
     
     @Environment(\.window) var window: UIWindow?
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.scenePhase) var scenePhase
     
     @State var signInHandler: SignInWithAppleCoordinator?
     
@@ -54,7 +55,38 @@ struct PayContent: View {
             //when there is no pay period data
         }.onAppear(perform: {
             modify_data()
+        }).onChange(of: scenePhase, perform: { value in
+            switch value {
+            case .background:
+                print("Background")
+            case .active:
+                active_view()
+            case .inactive:
+                print("Inactive")
+            @unknown default:
+                print("Default")
+            }
         })
+    }
+    
+    func active_view() {
+        if data.currentPeriod.cancel_date != "" && helper.daysBetweenDates(startDate:data.currentPeriod.cancel_date, endDate: helper.getDate(st: Date())) == true {
+            data.currentPeriod.cancel_date = data.currentPeriod.end_date
+            data.histories.append(data.currentPeriod)
+            data.isEnd = true
+            data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+            
+            helper.savePeriodsToFirebase(data: self.data)
+            
+            startDate = Date()
+            endDate = Date()
+            
+            total_hours = "0.0"
+            total_orders = "0"
+            total_gross = "$ 0.00"
+            
+            order_lists = self.data.currentPeriod.order_list
+        }
     }
     
     func modify_data() {
