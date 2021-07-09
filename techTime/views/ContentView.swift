@@ -27,7 +27,7 @@ struct ContentView: View {
     
     @State var data : VariableModel = .init(selected: 0, showingPopup: false, showMessage: "", orderByIndex: "0", is_alert: false, currentPeriod: PeriodModel(start_date: "", end_date: "",cancel_date : "" , order_list: []), isEnd: false, archievePeriod: PeriodModel(start_date: "", end_date: "", cancel_date: "" , order_list: []), laborRates: [], order: OrderModel(order_id: "", writer: "", customer: "", insurance_co: "", make: "", model: "", year: "", mileage: "", vin: "", color: "", license: "", notes: "", created_date: "", payroll_match: "", labors: []), histories: [], isFull: true, isTrial: true, isPaid: false, isInternet: true, currentUser: PersonModel(device_id: "", status: false, is_full: false, start_date: "", user_id: "", email: ""), fromVc: "", selectedHours: "", selectedPrice: "" ,selectedType : "", startDate: "", previousContent: 0, previousPageOfOrderView: 0, is_selected_endDate: false)
     
-    @State private var pageIndex = 0
+    @State private var pageIndex = 11
     
     @State var helper = Helper()
     @State var iaphelper = IAPHelper()
@@ -69,8 +69,8 @@ struct ContentView: View {
                     ArchivePayView(data: $data, pageIndex: $pageIndex)
                 case 10: // add archive order detail page
                     ArchiveOrderView(data: $data, pageIndex: $pageIndex)
-                case 11: // main page
-                    MainInstead(data: $data, pageIndex: $pageIndex)
+                case 11: // subscription page
+                    Subscription(data: $data, pageIndex: $pageIndex)
                 case 12: // Archive
                     ArchiveContent(data: $data, pageIndex: $pageIndex)
                 case 13: // Pay Content

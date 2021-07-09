@@ -9,8 +9,11 @@ import SwiftyStoreKit
 
 class Helper {
 
-    let productId = "com.techtimeapp.techtime.sub"
+    let subOneMonth = "com.techtimeapp.techtime.sub"
+    let subSixMonths = "com.techtimeapp.techtime.six"
+    let subOneYear = "com.techtimeapp.techtime.year"
     let sharedKey = "bdf62b8709c34cd4b27bc1f5cf1a6d5b"
+    
     //save the data
     func setVariable(data: VariableModel) {
         if let encoded = try? JSONEncoder().encode(data) {

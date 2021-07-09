@@ -13,7 +13,6 @@ struct PayContent: View {
     
     @State var is_alert = false
     @State var is_expired = false
-    @State var is_loading = false
     
     @State private var startDate = Date()
     @State private var endDate = Date()
@@ -27,9 +26,6 @@ struct PayContent: View {
     @Environment(\.scenePhase) var scenePhase
     
     @State var signInHandler: SignInWithAppleCoordinator?
-    
-    let productId = "com.techtimeapp.techtime.sub"
-    let sharedKey = "bdf62b8709c34cd4b27bc1f5cf1a6d5b"
     
     @State private var order_lists : Array<OrderModel> = []
     
@@ -207,39 +203,40 @@ struct PayContent: View {
                         title: Text(""),
                         message: Text("Your free three month trial has ended. To continue using techtime please subscribe for $1.99 per month."),
                         primaryButton: .destructive(Text("Subscribe")) {
-                            // delte the current archive data
-                            SwiftyStoreKit.retrieveProductsInfo([productId]) { result in
-                                if let product = result.retrievedProducts.first {
-                                    SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
-                                        switch result {
-                                        case .success(let purchase):
-                                            print("Purchase Success: \(purchase.productId)")
-                                            data.isFull = true
-                                            data.isPaid = true
-                                        case .error(let error):
-                                            data.isFull = false
-                                            data.isPaid = false
-                                            switch error.code {
-                                            case .unknown: print("Unknown error. Please contact support")
-                                            case .clientInvalid: print("Not allowed to make the payment")
-                                            case .paymentCancelled: break
-                                            case .paymentInvalid: print("The purchase identifier was invalid")
-                                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
-                                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
-                                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-                                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-                                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-                                            default: print((error as NSError).localizedDescription)
-                                                
-                                            }
-                                        }
-                                    }
-                                    if data.isFull && data.isEnd {
-                                        data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
-                                    }
-                                    helper.setVariable(data: data)
-                                }
-                            }
+                            pageIndex = 11
+                            
+//                            SwiftyStoreKit.retrieveProductsInfo([productId]) { result in
+//                                if let product = result.retrievedProducts.first {
+//                                    SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
+//                                        switch result {
+//                                        case .success(let purchase):
+//                                            print("Purchase Success: \(purchase.productId)")
+//                                            data.isFull = true
+//                                            data.isPaid = true
+//                                        case .error(let error):
+//                                            data.isFull = false
+//                                            data.isPaid = false
+//                                            switch error.code {
+//                                            case .unknown: print("Unknown error. Please contact support")
+//                                            case .clientInvalid: print("Not allowed to make the payment")
+//                                            case .paymentCancelled: break
+//                                            case .paymentInvalid: print("The purchase identifier was invalid")
+//                                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
+//                                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
+//                                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+//                                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+//                                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+//                                            default: print((error as NSError).localizedDescription)
+//
+//                                            }
+//                                        }
+//                                    }
+//                                    if data.isFull && data.isEnd {
+//                                        data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+//                                    }
+//                                    helper.setVariable(data: data)
+//                                }
+//                            }
                         },
                         secondaryButton: .cancel()
                     )
@@ -371,38 +368,39 @@ struct PayContent: View {
                         title: Text(""),
                         message: Text("Your free three month trial has ended. To continue using techtime please subscribe for $1.99 per month."),
                         primaryButton: .destructive(Text("Subscribe")) {
-                            //delte the current archive data
-                            SwiftyStoreKit.retrieveProductsInfo([productId]) { result in
-                                if let product = result.retrievedProducts.first {
-                                    SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
-                                        switch result {
-                                        case .success(let purchase):
-                                            print("Purchase Success: \(purchase.productId)")
-                                            data.isFull = true
-                                            data.isPaid = true
-                                        case .error(let error):
-                                            data.isFull = false
-                                            data.isPaid = false
-                                            switch error.code {
-                                            case .unknown: print("Unknown error. Please contact support")
-                                            case .clientInvalid: print("Not allowed to make the payment")
-                                            case .paymentCancelled: break
-                                            case .paymentInvalid: print("The purchase identifier was invalid")
-                                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
-                                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
-                                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-                                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-                                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-                                            default: print((error as NSError).localizedDescription)
-                                            }
-                                        }
-                                    }
-                                    if data.isFull && data.isEnd {
-                                        data.currentPeriod = PeriodModel(start_date: "", end_date: "",cancel_date : ""  ,order_list: [])
-                                    }
-                                    helper.setVariable(data: data)
-                                }
-                            }
+                            pageIndex = 11
+                            
+//                            SwiftyStoreKit.retrieveProductsInfo([productId]) { result in
+//                                if let product = result.retrievedProducts.first {
+//                                    SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
+//                                        switch result {
+//                                        case .success(let purchase):
+//                                            print("Purchase Success: \(purchase.productId)")
+//                                            data.isFull = true
+//                                            data.isPaid = true
+//                                        case .error(let error):
+//                                            data.isFull = false
+//                                            data.isPaid = false
+//                                            switch error.code {
+//                                            case .unknown: print("Unknown error. Please contact support")
+//                                            case .clientInvalid: print("Not allowed to make the payment")
+//                                            case .paymentCancelled: break
+//                                            case .paymentInvalid: print("The purchase identifier was invalid")
+//                                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
+//                                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
+//                                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+//                                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+//                                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+//                                            default: print((error as NSError).localizedDescription)
+//                                            }
+//                                        }
+//                                    }
+//                                    if data.isFull && data.isEnd {
+//                                        data.currentPeriod = PeriodModel(start_date: "", end_date: "",cancel_date : ""  ,order_list: [])
+//                                    }
+//                                    helper.setVariable(data: data)
+//                                }
+//                            }
                         },
                         secondaryButton: .cancel()
                     )
@@ -418,56 +416,38 @@ struct PayContent: View {
     }
     
     func startPayPeriod(){
-        if is_loading {
-            self.data.showMessage = "Please wait a moment."
-            self.data.showingPopup = true
+        if(!data.isPaid && !data.isFull) {
+            is_expired = true
             return
         }
         
-        if data.isInternet {
-            if data.currentUser.email == "" {
-                is_loading = true
-                check_login()
+        //save period data
+        if self.data.is_selected_endDate {
+            if self.startDate > Date() {
+                self.data.showMessage = "START DATE cannot be later than today's date"
+                self.data.showingPopup = true
                 return
             }
             
-            if(!data.isPaid && !data.isFull) {
-                is_expired = true
-                return
-            }
-            
-            //save period data
-            if self.data.is_selected_endDate {
-                if self.startDate > Date() {
-                    self.data.showMessage = "START DATE cannot be later than today's date"
-                    self.data.showingPopup = true
-                    return
-                }
-                
-                let formatter1 = DateFormatter()
-                formatter1.dateFormat = "MMM dd, yyyy"
+            let formatter1 = DateFormatter()
+            formatter1.dateFormat = "MMM dd, yyyy"
 
-                if self.data.histories.count > 0 && helper.isBiggerDate(oneDate: self.data.histories.last?.cancel_date ?? "", twoDate: formatter1.string(from: self.startDate))  == true {
-                    self.data.showMessage = "START DATE interferes with previous PAY PERIOD"
-                    self.data.showingPopup = true
-                    return
-                }
-                self.data.currentPeriod = PeriodModel(start_date: formatter1.string(from: self.startDate), end_date: formatter1.string(from: self.endDate), cancel_date: helper.getDate(st: self.endDate), order_list: [])
-                self.data.isEnd = false
-                self.total_hours = "0.0"
-                self.total_orders = "0"
-                self.total_gross = "$ 0.0"
-                self.order_lists = []
-                helper.setVariable(data: self.data)
-                self.data.showMessage = "New pay period started!"
+            if self.data.histories.count > 0 && helper.isBiggerDate(oneDate: self.data.histories.last?.cancel_date ?? "", twoDate: formatter1.string(from: self.startDate))  == true {
+                self.data.showMessage = "START DATE interferes with previous PAY PERIOD"
                 self.data.showingPopup = true
-            } else {
-                self.data.showMessage = "Please select the end date"
-                self.data.showingPopup = true
+                return
             }
-            
+            self.data.currentPeriod = PeriodModel(start_date: formatter1.string(from: self.startDate), end_date: formatter1.string(from: self.endDate), cancel_date: helper.getDate(st: self.endDate), order_list: [])
+            self.data.isEnd = false
+            self.total_hours = "0.0"
+            self.total_orders = "0"
+            self.total_gross = "$ 0.0"
+            self.order_lists = []
+            helper.setVariable(data: self.data)
+            self.data.showMessage = "New pay period started!"
+            self.data.showingPopup = true
         } else {
-            self.data.showMessage = "Warning! Please connect to network"
+            self.data.showMessage = "Please select the end date"
             self.data.showingPopup = true
         }
     }
@@ -498,195 +478,6 @@ struct PayContent: View {
         } else {
             self.data.showMessage = "Warning! Please connect to network"
             self.data.showingPopup = true
-        }
-    }
-    
-    func check_login() {
-        data.isInternet = true
-
-        if data.currentUser.user_id == "" {
-            do {
-                signInHandler = SignInWithAppleCoordinator(window: self.window)
-                signInHandler?.signIn { (user) in
-                    data.currentUser.user_id = user.uid
-                    data.currentUser.email = user.email!
-                    checkFirebase()
-                    self.presentationMode.wrappedValue.dismiss()
-                }
-            } catch {
-                is_loading = false
-                data.isInternet = false
-                helper.setVariable(data: data)
-                print("-----please verify the connection-----")
-            }
-        } else {
-            is_loading = false
-        }
-    }
-
-    func checkFirebase() {
-        let UUID = UIDevice.current.identifierForVendor?.uuidString
-        print(UUID ?? "no device")
-        let db = Firestore.firestore()
-        let formatter1 = DateFormatter()
-        formatter1.dateFormat = "MMM dd, yyyy"
-
-        db.collection("users")
-            .document(data.currentUser.email)
-            .getDocument{(document, error) in
-                if (error != nil) {
-                    data.isInternet = false
-                    helper.setVariable(data: data)
-                } else {
-                    data.isInternet = true
-
-                    if let document = document, document.exists {
-                        let dataDescription = document.data()
-                        let start_date = dataDescription!["start_date"] as? String ?? ""
-                        let dd = formatter1.date(from: start_date)!
-                        data.orderByIndex = dataDescription!["order_by"] as? String ?? "3"
-                        let arrayLabors = dataDescription!["laborRates"] as? [Any] ?? []
-                        let arrayPeriods = dataDescription!["period"] as? [Any] ?? []
-
-                        if arrayLabors.count > 0 {
-                            data.laborRates = []
-
-                            for item_labor in arrayLabors {
-                                let labor = item_labor as? [String:Any] ?? [:]
-                                let type = labor["type"] as? String ?? ""
-                                let rate = labor["rate"] as? String ?? ""
-                                data.laborRates.append(LaborModel(type: type, rate: rate, hours: ""))
-                            }
-                        }
-
-                        if arrayPeriods.count > 0 {
-                            data.histories = []
-
-                            for item_period in arrayPeriods {
-                                let period = item_period as? [String:Any] ?? [:]
-                                let startDate = period["start_date"] as? String ?? ""
-                                let endDate = period["end_date"] as? String ?? ""
-                                let cancelDate = period["cancel_date"] as? String ?? ""
-                                let arrayOrder = period["order_list"] as? [Any] ?? []
-                                var list_order: Array<OrderModel> = []
-
-                                for item_order in arrayOrder {
-                                    let order = item_order as? [String:Any] ?? [:]
-                                    let order_id = order["order_id"] as? String ?? ""
-                                    let writer = order["writer"] as? String ?? ""
-                                    let customer = order["customer"] as? String ?? ""
-                                    let insurance_co = order["insurance_co"] as? String ?? ""
-                                    let make = order["make"] as? String ?? ""
-                                    let model = order["model"] as? String ?? ""
-                                    let year = order["year"] as? String ?? ""
-                                    let mileage = order["mileage"] as? String ?? ""
-                                    let vin = order["vin"] as? String ?? ""
-                                    let color = order["color"] as? String ?? ""
-                                    let license = order["license"] as? String ?? ""
-                                    let notes = order["notes"] as? String ?? ""
-                                    let created_date = order["created_date"] as? String ?? ""
-                                    let payroll_match = order["payroll_match"] as? String ?? ""
-                                    let array_labors = order["labors"] as? [Any] ?? []
-                                    var list_labors: Array<LaborTypeModel> = []
-
-                                    for item_labor in array_labors {
-                                        let labor = item_labor as? [String:Any] ?? [:]
-                                        let type = labor["type"] as? String ?? ""
-                                        let price = labor["price"] as? String ?? ""
-                                        let hours = labor["hours"] as? String ?? ""
-
-                                        list_labors.append(LaborTypeModel(type: type, hours: hours, price: price))
-                                    }
-
-                                    list_order.append(OrderModel(order_id: order_id, writer: writer, customer: customer, insurance_co: insurance_co, make: make, model: model, year: year, mileage: mileage, vin: vin, color: color, license: license, notes: notes, created_date: created_date, payroll_match: payroll_match, labors: list_labors))
-                                }
-
-                                if helper.daysBetweenDates(startDate: cancelDate, endDate: helper.getDate(st: Date())) == true {
-                                    data.histories.append(PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order))
-                                } else {
-                                    data.currentPeriod = PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order)
-                                    self.modify_data()
-                                }
-                            }
-                        }
-
-                        data.startDate = start_date
-                        data.isTrial = helper.is3MonthOver(fromDate: dd)
-                        print("----- this is the trial ----")
-                        print(data.isTrial)
-
-                        if !data.isTrial {
-                            helper.setVariable(data: data)
-                            data.isFull = false
-                            checkPayment()
-                        } else {
-                            is_loading = false
-                            helper.setVariable(data: data)
-                        }
-                    } else {
-                        let uid = data.currentUser.user_id
-                        let data: [String : Any] = [
-                            "user_id" : uid,
-                            "device_id": UUID!,
-                            "status": true,
-                            "is_full": false,
-                            "start_date": formatter1.string(from: Date())
-                        ]
-
-                        db.collection("users").document(self.data.currentUser.email).setData(data) { err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-
-                                self.data.isInternet = false
-                            } else {
-                                print("Document successfully written!")
-
-                                self.data.isTrial = true
-                            }
-
-                            self.data.startDate = formatter1.string(from: Date())
-                            is_loading = false
-                            helper.setVariable(data: self.data)
-                        }
-
-                        print("Document does not exist")
-                    }
-                }
-            }
-    }
-
-    func checkPayment() {
-        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: sharedKey)
-        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-            if case .success(let receipt) = result {
-                let purchaseResult = SwiftyStoreKit.verifySubscription(
-                    ofType: .autoRenewable,
-                    productId: productId,
-                    inReceipt: receipt)
-
-                switch purchaseResult {
-                case .purchased(let expiryDate, let receiptItems):
-                    data.isFull = true
-                    data.isPaid = true
-                    print("Product is valid until \(expiryDate)")
-                case .expired(let expiryDate, let receiptItems):
-                    data.isFull = false
-                    data.isPaid = false
-                    print("Product is expired since \(expiryDate)")
-                case .notPurchased:
-                    data.isFull = false
-                    data.isPaid = false
-                    print("This product has never been purchased")
-                }
-            } else {
-                // receipt verification error
-                print("*****&&&&& this is the receipt verification error *****")
-                data.isFull = false
-                data.isPaid = false
-            }
-
-            is_loading = false
-            helper.setVariable(data: data)
         }
     }
 }
