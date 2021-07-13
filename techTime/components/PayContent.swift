@@ -13,6 +13,7 @@ struct PayContent: View {
     
     @State var is_alert = false
     @State var is_expired = false
+    @State var is_loading = false
     
     @State private var startDate = Date()
     @State private var endDate = Date()
@@ -66,22 +67,56 @@ struct PayContent: View {
     }
     
     func active_view() {
-        if data.currentPeriod.cancel_date != "" && helper.daysBetweenDates(startDate:data.currentPeriod.cancel_date, endDate: helper.getDate(st: Date())) == true {
-            data.currentPeriod.cancel_date = data.currentPeriod.end_date
-            data.histories.append(data.currentPeriod)
-            data.isEnd = true
-            data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+        let formatter1 = DateFormatter()
+        formatter1.dateFormat = "MMM dd, yyyy"
+        
+        let dd = formatter1.date(from: data.startDate)!
+        
+        if data.currentUser.email == "llctechtime@gmail.com" {
+            data.isTrial = helper.is1DayOver(fromDate: dd)
+        } else {
+            data.isTrial = helper.is3MonthOver(fromDate: dd)
+        }
+        
+        if !data.isPaid && !data.isTrial {
+            data.isFull = false
             
-            helper.savePeriodsToFirebase(data: self.data)
-            
-            startDate = Date()
-            endDate = Date()
-            
-            total_hours = "0.0"
-            total_orders = "0"
-            total_gross = "$ 0.00"
-            
-            order_lists = self.data.currentPeriod.order_list
+            if data.currentPeriod.cancel_date != "" {
+                data.currentPeriod.cancel_date = helper.getDate(st: Date().dayBefore)
+                data.histories.append(data.currentPeriod)
+                data.isEnd = true
+                data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                
+                helper.savePeriodsToFirebase(data: self.data)
+                
+                startDate = Date()
+                endDate = Date()
+                
+                total_hours = "0.0"
+                total_orders = "0"
+                total_gross = "$ 0.00"
+                
+                order_lists = self.data.currentPeriod.order_list
+            }
+        } else {
+            //check if difference between two dates is 1
+            if data.currentPeriod.cancel_date != "" && helper.daysBetweenDates(startDate:data.currentPeriod.cancel_date, endDate: helper.getDate(st: Date())) == true {
+                data.currentPeriod.cancel_date = data.currentPeriod.end_date//self.getDate(st: Date())
+                data.histories.append(data.currentPeriod)
+                data.isEnd = true
+                data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                
+                helper.savePeriodsToFirebase(data: self.data)
+                
+                startDate = Date()
+                endDate = Date()
+                
+                total_hours = "0.0"
+                total_orders = "0"
+                total_gross = "$ 0.00"
+                
+                order_lists = self.data.currentPeriod.order_list
+            }
         }
     }
     
@@ -416,6 +451,18 @@ struct PayContent: View {
     }
     
     func startPayPeriod(){
+        if is_loading {
+            self.data.showMessage = "Please wait a moment."
+            self.data.showingPopup = true
+            return
+        }
+        
+        if data.currentUser.email == "" {
+            is_loading = true
+            check_login()
+            return
+        }
+
         if(!data.isPaid && !data.isFull) {
             is_expired = true
             return
@@ -479,6 +526,144 @@ struct PayContent: View {
             self.data.showMessage = "Warning! Please connect to network"
             self.data.showingPopup = true
         }
+    }
+    
+    func check_login() {
+        signInHandler = SignInWithAppleCoordinator(window: self.window)
+        signInHandler?.signIn { (user) in
+            data.currentUser.user_id = user.uid
+            data.currentUser.email = user.email!
+            helper.setVariable(data: self.data)
+            getDataFromFirebase()
+            self.presentationMode.wrappedValue.dismiss()
+        }
+    }
+    
+    func getDataFromFirebase() {
+        let UUID = UIDevice.current.identifierForVendor?.uuidString
+        let db = Firestore.firestore()
+        let formatter1 = DateFormatter()
+        formatter1.dateFormat = "MMM dd, yyyy"
+
+        db.collection("users")
+            .document(data.currentUser.email)
+            .getDocument{(document, error) in
+                if (error != nil) {
+                    is_loading = false
+
+                    self.data.showMessage = "Please check your connection."
+                    self.data.showingPopup = true
+                } else {
+                    if let document = document, document.exists {
+                        let dataDescription = document.data()
+                        let start_date = dataDescription!["start_date"] as? String ?? ""
+                        let dd = formatter1.date(from: start_date)!
+                        data.orderByIndex = dataDescription!["order_by"] as? String ?? "3"
+                        let arrayLabors = dataDescription!["laborRates"] as? [Any] ?? []
+                        let arrayPeriods = dataDescription!["period"] as? [Any] ?? []
+
+                        if arrayLabors.count > 0 {
+                            data.laborRates = []
+
+                            for item_labor in arrayLabors {
+                                let labor = item_labor as? [String:Any] ?? [:]
+                                let type = labor["type"] as? String ?? ""
+                                let rate = labor["rate"] as? String ?? ""
+                                data.laborRates.append(LaborModel(type: type, rate: rate, hours: ""))
+                            }
+                        }
+
+                        if arrayPeriods.count > 0 {
+                            data.histories = []
+
+                            for item_period in arrayPeriods {
+                                let period = item_period as? [String:Any] ?? [:]
+                                let startDate = period["start_date"] as? String ?? ""
+                                let endDate = period["end_date"] as? String ?? ""
+                                let cancelDate = period["cancel_date"] as? String ?? ""
+                                let arrayOrder = period["order_list"] as? [Any] ?? []
+                                var list_order: Array<OrderModel> = []
+
+                                for item_order in arrayOrder {
+                                    let order = item_order as? [String:Any] ?? [:]
+                                    let order_id = order["order_id"] as? String ?? ""
+                                    let writer = order["writer"] as? String ?? ""
+                                    let customer = order["customer"] as? String ?? ""
+                                    let insurance_co = order["insurance_co"] as? String ?? ""
+                                    let make = order["make"] as? String ?? ""
+                                    let model = order["model"] as? String ?? ""
+                                    let year = order["year"] as? String ?? ""
+                                    let mileage = order["mileage"] as? String ?? ""
+                                    let vin = order["vin"] as? String ?? ""
+                                    let color = order["color"] as? String ?? ""
+                                    let license = order["license"] as? String ?? ""
+                                    let notes = order["notes"] as? String ?? ""
+                                    let created_date = order["created_date"] as? String ?? ""
+                                    let payroll_match = order["payroll_match"] as? String ?? ""
+                                    let array_labors = order["labors"] as? [Any] ?? []
+                                    var list_labors: Array<LaborTypeModel> = []
+
+                                    for item_labor in array_labors {
+                                        let labor = item_labor as? [String:Any] ?? [:]
+                                        let type = labor["type"] as? String ?? ""
+                                        let price = labor["price"] as? String ?? ""
+                                        let hours = labor["hours"] as? String ?? ""
+
+                                        list_labors.append(LaborTypeModel(type: type, hours: hours, price: price))
+                                    }
+
+                                    list_order.append(OrderModel(order_id: order_id, writer: writer, customer: customer, insurance_co: insurance_co, make: make, model: model, year: year, mileage: mileage, vin: vin, color: color, license: license, notes: notes, created_date: created_date, payroll_match: payroll_match, labors: list_labors))
+                                }
+
+                                if helper.daysBetweenDates(startDate: cancelDate, endDate: helper.getDate(st: Date())) == true {
+                                    data.histories.append(PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order))
+                                } else {
+                                    data.currentPeriod = PeriodModel(start_date: startDate, end_date: endDate, cancel_date: cancelDate, order_list: list_order)
+                                }
+                            }
+                        }
+
+                        data.startDate = start_date
+                        
+                        if data.currentUser.email == "llctechtime@gmail.com" {
+                            data.isTrial = helper.is1DayOver(fromDate: dd)
+                        } else {
+                            data.isTrial = helper.is3MonthOver(fromDate: dd)
+                        }
+                        
+                        if !data.isTrial {
+                            data.isFull = false
+                        }
+                        helper.setVariable(data: data)
+
+                        is_loading = false
+                    } else {
+                        let uid = data.currentUser.user_id
+                        let data: [String : Any] = [
+                            "user_id" : uid,
+                            "device_id": UUID!,
+                            "status": true,
+                            "is_full": false,
+                            "start_date": formatter1.string(from: Date())
+                        ]
+
+                        db.collection("users").document(self.data.currentUser.email).setData(data) { err in
+                            if err != nil {
+                                is_loading = false
+
+                                self.data.showMessage = "Please check your connection."
+                                self.data.showingPopup = true
+                            } else {
+                                self.data.isTrial = true
+                                self.data.startDate = formatter1.string(from: Date())
+                                helper.setVariable(data: self.data)
+
+                                is_loading = false
+                            }
+                        }
+                    }
+                }
+            }
     }
 }
 

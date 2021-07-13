@@ -41,7 +41,12 @@ class Helper {
                 formatter1.dateFormat = "MMM dd, yyyy"
                 
                 let dd = formatter1.date(from: data.startDate)!
-                data.isTrial = is3MonthOver(fromDate: dd)
+                
+                if data.currentUser.email == "llctechtime@gmail.com" {
+                    data.isTrial = is1DayOver(fromDate: dd)
+                } else {
+                    data.isTrial = is3MonthOver(fromDate: dd)
+                }
                 
                 if !data.isPaid && !data.isTrial {
                     data.isFull = false
@@ -329,6 +334,17 @@ class Helper {
         var return_value = true
         
         if (delta.year! > 0 || delta.month! > 2) {
+            return_value = false
+        }
+        
+        return return_value
+    }
+    
+    func is1DayOver(fromDate: Date) -> Bool {
+        let delta = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: fromDate, to: Date())
+        var return_value = true
+        
+        if (delta.year! > 0 || delta.month! > 0 || delta.day! > 0) {
             return_value = false
         }
         
