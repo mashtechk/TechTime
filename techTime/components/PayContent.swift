@@ -67,55 +67,64 @@ struct PayContent: View {
     }
     
     func active_view() {
-        let formatter1 = DateFormatter()
-        formatter1.dateFormat = "MMM dd, yyyy"
-        
-        let dd = formatter1.date(from: data.startDate)!
-        
-        if data.currentUser.email == "55gwsp2y7j@privaterelay.appleid.com" {
-            data.isTrial = helper.is1DayOver(fromDate: dd)
-        } else {
-            data.isTrial = helper.is3MonthOver(fromDate: dd)
-        }
-        
-        if !data.isPaid && !data.isTrial {
-            data.isFull = false
+        if data.currentUser.email != "" {
+            let formatter1 = DateFormatter()
+            formatter1.dateFormat = "MMM dd, yyyy"
             
-            if data.currentPeriod.cancel_date != "" {
-                data.currentPeriod.cancel_date = helper.getDate(st: Date().dayBefore)
-                data.histories.append(data.currentPeriod)
-                data.isEnd = true
-                data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
-                
-                helper.savePeriodsToFirebase(data: self.data)
-                
-                startDate = Date()
-                endDate = Date()
-                
-                total_hours = "0.0"
-                total_orders = "0"
-                total_gross = "$ 0.00"
-                
-                order_lists = self.data.currentPeriod.order_list
+            var start_date = ""
+            if data.startDate == "" {
+                start_date = formatter1.string(from: Date())
+            } else {
+                start_date = data.startDate
             }
-        } else {
-            //check if difference between two dates is 1
-            if data.currentPeriod.cancel_date != "" && helper.daysBetweenDates(startDate:data.currentPeriod.cancel_date, endDate: helper.getDate(st: Date())) == true {
-                data.currentPeriod.cancel_date = data.currentPeriod.end_date//self.getDate(st: Date())
-                data.histories.append(data.currentPeriod)
-                data.isEnd = true
-                data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+            
+            let dd = formatter1.date(from: start_date)!
+            
+            if data.currentUser.email == "55gwsp2y7j@privaterelay.appleid.com" {
+                data.isTrial = helper.is1DayOver(fromDate: dd)
+            } else {
+                data.isTrial = helper.is3MonthOver(fromDate: dd)
+            }
+            
+            if !data.isPaid && !data.isTrial {
+                data.isFull = false
                 
-                helper.savePeriodsToFirebase(data: self.data)
-                
-                startDate = Date()
-                endDate = Date()
-                
-                total_hours = "0.0"
-                total_orders = "0"
-                total_gross = "$ 0.00"
-                
-                order_lists = self.data.currentPeriod.order_list
+                if data.currentPeriod.cancel_date != "" {
+                    data.currentPeriod.cancel_date = helper.getDate(st: Date().dayBefore)
+                    data.histories.append(data.currentPeriod)
+                    data.isEnd = true
+                    data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                    
+                    helper.savePeriodsToFirebase(data: self.data)
+                    
+                    startDate = Date()
+                    endDate = Date()
+                    
+                    total_hours = "0.0"
+                    total_orders = "0"
+                    total_gross = "$ 0.00"
+                    
+                    order_lists = self.data.currentPeriod.order_list
+                }
+            } else {
+                //check if difference between two dates is 1
+                if data.currentPeriod.cancel_date != "" && helper.daysBetweenDates(startDate:data.currentPeriod.cancel_date, endDate: helper.getDate(st: Date())) == true {
+                    data.currentPeriod.cancel_date = data.currentPeriod.end_date//self.getDate(st: Date())
+                    data.histories.append(data.currentPeriod)
+                    data.isEnd = true
+                    data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                    
+                    helper.savePeriodsToFirebase(data: self.data)
+                    
+                    startDate = Date()
+                    endDate = Date()
+                    
+                    total_hours = "0.0"
+                    total_orders = "0"
+                    total_gross = "$ 0.00"
+                    
+                    order_lists = self.data.currentPeriod.order_list
+                }
             }
         }
     }
