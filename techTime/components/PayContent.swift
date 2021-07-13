@@ -72,7 +72,7 @@ struct PayContent: View {
         
         let dd = formatter1.date(from: data.startDate)!
         
-        if data.currentUser.email == "llctechtime@gmail.com" {
+        if data.currentUser.email == "55gwsp2y7j@privaterelay.appleid.com" {
             data.isTrial = helper.is1DayOver(fromDate: dd)
         } else {
             data.isTrial = helper.is3MonthOver(fromDate: dd)
@@ -625,7 +625,7 @@ struct PayContent: View {
 
                         data.startDate = start_date
                         
-                        if data.currentUser.email == "llctechtime@gmail.com" {
+                        if data.currentUser.email == "55gwsp2y7j@privaterelay.appleid.com" {
                             data.isTrial = helper.is1DayOver(fromDate: dd)
                         } else {
                             data.isTrial = helper.is3MonthOver(fromDate: dd)
