@@ -125,13 +125,21 @@ struct Subscription: View {
         SwiftyStoreKit.retrieveProductsInfo([productId]) { result in
             if let product = result.retrievedProducts.first {
                 SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
-                    var errMsg = ""
+                    var errMsg = "The payment failed"
                     
                     switch result {
                     case .success(let purchase):
                         print("Purchase Success: \(purchase.productId)")
                         data.isFull = true
                         data.isPaid = true
+                        
+                        data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                        
+                        isLoading = false
+                        helper.setVariable(data: data)
+                        pageIndex = 0
+                        
+                        break
                     case .error(let error):
                         data.isFull = false
                         data.isPaid = false
@@ -139,7 +147,7 @@ struct Subscription: View {
                         switch error.code {
                         case .unknown: errMsg = "Unknown error. Please contact support"
                         case .clientInvalid: errMsg = "Not allowed to make the payment"
-                        case .paymentCancelled: break
+                        case .paymentCancelled: errMsg = ""
                         case .paymentInvalid: errMsg = "The purchase identifier was invalid"
                         case .paymentNotAllowed: errMsg = "The device is not allowed to make the payment"
                         case .storeProductNotAvailable: errMsg = "The product is not available in the current storefront"
@@ -148,20 +156,16 @@ struct Subscription: View {
                         case .cloudServiceRevoked: errMsg = "User has revoked permission to use this cloud service"
                         default: errMsg = (error as NSError).localizedDescription
                         }
-                    }
-                    
-                    if data.isFull && data.isEnd {
-                        data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
                         
                         isLoading = false
                         helper.setVariable(data: data)
-                        pageIndex = 0
-                    } else {
-                        isLoading = false
-                        helper.setVariable(data: data)
                         
-                        self.data.showMessage = errMsg
-                        self.data.showingPopup = true
+                        if errMsg != "" {
+                            self.data.showMessage = errMsg
+                            self.data.showingPopup = true
+                        }
+                        
+                        break
                     }
                 }
             }
