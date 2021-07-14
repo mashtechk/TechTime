@@ -266,16 +266,16 @@ struct MainPage : View {
                                 
                                 Text("End Pay Period").font(.system(size: 10))
                                 
-                                !data.isTrial && data.isFull ?
-                                    Button(action: {
-                                        is_unscribe = true
-                                        data.is_alert = true
-                                    }){
-                                        Text("Unsubscribe")
-                                            .font(.system(size: 10))
-                                    }
-                                :
-                                    nil
+//                                !data.isTrial && data.isFull ?
+//                                    Button(action: {
+//                                        is_unscribe = true
+//                                        data.is_alert = true
+//                                    }){
+//                                        Text("Unsubscribe")
+//                                            .font(.system(size: 10))
+//                                    }
+//                                :
+//                                    nil
                             } label: {
                                 Button(action: {}){
                                     Image("more")
@@ -327,16 +327,16 @@ struct MainPage : View {
                                     Text("End Pay Period").font(.system(size: 10))
                                 }
                                 
-                                !data.isTrial && data.isFull ?
-                                    Button(action: {
-                                        is_unscribe = true
-                                        data.is_alert = true
-                                    }){
-                                        Text("Unsubscribe")
-                                            .font(.system(size: 10))
-                                    }
-                                :
-                                    nil
+//                                !data.isTrial && data.isFull ?
+//                                    Button(action: {
+//                                        is_unscribe = true
+//                                        data.is_alert = true
+//                                    }){
+//                                        Text("Unsubscribe")
+//                                            .font(.system(size: 10))
+//                                    }
+//                                :
+//                                    nil
                             } label: {
                                 Button(action: {}){
                                     Image("more")

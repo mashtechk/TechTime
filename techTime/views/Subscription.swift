@@ -41,9 +41,10 @@ struct Subscription: View {
                         }
                         
                         Spacer()
-                    }.padding()
+                    }.padding(.top, (UIApplication.shared.windows.last?.safeAreaInsets.top)!)
+                    .padding(.leading, 20)
                     
-                    Spacer().frame(height: 40)
+                    Spacer().frame(height: 30)
                     
                     Image("techtimeName").resizable().frame(width: UIScreen.main.bounds.width*0.6, height:UIScreen.main.bounds.width*0.6*0.2).aspectRatio(contentMode: .fit)
 
@@ -53,7 +54,7 @@ struct Subscription: View {
                         Spacer()
                         
                         VStack {
-                            Text("Start with a 1 month free trial.").foregroundColor(Color.white).font(.system(size: 24))
+                            Text("1 month free trial has ended").foregroundColor(Color.white).font(.system(size: 24))
 
                             Rectangle().foregroundColor(Color("colorDarkBlue")).frame(height: 5).padding(EdgeInsets(top: -3, leading: 0, bottom: 0, trailing: 0))
 
@@ -101,12 +102,16 @@ struct Subscription: View {
                     Spacer().frame(height: 10)
 
                     HStack {
-                        Text("Terms and Conditions").foregroundColor(Color("colorText3")).font(.system(size: 16))
+                        Button(action: { self.gotoTermsConditions() }) {
+                            Text("Terms and Conditions").foregroundColor(Color("colorText3")).font(.system(size: 16))
+                        }
 
                         Spacer()
 
-                        Text("Privacy Policy").foregroundColor(Color("colorText3")).font(.system(size: 16))
-                    }.padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                        Button(action: { self.gotoPrivacyPolicy() }) {
+                            Text("Privacy Policy").foregroundColor(Color("colorText3")).font(.system(size: 16))
+                        }
+                    }.padding(EdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20))
                 }
             }
         }
@@ -117,39 +122,58 @@ struct Subscription: View {
     }
     
     func checkPayment(_ productId: String) {
-        let appleValidator = AppleReceiptValidator(service: .production, sharedSecret: helper.sharedKey)
-        SwiftyStoreKit.verifyReceipt(using: appleValidator) { result in
-            if case .success(let receipt) = result {
-                let purchaseResult = SwiftyStoreKit.verifySubscription(
-                    ofType: .autoRenewable,
-                    productId: productId,
-                    inReceipt: receipt)
-
-                switch purchaseResult {
-                case .purchased(let expiryDate, _):
-                    data.isFull = true
-                    data.isPaid = true
-                    print("Product is valid until \(expiryDate)")
-                case .expired(let expiryDate, _):
-                    data.isFull = false
-                    data.isPaid = false
-                    print("Product is expired since \(expiryDate)")
-                case .notPurchased:
-                    data.isFull = false
-                    data.isPaid = false
-                    print("This product has never been purchased")
+        SwiftyStoreKit.retrieveProductsInfo([productId]) { result in
+            if let product = result.retrievedProducts.first {
+                SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
+                    var errMsg = ""
+                    
+                    switch result {
+                    case .success(let purchase):
+                        print("Purchase Success: \(purchase.productId)")
+                        data.isFull = true
+                        data.isPaid = true
+                    case .error(let error):
+                        data.isFull = false
+                        data.isPaid = false
+                        
+                        switch error.code {
+                        case .unknown: errMsg = "Unknown error. Please contact support"
+                        case .clientInvalid: errMsg = "Not allowed to make the payment"
+                        case .paymentCancelled: break
+                        case .paymentInvalid: errMsg = "The purchase identifier was invalid"
+                        case .paymentNotAllowed: errMsg = "The device is not allowed to make the payment"
+                        case .storeProductNotAvailable: errMsg = "The product is not available in the current storefront"
+                        case .cloudServicePermissionDenied: errMsg = "Access to cloud service information is not allowed"
+                        case .cloudServiceNetworkConnectionFailed: errMsg = "Could not connect to the network"
+                        case .cloudServiceRevoked: errMsg = "User has revoked permission to use this cloud service"
+                        default: print((error as NSError).localizedDescription)
+                        }
+                    }
+                    
+                    if data.isFull && data.isEnd {
+                        data.currentPeriod = PeriodModel(start_date: "", end_date: "", cancel_date: "", order_list: [])
+                        
+                        isLoading = false
+                        helper.setVariable(data: data)
+                        pageIndex = 0
+                    } else {
+                        isLoading = false
+                        helper.setVariable(data: data)
+                        
+                        self.data.showMessage = errMsg
+                        self.data.showingPopup = true
+                    }
                 }
-            } else {
-                // receipt verification error
-                print("*****&&&&& this is the receipt verification error *****")
-                data.isFull = false
-                data.isPaid = false
             }
-
-            isLoading = false
-            helper.setVariable(data: data)
-            pageIndex = 0
         }
+    }
+    
+    func gotoTermsConditions() {
+        UIApplication.shared.open(URL(string: "https://techtimeapp.com/privacy-policy")!)
+    }
+    
+    func gotoPrivacyPolicy() {
+        UIApplication.shared.open(URL(string: "https://techtimeapp.com/terms-and-conditions")!)
     }
 }
 

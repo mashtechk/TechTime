@@ -245,7 +245,7 @@ struct PayContent: View {
                 .alert(isPresented: $is_expired) {
                     Alert(
                         title: Text(""),
-                        message: Text("Your free three month trial has ended. To continue using techtime please subscribe for $1.99 per month."),
+                        message: Text("Your free one month trial has ended. To continue using techtime please subscribe."),
                         primaryButton: .destructive(Text("Subscribe")) {
                             pageIndex = 11
                             
@@ -410,7 +410,7 @@ struct PayContent: View {
                 .alert(isPresented: $is_expired) {
                     Alert(
                         title: Text(""),
-                        message: Text("Your free three month trial has ended. To continue using techtime please subscribe for $1.99 per month."),
+                        message: Text("Your free one month trial has ended. To continue using techtime please subscribe."),
                         primaryButton: .destructive(Text("Subscribe")) {
                             pageIndex = 11
                             
