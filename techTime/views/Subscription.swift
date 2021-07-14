@@ -146,7 +146,7 @@ struct Subscription: View {
                         case .cloudServicePermissionDenied: errMsg = "Access to cloud service information is not allowed"
                         case .cloudServiceNetworkConnectionFailed: errMsg = "Could not connect to the network"
                         case .cloudServiceRevoked: errMsg = "User has revoked permission to use this cloud service"
-                        default: print((error as NSError).localizedDescription)
+                        default: errMsg = (error as NSError).localizedDescription
                         }
                     }
                     
@@ -169,11 +169,11 @@ struct Subscription: View {
     }
     
     func gotoTermsConditions() {
-        UIApplication.shared.open(URL(string: "https://techtimeapp.com/privacy-policy")!)
+        UIApplication.shared.open(URL(string: "https://techtimeapp.com/terms-and-conditions")!)
     }
     
     func gotoPrivacyPolicy() {
-        UIApplication.shared.open(URL(string: "https://techtimeapp.com/terms-and-conditions")!)
+        UIApplication.shared.open(URL(string: "https://techtimeapp.com/privacy-policy")!)
     }
 }
 
